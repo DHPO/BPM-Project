@@ -49,8 +49,10 @@ public class UserDaoImpl implements UserDao {
         String userInfo=restTemplate.getForObject(url,String.class);
         LOGGER.info("login user result："+userInfo);
         JSONObject jsonObject = JSONObject.fromObject(userInfo);
+        if(!jsonObject.has("User")){
+            return null;
+        }
         userInfo = jsonObject.getString("User");
-        if (userInfo.equals("{}")) return null;
         User user=((List<User>) JSONArray.toList(JSONArray.fromObject(userInfo), User.class)).get(0);
         return user;
     }
