@@ -37,7 +37,6 @@ public class UserController {
 
     @ApiOperation(value="获取用户信息", notes="获取用户信息")
     @RequestMapping(value="/user", method= RequestMethod.GET)
-    @RequiresRoles(value = "MANAGER")
     public ResultVO<User> getUserByID(){
         Subject subject = SecurityUtils.getSubject();
         User user=(User)subject.getSession().getAttribute("user");

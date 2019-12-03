@@ -2,6 +2,7 @@ package cn.edu.sjtu.bpmproject.server.entity;
 
 import cn.edu.sjtu.bpmproject.server.enums.UserRole;
 import cn.edu.sjtu.bpmproject.server.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,7 @@ public class User {
     private int role;
     private int status;
     private String salt;
+    @JsonProperty("add_time")
+    private long addTime;
 
 }

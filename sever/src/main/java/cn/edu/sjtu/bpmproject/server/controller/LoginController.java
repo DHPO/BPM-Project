@@ -6,6 +6,7 @@ import cn.edu.sjtu.bpmproject.server.enums.UserRole;
 import cn.edu.sjtu.bpmproject.server.enums.UserStatus;
 import cn.edu.sjtu.bpmproject.server.service.UserService;
 import cn.edu.sjtu.bpmproject.server.util.PasswordHelper;
+import cn.edu.sjtu.bpmproject.server.util.TimeUtil;
 import cn.edu.sjtu.bpmproject.server.vo.ResultVO;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -48,7 +49,7 @@ public class LoginController {
         user.setPassword(passwordHelper.encryptPassword(user));
         LOGGER.info("register user info:" + user);
         userService.addUser(user);
-        return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
+        return new ResultVO<>(ResultStatus.SUCCESS,(ResultStatus.getStatus(ResultStatus.SUCCESS)));
     }
 
     @ApiOperation(value = "用户登录", notes = "用户登录")
@@ -57,7 +58,7 @@ public class LoginController {
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String")
     })
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResultVO<String> login (
+    public ResultVO<User> login (
             @RequestParam(value = "username") String username,
             @RequestParam(value = "password") String password) throws IncorrectCredentialsException {
 
@@ -72,12 +73,12 @@ public class LoginController {
 
         User user = userService.getUserByUsername(username);
         subject.getSession().setAttribute("user", user);
-        return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
+        return new ResultVO<>(ResultStatus.SUCCESS,user);
 
     }
 
     @ApiOperation(value = "用户请先登录", notes = "用户请先登录")
-    @RequestMapping(value = "/userLogin")
+    @RequestMapping(value = "/userLogin",method = RequestMethod.GET)
     public void userLogin() throws MissingServletRequestParameterException{
         throw new MissingServletRequestParameterException("","");
     }
@@ -99,6 +100,7 @@ public class LoginController {
         user.setRole(UserRole.GENERAL.ordinal());
         user.setStatus(UserStatus.NORMAL.ordinal());
         user.setSalt(passwordHelper.createSalt(user));
+        user.setAddTime(TimeUtil.getTime());
         return user;
     }
 }
