@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import LoginForm from "../components/LoginForm";
-import { Component, Vue } from "vue-property-decorator";
+import LoginForm from '../components/LoginForm';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
