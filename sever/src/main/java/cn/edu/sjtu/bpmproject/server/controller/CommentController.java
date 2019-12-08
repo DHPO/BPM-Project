@@ -1,22 +1,16 @@
 package cn.edu.sjtu.bpmproject.server.controller;
 
 import cn.edu.sjtu.bpmproject.server.entity.PushMessage;
-import cn.edu.sjtu.bpmproject.server.entity.User;
 import cn.edu.sjtu.bpmproject.server.enums.ResultStatus;
-import cn.edu.sjtu.bpmproject.server.service.SocketIOService;
-import cn.edu.sjtu.bpmproject.server.service.impl.SocketIOServiceImpl;
+import cn.edu.sjtu.bpmproject.server.handler.MessageEventHandler;
 import cn.edu.sjtu.bpmproject.server.vo.ResultVO;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,15 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-    @Autowired
-    SocketIOService socketIOService;
+
 
     @ApiOperation(value = "用户发弹幕", notes = "用户发弹幕")
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public ResultVO<String> addComment(@RequestBody PushMessage pushMessage) {
 
         LOGGER.info("PushMessage: "+pushMessage);
-        socketIOService.pushMessageToAll(pushMessage);
+        MessageEventHandler.pushMessageToAll(pushMessage);
         return new ResultVO<>(ResultStatus.SUCCESS,"发弹幕成功");
     }
 

@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PushMessage {
 
-    private String userId;
+    private long userId;
 
     private String username;
 
     private String content;
 
-    private String organizerId;
+    private long activityId;
 
 }
