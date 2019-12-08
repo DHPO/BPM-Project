@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-menu :default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+  <el-menu default-active="1" class="el-menu-demo" mode="horizontal">
     <li class="el-menu-item title">活动召集系统</li>
     <el-menu-item index="1">处理中心</el-menu-item>
     <el-submenu index="2">
@@ -16,7 +16,9 @@
       </el-submenu>
     </el-submenu>
     <el-menu-item index="3" disabled>消息中心</el-menu-item>
-    <li class="el-menu-item right">用户</li>
+    <li class="el-menu-item right">
+      <el-avatar icon="el-icon-user-solid"></el-avatar>
+    </li>
   </el-menu>
   <router-view></router-view>
 </div>
