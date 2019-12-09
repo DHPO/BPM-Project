@@ -24,7 +24,6 @@ import java.util.Map;
 public class UserDaoImpl implements UserDao {
     private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-
     @Autowired
     private RestTemplate restTemplate;
     public static final String USER="User/";
@@ -54,6 +53,13 @@ public class UserDaoImpl implements UserDao {
         }
         userInfo = jsonObject.getString("User");
         User user=((List<User>) JSONArray.toList(JSONArray.fromObject(userInfo), User.class)).get(0);
+        return user;
+    }
+
+    @Override
+    public User getUserByID(long id) {
+        String url= ResourceAPI.RMP_URL+USER+"/"+id;
+        User user=restTemplate.getForObject(url,User.class);
         return user;
     }
 }

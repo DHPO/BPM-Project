@@ -100,7 +100,7 @@ public class LoginController {
         user.setRole(UserRole.GENERAL.ordinal());
         user.setStatus(UserStatus.NORMAL.ordinal());
         user.setSalt(passwordHelper.createSalt(user));
-        user.setAddTime(TimeUtil.getTime());
+        user.setAddtime(TimeUtil.getTime());
         return user;
     }
 }
