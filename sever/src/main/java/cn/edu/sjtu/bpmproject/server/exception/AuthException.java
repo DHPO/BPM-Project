@@ -49,6 +49,7 @@ public class AuthException {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ResultVO<String> handleException(Exception e){
+        e.printStackTrace();
         return new ResultVO<>(ResultStatus.SYSTEM_ERROR,ResultStatus.getStatus(ResultStatus.SYSTEM_ERROR));
     }
 }

@@ -9,4 +9,5 @@ public interface UserDao {
     public void addUser(User user);
     public String getUsers();
     public User getUserByUsername(String username);
+    public User getUserByID(long id);
 }
