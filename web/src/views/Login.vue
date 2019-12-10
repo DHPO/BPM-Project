@@ -18,7 +18,6 @@ export default class LoginView extends Vue {}
 
 <style lang="css">
   #login-view-container {
-    background-color: #EFEFEF;
     padding-top: 100px;
   }
 

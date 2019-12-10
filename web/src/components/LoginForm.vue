@@ -100,7 +100,6 @@ export default class HelloWorld extends Vue {
         type: 'success',
       });
     }).catch((err: ResultStatus) => {
-      console.log(err)
       switch (err) {
         case ResultStatus.PasswordError: {
           this.loginAlertMessage = '密码错误';

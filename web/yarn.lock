@@ -825,6 +825,11 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/is-promise@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.npm.taobao.org/@types/is-promise/download/@types/is-promise-0.0.3.tgz#54a2fdb5c353a67667427482cf8952c7a65f06d1"
+  integrity sha1-VKL9tcNTpnZnQnSCz4lSx6ZfBtE=
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.npm.taobao.org/@types/minimatch/download/@types/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -840,10 +845,20 @@
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.12.14.tgz?cache=0&sync_timestamp=1574723520942&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.12.14.tgz#1c1d6e3c75dba466e0326948d56e8bd72a1903d2"
   integrity sha1-HB1uPHXbpGbgMmlI1W6L1yoZA9I=
 
+"@types/node@^8.0.17":
+  version "8.10.59"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-8.10.59.tgz#9e34261f30183f9777017a13d185dfac6b899e04"
+  integrity sha1-njQmHzAYP5d3AXoT0YXfrGuJngQ=
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
   resolved "https://registry.npm.taobao.org/@types/normalize-package-data/download/@types/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha1-5IbQ2XOW15vu3QpuM/RTT/a0lz4=
+
+"@types/once@^1.3.28":
+  version "1.4.0"
+  resolved "https://registry.npm.taobao.org/@types/once/download/@types/once-1.4.0.tgz#7bfe3d99a0951f3141bac2617c9827525788b8f5"
+  integrity sha1-e/49maCVHzFBusJhfJgnUleIuPU=
 
 "@types/q@^1.5.1":
   version "1.5.2"
@@ -1648,6 +1663,17 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/balanced-match/download/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
+
+barrage@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.npm.taobao.org/barrage/download/barrage-2.0.4.tgz#ea27ee50606ebaaa261fb87563196aa7209bb3a4"
+  integrity sha1-6ifuUGBuuqomH7h1YxlqpyCbs6Q=
+  dependencies:
+    "@types/is-promise" "0.0.3"
+    "@types/node" "^8.0.17"
+    "@types/once" "^1.3.28"
+    is-promise "^2.1.0"
+    once "^1.4.0"
 
 base64-js@^1.0.2:
   version "1.3.1"
@@ -8458,6 +8484,11 @@ vue-property-decorator@^8.3.0:
   dependencies:
     vue-class-component "^7.1.0"
 
+vue-qr@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npm.taobao.org/vue-qr/download/vue-qr-2.2.1.tgz#d7844e75d5223ef2ab192523cf8bb129d3b82489"
+  integrity sha1-14ROddUiPvKrGSUjz4uxKdO4JIk=
+
 vue-router@^3.1.3:
   version "3.1.3"
   resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.1.3.tgz#e6b14fabc0c0ee9fda0e2cbbda74b350e28e412b"
@@ -8483,6 +8514,13 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
+
+vue2-barrage@^1.0.7, vue2-barrage@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.npm.taobao.org/vue2-barrage/download/vue2-barrage-1.0.8.tgz#fae19d3e530e952d5f0e46fe6fa718ac6f5c79c9"
+  integrity sha1-+uGdPlMOlS1fDkb+b6cYrG9ceck=
+  dependencies:
+    vue2-barrage "^1.0.7"
 
 vue@^2.6.10:
   version "2.6.10"

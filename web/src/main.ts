@@ -8,6 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
+// @ts-ignore
+import barrage from 'vue2-barrage';
+Vue.use(barrage);
 
 new Vue({
   router,
