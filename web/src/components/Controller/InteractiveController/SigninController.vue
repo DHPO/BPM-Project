@@ -1,7 +1,10 @@
 <template>
   <el-form id="form" label-position="left" label-width="100px" size="small">
     <el-form-item label="操作">
-      <el-button type="primary" @click="switchTab">切换到此页面</el-button>
+      <el-button
+        type="primary"
+        @click="switchTab"
+        :disabled="activeTabId === id">切换到此页面</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -16,6 +19,9 @@ export default class QuestionnaireController extends Vue {
 
   @Prop({required: true})
   private bus!: Vue;
+
+  @Prop({required: true})
+  private activeTabId!: string;
 
   private switchTab() {
     this.$emit('switchTab', this.id);

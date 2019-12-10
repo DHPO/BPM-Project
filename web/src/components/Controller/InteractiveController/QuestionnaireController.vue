@@ -1,8 +1,13 @@
 <template>
   <el-form id="form" label-position="left" label-width="100px" size="small">
     <el-form-item label="操作">
-      <el-button type="primary" @click="switchTab">切换到此页面</el-button>
-      <el-button type="danger">删除此页面</el-button>
+      <el-button
+        type="primary"
+        @click="switchTab"
+        :disabled="activeTabId === id">切换到此页面</el-button>
+      <el-button
+        type="danger"
+        :disabled="activeTabId === id">删除此页面</el-button>
     </el-form-item>
     <el-form-item label="问卷星ID">
       {{config.id}}
@@ -15,14 +20,14 @@
       <el-checkbox label="自动刷新调查结果" v-model="currentState.reload"></el-checkbox>
     </el-form-item>
     <el-form-item label="">
-      <el-button type="primary" :disabled="!dirty" @click="updateConfig">更新设置</el-button>
+      <el-button type="primary" :disabled="!dirty" @click="updateState">更新设置</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts">
 import {Component, Vue, Prop} from 'vue-property-decorator';
-import { QuestionnaireState, QuestionnaireConfig } from '../../types/interactive';
+import { QuestionnaireState, QuestionnaireConfig } from '@/types/interactive';
 
 @Component({})
 export default class QuestionnaireController extends Vue {
@@ -34,6 +39,9 @@ export default class QuestionnaireController extends Vue {
 
   @Prop({required: true})
   private bus!: Vue;
+
+  @Prop({required: true})
+  private activeTabId!: string;
 
   private currentState: QuestionnaireState = {
     showQrCode: true,
@@ -56,7 +64,7 @@ export default class QuestionnaireController extends Vue {
     return false;
   }
 
-  private updateConfig() {
+  private updateState() {
     this.lastSendState = {...this.currentState};
     this.bus.$emit('updateState', {
       id: this.id,

@@ -25,12 +25,22 @@
           v-if="isSignin(tab.type)"
           :id="tab.id"
           :bus="bus"
+          :activeTabId="activeTabId"
           @switchTab="switchTab"/>
         <QuestionnaireController
           v-if="isQuestionnaire(tab.type)"
           :id="tab.id"
           :bus="bus"
           :config="tab.config"
+          :activeTabId="activeTabId"
+          @switchTab="switchTab"/>
+        <SliderController
+          v-if="isSlide(tab.type)"
+          :id="tab.id"
+          :bus="bus"
+          :config="tab.config"
+          :activeTabId="activeTabId"
+          @updateConfig="updateConfig"
           @switchTab="switchTab"/>
       </el-tab-pane>
     </el-tabs>
@@ -42,14 +52,16 @@
 import {Component, Vue, Prop, Ref, Watch} from 'vue-property-decorator';
 import {InteractiveType} from '@/types/interactive';
 import CreateTabDialog from './CreateTabDialog.vue';
-import QuestionnaireController from './QuestionnaireController.vue';
-import SigninController from './SigninController.vue';
+import QuestionnaireController from './InteractiveController/QuestionnaireController.vue';
+import SigninController from './InteractiveController/SigninController.vue';
+import SliderController from './InteractiveController/SlideController/SlideController.vue';
 
 @Component({
   components: {
     CreateTabDialog,
     QuestionnaireController,
     SigninController,
+    SliderController,
   },
 })
 export default class TabController extends Vue {
@@ -101,8 +113,21 @@ export default class TabController extends Vue {
     return type === InteractiveType.Signin;
   }
 
+  private isSlide(type: InteractiveType) {
+    return type === InteractiveType.Slide;
+  }
+
   private switchTab(id: string) {
     this.activeTabId = id;
+  }
+
+  private updateConfig(payload: {id: string; config: any}) {
+    const tab = this.tabs.find((t) => t.id === payload.id);
+    tab!.config = {
+      ...tab!.config,
+      ...payload.config,
+    };
+    this.syncTab();
   }
 }
 </script>

@@ -36,6 +36,10 @@ const options = [
     value: InteractiveType.Questionnaire,
     label: '问卷',
   },
+  {
+    value: InteractiveType.Slide,
+    label: '答题闯关',
+  },
 ];
 
 @Component({})
@@ -52,6 +56,12 @@ export default class CreateTabDialog extends Vue {
     this.dialogVisible = true;
   }
 
+  private clearContent() {
+    this.type = InteractiveType.Questionnaire;
+    this.name = '';
+    this.questionnaireId = '';
+  }
+
   get submitable() {
     if (this.name === '') {
       return false;
@@ -60,6 +70,7 @@ export default class CreateTabDialog extends Vue {
       case InteractiveType.Questionnaire: {
         return this.questionnaireId !== '';
       }
+      default: return true;
     }
   }
 
@@ -79,6 +90,23 @@ export default class CreateTabDialog extends Vue {
             id: this.questionnaireId,
           },
         } as InteractiveConfig<QuestionnaireConfig>;
+        break;
+      }
+      case InteractiveType.Slide: {
+        config = {
+          id: `${this.type}_${Date.now()}`,
+          type: this.type,
+          name: this.name,
+          config: {
+            questions: [{
+              text: '第1题',
+            },
+            {
+              text: '第2题',
+            }],
+          },
+        };
+        break;
       }
     }
     this.$emit('submit', config);

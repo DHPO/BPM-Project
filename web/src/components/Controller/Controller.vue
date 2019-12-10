@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="height:50px;"></div>
+    <div style="height:5vh;"></div>
     <el-card class="card">
       <h1>屏幕控制面板</h1>
       <div style="height:30px;"></div>
@@ -79,9 +79,11 @@ export default class Controller extends Vue {
     width: 60%;
     margin-left: 20%;
     padding: 0px 50px;
+    height: 90vh;
+    overflow-y: auto;
   }
   .controller-item {
-    margin: 0px 50px;
+    margin: 0px 5vh;
   }
 </style>
 

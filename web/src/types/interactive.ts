@@ -2,14 +2,23 @@ export enum InteractiveType {
   Signin,
   Questionnaire,
   Lottery,
+  Slide,
 }
 
-export interface SigninConfig{
+export interface SigninConfig {
   url: string;
 }
 
-export interface QuestionnaireConfig{
+export interface QuestionnaireConfig {
   id: string;
+}
+
+export interface SlideContent {
+  text: string;
+}
+
+export interface SlideConfig {
+  questions: SlideContent[];
 }
 
 export interface InteractiveConfig<T> {
@@ -25,7 +34,13 @@ export interface QuestionnaireState {
   reload: boolean;
 }
 
+export interface SlideState {
+  current: number;
+}
+
 export interface StateRequest {
   id: string;
   state: any;
 }
+
+

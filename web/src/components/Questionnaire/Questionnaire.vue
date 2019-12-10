@@ -65,6 +65,7 @@ export default class Questionnare extends Vue {
     height: 100vh !important;
     overflow-y: auto;
     overflow-x: auto;
+    width: 100%;
   }
 
   #qrcode-padding {
