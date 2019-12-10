@@ -65,7 +65,11 @@ public class FriendshipController {
     }
 
 
-
-
+    @ApiOperation(value = "用户删除好友", notes = "用户删除好友")
+    @RequestMapping(value = "/friend", method = RequestMethod.DELETE)
+    public ResultVO<String> deleteFriend(@RequestParam(value = "friendId") long friendId) {
+        //TODO
+        return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
+    }
 
 }
