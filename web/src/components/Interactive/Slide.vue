@@ -16,7 +16,7 @@
         </el-carousel-item>
         <el-carousel-item
           v-for="(item, i) in config.questions"
-          :key="item.text + i">
+          :key="item.text + i + Date.now()">
           <el-card class="card">
             <h3>{{i+1}} / {{config.questions.length}}</h3>
             <p class="question-content">{{item.text}}</p>
@@ -52,14 +52,16 @@ export default class Slide extends Vue {
   };
 
   private setActiveItem(idx: number) {
-    this.carousel.setActiveItem(idx+1);
+    if (this.carousel) {
+      this.carousel.setActiveItem(idx+1);
+    }
   }
 
   private updateState(payload: {id: string, state: SlideState}) {
     if (payload.id === this.id) {
       this.state = {...payload.state};
+      this.setActiveItem(this.state.current);
     }
-    this.setActiveItem(this.state.current);
   }
 
   private mounted() {

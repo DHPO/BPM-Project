@@ -16,14 +16,19 @@
         :max="config.questions.length"></el-input-number>
     </el-form-item>
     <el-form-item class='wide' label="题目列表">
-      <QuestionTable :questions="config.questions" :current="state.current"/>
+      <QuestionTable
+        :questions="config.questions"
+        :current="state.current"
+        @createItem="createHandler"
+        @editItem="editHandler"
+        @deleteItem="deleteHandler"/>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts">
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator';
-import { SlideConfig, SlideState } from '../../../../types/interactive';
+import { SlideConfig, SlideState, SlideContent } from '../../../../types/interactive';
 import QuestionTable from './QuestionTable.vue';
 
 @Component({
@@ -67,6 +72,31 @@ export default class SlideController extends Vue {
 
   private switchTab() {
     this.$emit('switchTab', this.id);
+  }
+
+  private updateConfig() {
+    this.$emit('updateConfig', {
+      id: this.id,
+      config: this.config
+    })
+    this.$nextTick(() => this.updateState)
+  }
+
+  private deleteHandler(idx: number) {
+    this.config.questions.splice(idx, 1)
+    Vue.set(this.config, 'questions', this.config.questions)
+    this.updateConfig()
+  }
+
+  private createHandler(data: SlideContent) {
+    this.config.questions.push(data)
+    Vue.set(this.config, 'questions', this.config.questions)
+    this.updateConfig()
+  }
+
+  private editHandler({idx, data}: {idx: number, data: SlideContent}) {
+    Vue.set(this.config.questions, idx, data);
+    this.updateConfig()
   }
 }
 </script>
