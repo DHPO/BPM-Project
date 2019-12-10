@@ -11,10 +11,9 @@ import Questionnaire from '@/components/Questionnaire/Questionnaire.vue';
 @Component({
   components: {
     Questionnaire,
-  }
+  },
 })
 export default class TestView extends Vue {
 
 }
-
 </script>

@@ -13,7 +13,7 @@
 import {Component, Vue, Prop} from 'vue-property-decorator';
 
 @Component({})
-export default class SigninController extends Vue {
+export default class LotteryController extends Vue {
   @Prop({required: true})
   private id!: string;
 

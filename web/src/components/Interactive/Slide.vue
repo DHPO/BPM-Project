@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts">
-
 import {Component, Vue, Ref, Prop} from 'vue-property-decorator';
 import { SlideConfig, SlideState } from '../../types/interactive';
 
@@ -53,7 +52,7 @@ export default class Slide extends Vue {
 
   private setActiveItem(idx: number) {
     if (this.carousel) {
-      this.carousel.setActiveItem(idx+1);
+      this.carousel.setActiveItem(idx + 1);
     }
   }
 
@@ -69,7 +68,6 @@ export default class Slide extends Vue {
   }
 
 }
-
 </script>
 
 <style scoped>
@@ -88,6 +86,6 @@ export default class Slide extends Vue {
   align-items: center
 }
 .question-content {
-  font-size: 40px;
+  font-size: 48px;
 }
 </style>

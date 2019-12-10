@@ -77,7 +77,8 @@ export default class Controller extends Vue {
 <style lang="css" scoped>
   .card {
     width: 60%;
-    margin-left: 20%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 0px 50px;
     height: 90vh;
     overflow-y: auto;
@@ -90,5 +91,6 @@ export default class Controller extends Vue {
 <style lang="css">
   .divider>div {
     font-size: 25px !important;
+    font-weight: bold;
   }
 </style>

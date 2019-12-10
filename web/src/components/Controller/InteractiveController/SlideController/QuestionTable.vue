@@ -36,7 +36,7 @@ import QuestionEditor from './QuestionEditor.vue';
 @Component({
   components: {
     QuestionEditor,
-  }
+  },
 })
 export default class QuestionTable extends Vue {
   @Prop({required: true})
@@ -62,7 +62,7 @@ export default class QuestionTable extends Vue {
   }
 
   private createQuestion() {
-    this.editor.createQuestion()
+    this.editor.createQuestion();
   }
 
   private editQuestion(scope: any) {
@@ -70,11 +70,11 @@ export default class QuestionTable extends Vue {
   }
 
   private createHandler(payload: any) {
-    this.$emit('createItem', payload)
+    this.$emit('createItem', payload);
   }
 
   private editHandler(payload: any) {
-    this.$emit('editItem', payload)
+    this.$emit('editItem', payload);
   }
 }
 </script>

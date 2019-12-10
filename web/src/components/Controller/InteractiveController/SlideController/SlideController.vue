@@ -77,26 +77,26 @@ export default class SlideController extends Vue {
   private updateConfig() {
     this.$emit('updateConfig', {
       id: this.id,
-      config: this.config
-    })
-    this.$nextTick(() => this.updateState)
+      config: this.config,
+    });
+    this.$nextTick(() => this.updateState);
   }
 
   private deleteHandler(idx: number) {
-    this.config.questions.splice(idx, 1)
-    Vue.set(this.config, 'questions', this.config.questions)
-    this.updateConfig()
+    this.config.questions.splice(idx, 1);
+    Vue.set(this.config, 'questions', this.config.questions);
+    this.updateConfig();
   }
 
   private createHandler(data: SlideContent) {
-    this.config.questions.push(data)
-    Vue.set(this.config, 'questions', this.config.questions)
-    this.updateConfig()
+    this.config.questions.push(data);
+    Vue.set(this.config, 'questions', this.config.questions);
+    this.updateConfig();
   }
 
   private editHandler({idx, data}: {idx: number, data: SlideContent}) {
     Vue.set(this.config.questions, idx, data);
-    this.updateConfig()
+    this.updateConfig();
   }
 }
 </script>

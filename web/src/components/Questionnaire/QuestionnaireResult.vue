@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Ref } from "vue-property-decorator";
+import { Component, Vue, Prop, Ref } from 'vue-property-decorator';
 
 @Component
 export default class QuestionnaireResult extends Vue {
   @Prop({ required: true, type: String })
-  url!: string;
+  public url!: string;
 
-  reloadInterval: number = 30000;
+  public reloadInterval: number = 30000;
 
   private reloadHandler!: number;
 
@@ -31,7 +31,7 @@ export default class QuestionnaireResult extends Vue {
   private mounted() {
     this.reloadHandler = setInterval(
       this.reload.bind(this),
-      this.reloadInterval
+      this.reloadInterval,
     );
   }
 

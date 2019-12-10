@@ -47,16 +47,16 @@ export default class QuestionEditor extends Vue {
   private submit() {
     if (this.mode === Mode.Create) {
       this.$emit('create', {
-        text: this.content
+        text: this.content,
       } as SlideContent);
       this.content = '';
     } else {
       this.$emit('edit', {
         idx: this.idx,
         data: {
-          text: this.content
-        } as SlideContent
-      })
+          text: this.content,
+        } as SlideContent,
+      });
     }
     this.visible = false;
   }
