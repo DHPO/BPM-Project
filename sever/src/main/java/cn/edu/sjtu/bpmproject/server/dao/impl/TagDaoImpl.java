@@ -5,6 +5,8 @@ import cn.edu.sjtu.bpmproject.server.dao.TagDao;
 import cn.edu.sjtu.bpmproject.server.entity.Activity;
 import cn.edu.sjtu.bpmproject.server.entity.Tag;
 import cn.edu.sjtu.bpmproject.server.util.ResourceAPI;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +31,17 @@ public class TagDaoImpl implements TagDao{
             Tag tag1=restTemplate.postForObject(url,tag,Tag.class);
             LOGGER.info("add tag result："+tag1);
         }
+    }
+
+    @Override
+    public List<Tag> getTagsByName(String name) {
+        String url=ResourceAPI.RMP_URL+TAG+"?Tag.name="+name;
+        String tags=restTemplate.getForObject(url,String.class);
+        JSONObject jsonObject = JSONObject.fromObject(tags);
+        if(!jsonObject.has("Tag")){
+            return null;
+        }
+        tags = jsonObject.getString("Tag");
+        return JSONArray.toList(JSONArray.fromObject(tags), Tag.class);
     }
 }

@@ -10,4 +10,7 @@ public interface UserDao {
     public String getUsers();
     public User getUserByUsername(String username);
     public User getUserByID(long id);
+    public void deleteUser(long userId);
+    public void changeUserStatus(long userId,int userStatus);
+    public String findUserByName(String username);
 }

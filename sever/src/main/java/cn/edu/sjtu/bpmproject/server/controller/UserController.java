@@ -41,7 +41,7 @@ public class UserController {
         return new ResultVO<>(ResultStatus.SUCCESS,users);
     }
 
-    @ApiOperation(value="获取用户信息", notes="获取用户信息")
+    @ApiOperation(value="根据用户ID获取用户信息", notes="获取用户信息")
     @RequestMapping(value="/user", method= RequestMethod.GET)
     public ResultVO<User> getUserByID(){
         Subject subject = SecurityUtils.getSubject();
@@ -53,7 +53,7 @@ public class UserController {
     @RequestMapping(value="/user/{userId}", method= RequestMethod.DELETE)
     @RequiresRoles(value = "MANAGER")
     public ResultVO<String> deleteUser(@PathVariable("userId") long userId){
-        //TODO
+        userService.deleteUser(userId);
         return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
     }
 
@@ -61,15 +61,15 @@ public class UserController {
     @RequestMapping(value="/user/{userId}", method= RequestMethod.POST)
     @RequiresRoles(value = "MANAGER")
     public ResultVO<String> changeUserStatus(@PathVariable("userId") long userId,@RequestParam("userStatus") int userStatus){
-        //TODO
+        userService.changeUserStatus(userId,userStatus);
         return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
     }
 
     @ApiOperation(value="根据用户名获取用户列表", notes="根据用户名获取用户列表")
-    @RequestMapping(value="/users/find", method= RequestMethod.GET)
+    @RequestMapping(value="/user/find", method= RequestMethod.GET)
     public ResultVO<String> findUserByName(@RequestParam("username") String username){
-        // TODO
-        return null;
+        String userList= userService.findUserByName(username);
+        return new ResultVO<>(ResultStatus.SUCCESS,userList);
     }
 
 

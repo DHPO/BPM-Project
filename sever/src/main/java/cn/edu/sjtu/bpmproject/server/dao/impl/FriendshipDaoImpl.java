@@ -72,4 +72,11 @@ public class FriendshipDaoImpl implements FriendshipDao {
         LOGGER.info("has friendshipInfo ："+friendship);
         return friendship;
     }
+
+    @Override
+    public void deleteFriend(long friendshipId) {
+        String url= ResourceAPI.RMP_URL+FRIENDSHIP+friendshipId;
+        restTemplate.delete(url);
+
+    }
 }

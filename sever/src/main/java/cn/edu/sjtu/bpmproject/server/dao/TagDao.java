@@ -1,7 +1,11 @@
 package cn.edu.sjtu.bpmproject.server.dao;
 
+import cn.edu.sjtu.bpmproject.server.entity.Tag;
+
 import java.util.List;
 
 public interface TagDao {
     public void addTags(List<String> tagList, long activityId);
+
+    public List<Tag> getTagsByName(String name);
 }
