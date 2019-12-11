@@ -5,18 +5,18 @@
       <h1>屏幕控制面板</h1>
       <div style="height:30px;"></div>
       <el-divider class="divider" content-position="left">弹幕设置</el-divider>
-      <DanmuController class="controller-item" :bus="bus"/>
+      <DanmuController class="controller-item" :bus="bus" />
       <el-divider class="divider" content-position="left">页面设置</el-divider>
-      <TabController class="controller-item" :bus="bus"/>
+      <TabController class="controller-item" :bus="bus" />
     </el-card>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Vue, Watch} from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import DanmuController from './DanmuController.vue';
 import TabController from './TabController.vue';
-import {EventType} from '@/types/event';
+import { EventType } from '@/types/event';
 
 @Component({
   components: {
@@ -75,22 +75,22 @@ export default class Controller extends Vue {
 </script>
 
 <style lang="css" scoped>
-  .card {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0px 50px;
-    height: 90vh;
-    overflow-y: auto;
-  }
-  .controller-item {
-    margin: 0px 5vh;
-  }
+.card {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px 50px;
+  height: 90vh;
+  overflow-y: auto;
+}
+.controller-item {
+  margin: 0px 5vh;
+}
 </style>
 
 <style lang="css">
-  .divider>div {
-    font-size: 25px !important;
-    font-weight: bold;
-  }
+.divider > div {
+  font-size: 25px !important;
+  font-weight: bold;
+}
 </style>

@@ -27,16 +27,20 @@ export async function getInteractive(activityId: number) {
   return axios.get(url, {
     params: {
       activityId,
-    }
+    },
+    maxRedirects: 0,
   })
   .then((res) => {
     if (res.data.status === ResultStatus.Success) {
-      return res.data.data.interactions.map(InteractiveConverter.to);
+      return (res.data.data.interactions || []).map(InteractiveConverter.to);
     } else {
       throw res.data.status as ResultStatus;
     }
   })
   .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
     throw err.response.data.status;
   });
 }
@@ -48,6 +52,8 @@ export async function createInteractive<T>(activityId: number, config: Interacti
       activityid: activityId,
       ...InteractiveConverter.from(config),
     }],
+  }, {
+    maxRedirects: 1,
   })
   .then((res) => {
     if (res.data.status === ResultStatus.Success) {
@@ -57,7 +63,9 @@ export async function createInteractive<T>(activityId: number, config: Interacti
     }
   })
   .catch((err) => {
-    console.log(err)
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
     throw err.response.data.status;
   });
 }
@@ -67,6 +75,8 @@ export async function updateInteractive<T>(activityId: number, config: Interacti
   return axios.post(url, {
     activityid: activityId,
     ...InteractiveConverter.from(config),
+  }, {
+    maxRedirects: 1,
   })
   .then((res) => {
     if (res.data.status === ResultStatus.Success) {
@@ -76,6 +86,27 @@ export async function updateInteractive<T>(activityId: number, config: Interacti
     }
   })
   .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
+    throw err.response.data.status;
+  });
+}
+
+export async function deleteInteractive<T>(id: string) {
+  const url = `/api/interaction/${id}`;
+  return axios.delete(url)
+  .then((res) => {
+    if (res.data.status === ResultStatus.Success) {
+      return;
+    } else {
+      throw res.data.status as ResultStatus;
+    }
+  })
+  .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
     throw err.response.data.status;
   });
 }

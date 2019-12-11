@@ -12,11 +12,16 @@
         prop="text"></el-table-column>
       <el-table-column label="操作">
         <template slot="header">
-          <el-button size="small" @click="createQuestion">新建题目</el-button>
+          <el-button size="small" @click="createQuestion">
+            <i class="el-icon-document"/>新建题目</el-button>
         </template>
         <template slot-scope="scope">
-          <el-button size="small" @click="editQuestion(scope)">编辑</el-button>
-          <el-button size="small" type="danger" @click="deleteQuestion(scope)">删除</el-button>
+          <el-button size="small" @click="editQuestion(scope)">
+            <i class="el-icon-edit"/>编辑
+          </el-button>
+          <el-button size="small" type="danger" @click="deleteQuestion(scope)">
+            <i class="el-icon-delete"/>删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -4,10 +4,11 @@
       <el-form-item label="页面类型">
         <el-select v-model="type" placeholder="请选择页面类型">
           <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"></el-option>
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="页面名称">
@@ -20,7 +21,7 @@
         </el-form-item>
       </template>
       <el-form-item>
-        <el-button type="primary" @click="submit" :disabled="!submitable">确定</el-button>
+        <el-button type="primary" @click="submit" :disabled="!submitable" :loading="loading">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
       </el-form-item>
     </el-form>
@@ -28,8 +29,15 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
-import {InteractiveType, QuestionnaireConfig, InteractiveConfig} from '@/types/interactive';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import {
+  InteractiveType,
+  QuestionnaireConfig,
+  InteractiveConfig,
+} from '@/types/interactive';
+import * as interactiveAPI from '@/api/interactive';
+import { ResultStatus } from '../../api/user';
+import { apiErrorMessage } from '@/common/apiErrorMessage';
 
 const options = [
   {
@@ -44,6 +52,9 @@ const options = [
 
 @Component({})
 export default class CreateTabDialog extends Vue {
+  @Prop({ required: true, type: Number })
+  private activityId!: number;
+
   private dialogVisible: boolean = false;
 
   private options = options;
@@ -51,6 +62,8 @@ export default class CreateTabDialog extends Vue {
   private type: InteractiveType = InteractiveType.Questionnaire;
   private name: string = '';
   private questionnaireId: string = '';
+
+  private loading = false;
 
   public show() {
     this.dialogVisible = true;
@@ -70,7 +83,8 @@ export default class CreateTabDialog extends Vue {
       case InteractiveType.Questionnaire: {
         return this.questionnaireId !== '';
       }
-      default: return true;
+      default:
+        return true;
     }
   }
 
@@ -102,27 +116,39 @@ export default class CreateTabDialog extends Vue {
         break;
       }
     }
-    this.$emit('submit', config);
-    this.dialogVisible = false;
+    this.loading = true;
+    interactiveAPI
+      .createInteractive(this.activityId, config as any)
+      .then((result) => {
+        this.$emit('submit', result);
+        this.dialogVisible = false;
+        this.$message.success('提交成功');
+      })
+      .catch((err: ResultStatus) => {
+        apiErrorMessage(this, err);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
   }
 }
 </script>
 
 <style lang="css">
-  el-slider {
-    width:180px !important;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  div.el-form-item {
-    width: 400px;
-    padding-right: 20px;
-    float: left;
-  }
-  #form {
-    overflow: auto;
-  }
-  div.el-select {
-    width: 100% !important;
-  }
+el-slider {
+  width: 180px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+div.el-form-item {
+  width: 400px;
+  padding-right: 20px;
+  float: left;
+}
+#form {
+  overflow: auto;
+}
+div.el-select {
+  width: 100% !important;
+}
 </style>

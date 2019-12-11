@@ -1,35 +1,28 @@
 <template>
-<el-col>
-  <el-row :span="20" id="wrapper" type="flex" justify="center">
-    <el-col :span="20">
-      <div style="height:15vh;"></div>
-      <el-carousel
-        :autoplay="false"
-        ref="carousel"
-        id="carousel"
-        height="70vh"
-        trigger="click">
-        <el-carousel-item>
-          <el-card class="card">
-            <p class="question-content">答题开始！</p>
-          </el-card>
-        </el-carousel-item>
-        <el-carousel-item
-          v-for="(item, i) in config.questions"
-          :key="item.text + i + Date.now()">
-          <el-card class="card">
-            <h3>{{i+1}} / {{config.questions.length}}</h3>
-            <p class="question-content">{{item.text}}</p>
-          </el-card>
-        </el-carousel-item>
-      </el-carousel>
-    </el-col>
-  </el-row>
-</el-col>
+  <el-col>
+    <el-row :span="20" id="wrapper" type="flex" justify="center">
+      <el-col :span="20">
+        <div style="height:15vh;"></div>
+        <el-carousel :autoplay="false" ref="carousel" id="carousel" height="70vh" trigger="click">
+          <el-carousel-item>
+            <el-card class="card">
+              <p class="question-content">答题开始！</p>
+            </el-card>
+          </el-carousel-item>
+          <el-carousel-item v-for="(item, i) in config.questions" :key="item.text + i + Date.now()">
+            <el-card class="card">
+              <h3>{{i+1}} / {{config.questions.length}}</h3>
+              <p class="question-content">{{item.text}}</p>
+            </el-card>
+          </el-carousel-item>
+        </el-carousel>
+      </el-col>
+    </el-row>
+  </el-col>
 </template>
 
 <script lang="ts">
-import {Component, Vue, Ref, Prop} from 'vue-property-decorator';
+import { Component, Vue, Ref, Prop } from 'vue-property-decorator';
 import { SlideConfig, SlideState } from '../../types/interactive';
 
 @Component({})
@@ -37,13 +30,13 @@ export default class Slide extends Vue {
   @Ref('carousel')
   private carousel!: any;
 
-  @Prop({required: true})
+  @Prop({ required: true })
   private id!: string;
 
-  @Prop({required: true})
+  @Prop({ required: true })
   private bus!: Vue;
 
-  @Prop({required: true})
+  @Prop({ required: true })
   private config!: SlideConfig;
 
   private state: SlideState = {
@@ -56,9 +49,9 @@ export default class Slide extends Vue {
     }
   }
 
-  private updateState(payload: {id: string, state: SlideState}) {
+  private updateState(payload: { id: string; state: SlideState }) {
     if (payload.id === this.id) {
-      this.state = {...payload.state};
+      this.state = { ...payload.state };
       this.setActiveItem(this.state.current);
     }
   }
@@ -66,7 +59,6 @@ export default class Slide extends Vue {
   private mounted() {
     this.bus.$on('updateState', this.updateState.bind(this));
   }
-
 }
 </script>
 
@@ -77,13 +69,14 @@ export default class Slide extends Vue {
   margin-left: auto;
   margin-right: auto;
 }
-#carousel, .card {
+#carousel,
+.card {
   height: 70vh !important;
 }
 .card {
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
 }
 .question-content {
   font-size: 48px;

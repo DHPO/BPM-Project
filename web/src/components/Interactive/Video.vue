@@ -3,8 +3,7 @@
 </template>
 
 <script lang="ts">
-
-import {Component, Vue, Ref} from 'vue-property-decorator';
+import { Component, Vue, Ref } from 'vue-property-decorator';
 import Hls from 'hls.js';
 
 @Component({})
@@ -19,5 +18,4 @@ export default class Video extends Vue {
     this.video.play();
   }
 }
-
 </script>

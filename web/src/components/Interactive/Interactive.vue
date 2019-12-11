@@ -1,22 +1,23 @@
 <template>
   <div style="position: absolute;">
-    <barrage id="barrage" v-show="enableBarrage" :bus="bus"/>
+    <barrage id="barrage" v-show="enableBarrage" :bus="bus" />
     <div id="main">
       <InteractiveWrapper
-      v-for="config in tabs"
-      :key="config.id"
-      v-show="config.id===activeTabId"
-      :bus="bus"
-      :interactiveConfig="config"/>
+        v-for="config in tabs"
+        :key="config.id"
+        v-show="config.id===activeTabId"
+        :bus="bus"
+        :interactiveConfig="config"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import barrage from '../danmu/barrage.vue';
 import Questionnaire from '../Questionnaire/Questionnaire.vue';
-import {DanmuMode} from '@/types/danmu';
+import { DanmuMode } from '@/types/danmu';
 import { InteractiveConfig, InteractiveType } from '../../types/interactive';
 import InteractiveWrapper from './InteractiveWrapper.vue';
 
@@ -45,9 +46,7 @@ export default class Interactive extends Vue {
 
   private danmuMode: DanmuMode = 'barrage';
 
-  private tabs: Array<InteractiveConfig<any>> = [
-    ...defaultTabs,
-  ];
+  private tabs: Array<InteractiveConfig<any>> = [...defaultTabs];
 
   private activeTabId: string = defaultTabs[0].id;
 
@@ -73,29 +72,28 @@ export default class Interactive extends Vue {
 
   private mounted() {
     this.intervalHandler = setInterval(this.receiveEvent.bind(this), 200);
-    this.bus.$on('count', (c: any) => this.count = c);
-    this.bus.$on('setDanmuMode', (mode: DanmuMode) => this.danmuMode = mode);
+    this.bus.$on('count', (c: any) => (this.count = c));
+    this.bus.$on('setDanmuMode', (mode: DanmuMode) => (this.danmuMode = mode));
     this.bus.$on('createTab', this.createTab.bind(this));
-    this.bus.$on('switchTab', (id: string) => this.activeTabId = id);
-    this.bus.$on('syncTab', (tabs: any) => this.tabs = tabs);
+    this.bus.$on('switchTab', (id: string) => (this.activeTabId = id));
+    this.bus.$on('syncTab', (tabs: any) => (this.tabs = tabs));
   }
 
   private unmounted() {
     clearInterval(this.intervalHandler);
   }
 }
-
 </script>
 
 <style lang="css" scoped>
-  #main {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-  }
+#main {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
 
-  #barrage {
-    z-index: 10000 !important;
-  }
+#barrage {
+  z-index: 10000 !important;
+}
 </style>

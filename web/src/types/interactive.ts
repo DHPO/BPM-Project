@@ -14,7 +14,6 @@ export interface SigninConfig {
 export interface QuestionnaireConfig {
   id: string;
 }
-
 export interface SlideContent {
   text: string;
 }

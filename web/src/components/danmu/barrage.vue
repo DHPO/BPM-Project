@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue, Ref, Prop} from 'vue-property-decorator';
+import { Component, Vue, Ref, Prop } from 'vue-property-decorator';
 import { BarrageDanmuConfig } from '../../types/danmu';
 
 @Component({})
@@ -36,28 +36,27 @@ export default class BarrageDanmu extends Vue {
     this.initBarrage();
     this.bus.$on('addDanmu', (text: string) => this.addDanmu(text));
     this.bus.$on('setDanmuConfig', (config: any) => {
-      this.danmuConfig = {...this.danmuConfig, ...config};
+      this.danmuConfig = { ...this.danmuConfig, ...config };
     });
   }
-
 }
 </script>
 
 <style lang="css" scoped>
-  #container {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    height: 100vh;
-    width: 100vw;
-  }
+#container {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+}
 </style>
 
 <style lang="css">
-  .barrage {
-    font-size: 24px;
-    color: white;
-    background-color: #000000AA;
-    border-radius: 50px 50px 50px 50px !important;
-  }
+.barrage {
+  font-size: 24px;
+  color: white;
+  background-color: #000000aa;
+  border-radius: 50px 50px 50px 50px !important;
+}
 </style>

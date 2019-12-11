@@ -1,9 +1,8 @@
 <template>
   <el-dialog :visible.sync="visible" title="编辑题目">
     <el-form id="form" label-position="left" label-width="100px" size="small">
-      <el-form-item
-        label="题目内容">
-          <el-input v-model="content"></el-input>
+      <el-form-item label="题目内容">
+        <el-input v-model="content"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submit">确定</el-button>
@@ -14,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { SlideContent } from '../../../../types/interactive';
 
 enum Mode {
@@ -64,18 +63,18 @@ export default class QuestionEditor extends Vue {
 </script>
 
 <style lang="css">
-  el-slider {
-    width:180px !important;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  div.el-form-item {
-    width: 400px;
-    float: left;
-    height: 35px;
-    margin-left: 40px;
-  }
-  #form {
-    overflow: auto;
-  }
+el-slider {
+  width: 180px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+div.el-form-item {
+  width: 400px;
+  float: left;
+  height: 35px;
+  margin-left: 40px;
+}
+#form {
+  overflow: auto;
+}
 </style>

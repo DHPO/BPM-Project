@@ -5,10 +5,22 @@
       <el-input class="input" v-model="username" placeholder="请输入用户名">
         <div slot="prepend" class="input-prepend">用户名</div>
       </el-input>
-      <el-input class="input" v-model="password" placeholder="请输入密码" type="password">
+      <el-input
+        class="input"
+        v-model="password"
+        placeholder="请输入密码"
+        type="password"
+        @keydown.enter.native="login"
+      >
         <div slot="prepend" class="input-prepend">密码</div>
       </el-input>
-      <el-alert v-if="showLoginAlert" class="alarm" type="error" :title="loginAlertMessage" :closable="false"></el-alert>
+      <el-alert
+        v-if="showLoginAlert"
+        class="alarm"
+        type="error"
+        :title="loginAlertMessage"
+        :closable="false"
+      ></el-alert>
       <div></div>
       <el-button class="button" type="primary" @click="login" v-loading="buttonLoading">登录</el-button>
     </el-tab-pane>
@@ -23,7 +35,13 @@
       <el-input class="input" v-model="repeatPassword" placeholder="请再次输入密码" type="password">
         <div slot="prepend" class="input-prepend">密码</div>
       </el-input>
-      <el-alert v-if="showRegisterAlert" class="alarm" type="error" :title="registerAlertMessage" :closable="false"></el-alert>
+      <el-alert
+        v-if="showRegisterAlert"
+        class="alarm"
+        type="error"
+        :title="registerAlertMessage"
+        :closable="false"
+      ></el-alert>
       <div></div>
       <el-button class="button" type="primary" @click="register" v-loading="buttonLoading">注册</el-button>
     </el-tab-pane>
@@ -90,40 +108,44 @@ export default class HelloWorld extends Vue {
       return;
     }
     this.buttonLoading = true;
-    this.userStore.login({
-      username: this.username,
-      password: this.password,
-    }).then((user) => {
-      this.loginAlertMessage = '';
-      this.$message({
-        message: '登录成功',
-        type: 'success',
+    this.userStore
+      .login({
+        username: this.username,
+        password: this.password,
+      })
+      .then((user) => {
+        this.loginAlertMessage = '';
+        this.$message({
+          message: '登录成功',
+          type: 'success',
+        });
+      })
+      .catch((err: ResultStatus) => {
+        switch (err) {
+          case ResultStatus.PasswordError: {
+            this.loginAlertMessage = '密码错误';
+            break;
+          }
+          case ResultStatus.UserNotExist: {
+            this.loginAlertMessage = '用户不存在';
+            break;
+          }
+          case ResultStatus.LockedAccount: {
+            this.loginAlertMessage = '用户被锁定';
+            break;
+          }
+          case ResultStatus.SystemError: {
+            this.loginAlertMessage = '系统错误';
+            break;
+          }
+          default: {
+            this.loginAlertMessage = `其他错误：${err}`;
+          }
+        }
+      })
+      .finally(() => {
+        this.buttonLoading = false;
       });
-    }).catch((err: ResultStatus) => {
-      switch (err) {
-        case ResultStatus.PasswordError: {
-          this.loginAlertMessage = '密码错误';
-          break;
-        }
-        case ResultStatus.UserNotExist: {
-          this.loginAlertMessage = '用户不存在';
-          break;
-        }
-        case ResultStatus.LockedAccount: {
-          this.loginAlertMessage = '用户被锁定';
-          break;
-        }
-        case ResultStatus.SystemError: {
-          this.loginAlertMessage = '系统错误';
-          break;
-        }
-        default: {
-          this.loginAlertMessage = `其他错误：${err}`;
-        }
-      }
-    }).finally(() => {
-      this.buttonLoading = false;
-    });
   }
 
   private async register() {
@@ -131,18 +153,21 @@ export default class HelloWorld extends Vue {
       return;
     }
     this.buttonLoading = true;
-    this.userStore.register({
-      username: this.username,
-      password: this.password,
-    }).finally(() => {
-      this.buttonLoading = false;
-    });
+    this.userStore
+      .register({
+        username: this.username,
+        password: this.password,
+      })
+      .finally(() => {
+        this.buttonLoading = false;
+      });
   }
 }
 </script>
 
 <style lang="css" scope>
-.input, .alarm {
+.input,
+.alarm {
   margin-top: 15px;
   margin-bottom: 10px;
   width: 80% !important;

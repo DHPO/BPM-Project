@@ -11,15 +11,17 @@
         <el-slider class="slider" v-model="danmuSpeed" :min="1" :max="10"></el-slider>
       </el-form-item>
       <el-form-item label="操作">
-        <el-button type="primary" @click="sendTestDanmu">发送测试弹幕</el-button>
+        <el-button type="primary" @click="sendTestDanmu">
+          <i class="el-icon-chat-dot-square" />发送测试弹幕
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Vue, Watch, Prop} from 'vue-property-decorator';
-import {BarrageDanmuConfig, DanmuMode} from '@/types/danmu';
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+import { BarrageDanmuConfig, DanmuMode } from '@/types/danmu';
 
 const defaultBarrageDanmuConfig: BarrageDanmuConfig = {
   speed: 5,
@@ -45,22 +47,25 @@ export default class DanmuController extends Vue {
 
   @Watch('danmuSpeed')
   private handleDanmuSpeedChange(val: number) {
-    this.bus.$emit('setDanmuConfig', {speed: val});
+    this.bus.$emit('setDanmuConfig', { speed: val });
   }
 }
 </script>
 
 <style lang="css">
-  el-slider {
-    width:180px !important;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  div.el-form-item {
-    width: 400px;
-    float: left;
-  }
-  #form {
-    overflow: auto;
-  }
+el-slider {
+  width: 180px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+div.el-form-item {
+  width: 400px;
+  float: left;
+}
+#form {
+  overflow: auto;
+}
+i::after {
+  content: '　';
+}
 </style>
