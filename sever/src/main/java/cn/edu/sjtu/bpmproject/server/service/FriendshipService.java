@@ -8,5 +8,6 @@ import java.util.List;
 public interface FriendshipService {
     public List<User> getFriends(long userId);
     public Friendship addFriend(long userId, long friendId);
+    public void deleteFriend(long friendId);
 
 }

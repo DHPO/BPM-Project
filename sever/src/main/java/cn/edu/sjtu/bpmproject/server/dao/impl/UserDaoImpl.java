@@ -58,8 +58,28 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByID(long id) {
-        String url= ResourceAPI.RMP_URL+USER+"/"+id;
-        User user=restTemplate.getForObject(url,User.class);
-        return user;
+        String url= ResourceAPI.RMP_URL+USER+id;
+        return restTemplate.getForObject(url,User.class);
+    }
+
+    @Override
+    public void deleteUser(long userId) {
+        String url= ResourceAPI.RMP_URL+USER+userId;
+        restTemplate.delete(url);
+    }
+
+    @Override
+    public void changeUserStatus(long userId, int userStatus) {
+        String url= ResourceAPI.RMP_URL+USER+userId;
+        User user=getUserByID(userId);
+        user.setStatus(userStatus);
+        restTemplate.put(url,user);
+        LOGGER.info("update user status result："+user);
+    }
+
+    @Override
+    public String findUserByName(String username) {
+        String url= ResourceAPI.RMP_URL+USER+"?User.username=(like)"+username;
+        return restTemplate.getForObject(url,String.class);
     }
 }

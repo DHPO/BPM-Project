@@ -14,12 +14,14 @@ import lombok.NoArgsConstructor;
 public class Interaction {
     @ApiModelProperty(value = "主键id")
     private long id;
+    @ApiModelProperty(value = "互动名称")
+    private String name;
     @ApiModelProperty(value = "互动设置")
     private String description;
     @ApiModelProperty(value = "互动类型 COMMENT(\"弹幕\"), VOTE(\"投票\"), GAME(\"答题闯关\"),SCORE(\"评分\"),DRAW(\"抽奖\")")
-    private int type;
+    private int interactiontype;
     @ApiModelProperty(value = "互动参与人数")
-    private long attendnum;
+    private int attendnum;
     @ApiModelProperty(value = "活动id")
     private long activityid;
     @ApiModelProperty(value = "互动开始时间")

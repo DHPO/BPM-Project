@@ -2,6 +2,7 @@ package cn.edu.sjtu.bpmproject.server.controller;
 
 
 import cn.edu.sjtu.bpmproject.server.entity.Activity;
+import cn.edu.sjtu.bpmproject.server.enums.ActivityStatus;
 import cn.edu.sjtu.bpmproject.server.enums.ResultStatus;
 import cn.edu.sjtu.bpmproject.server.service.ActivityService;
 import cn.edu.sjtu.bpmproject.server.util.FileUtil;
@@ -40,29 +41,51 @@ public class ActivityController {
     @Autowired
     private ActivityService activityService;
 
+    @ApiOperation(value = "活动开始", notes = "活动开始")
+    @RequestMapping(value = "/activity/{activityId}/start", method = RequestMethod.POST)
+    public ResultVO<String> startActivity(@PathVariable("activityId") long activityId) {
+        activityService.updateActivityStatus(activityId, ActivityStatus.IN_PROGRESS.ordinal());
+        return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
+    }
+
+    @ApiOperation(value = "活动结束", notes = "活动结束")
+    @RequestMapping(value = "/activity/{activityId}/end", method = RequestMethod.POST)
+    public ResultVO<String> endActivity(@PathVariable("activityId") long activityId) {
+        activityService.updateActivityStatus(activityId, ActivityStatus.END.ordinal());
+        return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
+    }
+
     @ApiOperation(value = "删除活动", notes = "删除活动")
     @RequestMapping(value = "/activity/{activityId}", method = RequestMethod.DELETE)
     public ResultVO<String> deleteActivity(@PathVariable(value = "activityId") long activityId) {
-        // TODO
-        return null;
+        activityService.deleteActivity(activityId);
+        return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
+    }
+
+    @ApiOperation(value = "获取管理员审核列表", notes = "获取管理员审核列表")
+    @RequiresRoles(value = "MANAGER")
+    @RequestMapping(value = "/activity/check", method = RequestMethod.GET)
+    public ResultVO<List<Activity>> getCheckActivities() {
+        List<Activity> activityList=activityService.getCheckActivities();
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
     @ApiOperation(value = "管理员审核活动", notes = "审核活动")
     @RequiresRoles(value = "MANAGER")
-    @RequestMapping(value = "/activity/{activityId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/activity/check/{activityId}", method = RequestMethod.POST)
     public ResultVO<String> checkActivity(@PathVariable(value = "activityId") long activityId, @RequestParam(value = "activityStatus") int activityStatus) {
-        // TODO
-        return null;
+        activityService.updateActivityStatus(activityId,activityStatus);
+        return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
+
     }
 
     @ApiOperation(value = "根据关键词查询活动，如果关键词为空，则返回所有的活动", notes = "查询活动")
     @ApiImplicitParam(name = "keyword", value = "查询关键词")
     @RequestMapping(value = "/activity", method = RequestMethod.GET)
     public ResultVO<List<Activity>> queryActivityByKeywords(@RequestParam(value = "keyword") String keyword) {
-        // TODO
-        return null;
+        List<Activity> activityList=activityService.queryActivityByKeywords(keyword);
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
-
 
 
     @ApiOperation(value = "添加活动", notes = "添加活动")
@@ -101,22 +124,22 @@ public class ActivityController {
     @ApiImplicitParam(name = "activity", value = "活动信息")
     @RequestMapping(value = "/activity/update", method = RequestMethod.POST)
     public ResultVO<Activity> updateActivity(@RequestBody Activity activity){
-        // TODO
-        return null;
+        Activity activity1=activityService.updateActivity(activity);
+        return new ResultVO<>(ResultStatus.SUCCESS,activity1);
     }
 
     @ApiOperation(value = "根据活动ID获取活动信息", notes = "根据活动ID获取活动信息")
     @RequestMapping(value = "/activity/{activityId}", method = RequestMethod.GET)
     public ResultVO<Activity> getActivityById(@PathVariable(value = "activityId") long activityId) {
-        // TODO
-        return null;
+        Activity activity=activityService.getActivityById(activityId);
+        return new ResultVO<>(ResultStatus.SUCCESS,activity);
     }
 
     @ApiOperation(value = "获取活动组织者的所有活动", notes = "获取活动组织者的所有活动")
     @RequestMapping(value = "/activities", method = RequestMethod.GET)
     public ResultVO<List<Activity>> getActivitiesByOrganizerId(@RequestParam(value = "organizerId") long organizerId) {
-        // TODO
-        return null;
+        List<Activity> activityList=activityService.getActivitiesByOrganizerId(organizerId);
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
     @ApiOperation(value = "获取热门活动", notes = "获取热门活动")
@@ -150,8 +173,8 @@ public class ActivityController {
     @ApiOperation(value = "根据标签获取活动", notes = "根据标签获取活动")
     @RequestMapping(value = "/activity/tag", method = RequestMethod.GET)
     public ResultVO<List<Activity>> getActivitiesByTag(@RequestParam("tag") String tag) {
-        // TODO
-        return null;
+        List<Activity> activityList=activityService.getActivitiesByTag(tag);
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
 

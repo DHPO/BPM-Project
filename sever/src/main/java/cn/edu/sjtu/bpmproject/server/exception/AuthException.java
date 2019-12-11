@@ -46,6 +46,12 @@ public class AuthException {
         return new ResultVO<>(ResultStatus.NOT_LOGIN,ResultStatus.getStatus(ResultStatus.NOT_LOGIN));
     }
 
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotAllowedException.class)
+    public ResultVO<String> notRegisteredException (NotAllowedException e){
+        return new ResultVO<>(ResultStatus.FORBIDDEN,e.getMessage());
+    }
+
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ResultVO<String> handleException(Exception e){

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Chat {
     private long id;
     private String content;
-    private int type;
+    private int chattype;
     private long chattime;
     private long friendshipid;
     private long userid;

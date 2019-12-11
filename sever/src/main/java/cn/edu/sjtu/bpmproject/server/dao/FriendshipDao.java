@@ -11,4 +11,6 @@ public interface FriendshipDao {
     public Friendship addFriend(long userId, long friendId);
 
     public Friendship hasFriend(long userId, long friendId);
+
+    public void deleteFriend(long friendshipId);
 }

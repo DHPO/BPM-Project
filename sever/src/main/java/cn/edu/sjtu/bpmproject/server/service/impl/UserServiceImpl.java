@@ -39,5 +39,20 @@ public class UserServiceImpl implements UserService{
         return userDao.getUsers();
     }
 
+    @Override
+    public void deleteUser(long userId) {
+        userDao.deleteUser(userId);
+    }
+
+    @Override
+    public void changeUserStatus(long userId, int userStatus) {
+        userDao.changeUserStatus(userId,userStatus);
+    }
+
+    @Override
+    public String findUserByName(String username) {
+        return userDao.findUserByName(username);
+    }
+
 
 }
