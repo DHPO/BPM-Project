@@ -6,7 +6,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://10.0.0.88:8080',
+        target: 'http://10.0.0.86:8080',
       }
     }
   },

@@ -13,6 +13,7 @@
     "barrage": "^2.0.4",
     "core-js": "^3.4.3",
     "element-ui": "^2.13.0",
+    "hls.js": "^0.12.4",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.3.0",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.5",
+    "@types/hls.js": "^0.12.5",
     "@types/mocha": "^5.2.4",
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-typescript": "^4.1.0",

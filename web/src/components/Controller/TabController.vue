@@ -50,11 +50,12 @@
 
 <script lang="ts">
 import {Component, Vue, Prop, Ref, Watch} from 'vue-property-decorator';
-import {InteractiveType} from '@/types/interactive';
+import {InteractiveType, InteractiveConfig} from '@/types/interactive';
 import CreateTabDialog from './CreateTabDialog.vue';
 import QuestionnaireController from './InteractiveController/QuestionnaireController.vue';
 import SigninController from './InteractiveController/SigninController.vue';
 import SliderController from './InteractiveController/SlideController/SlideController.vue';
+import * as interactiveAPI from '@/api/interactive';
 
 @Component({
   components: {
@@ -74,25 +75,36 @@ export default class TabController extends Vue {
   private activeTab: string = 'signin';
   private activeTabId: string = 'signin';
 
-  private tabs = [
-    {
-      id: 'signin',
-      name: '签到',
-      type: InteractiveType.Signin,
-      config: {
-        url: 'http://www.baidu.com',
+  private activityId = 0;
+
+  private get tabs() {
+    return [
+        {
+        id: 'signin',
+        name: '签到',
+        type: InteractiveType.Signin,
+        config: {
+          url: 'http://www.baidu.com',
+        },
       },
-    },
-  ];
+      ...this.interactives,
+    ];
+  }
+
+  private interactives: Array<InteractiveConfig<any>> = [];
 
   private showCreateTabDialog() {
     this.createTabDialog.show();
   }
 
   private createNewTab(config: any) {
-    this.tabs.push(config);
-    this.bus.$emit('createTab', config);
-    this.bus.$emit('switchTab', this.activeTabId);
+    return interactiveAPI.createInteractive(this.activityId, config)
+      .then((interactiveConfig) => {
+        console.log(interactiveConfig)
+        this.interactives.push(interactiveConfig);
+        this.bus.$emit('createTab', interactiveConfig);
+        this.bus.$emit('switchTab', this.activeTabId);
+      });
   }
 
   private syncTab() {
@@ -122,12 +134,23 @@ export default class TabController extends Vue {
   }
 
   private updateConfig(payload: {id: string; config: any}) {
-    const tab = this.tabs.find((t) => t.id === payload.id);
+    const tab = this.interactives.find((t) => t.id === payload.id);
     tab!.config = {
       ...tab!.config,
       ...payload.config,
     };
     this.syncTab();
+  }
+
+  private loadInteractives() {
+    interactiveAPI.getInteractive(this.activityId)
+      .then((interactives) => {
+        this.interactives = interactives;
+      })
+  }
+
+  private mounted() {
+    this.loadInteractives();
   }
 }
 </script>

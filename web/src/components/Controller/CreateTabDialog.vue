@@ -83,7 +83,6 @@ export default class CreateTabDialog extends Vue {
     switch (this.type) {
       case InteractiveType.Questionnaire: {
         config = {
-          id: `${this.type}_${Date.now()}`,
           type: this.type,
           name: this.name,
           config: {
@@ -94,16 +93,10 @@ export default class CreateTabDialog extends Vue {
       }
       case InteractiveType.Slide: {
         config = {
-          id: `${this.type}_${Date.now()}`,
           type: this.type,
           name: this.name,
           config: {
-            questions: [{
-              text: '第1题',
-            },
-            {
-              text: '第2题',
-            }],
+            questions: [],
           },
         };
         break;

@@ -1,8 +1,10 @@
 export enum InteractiveType {
-  Signin,
+  Comment,
   Questionnaire,
-  Lottery,
   Slide,
+  Score,
+  Lottery,
+  Signin,
 }
 
 export interface SigninConfig {

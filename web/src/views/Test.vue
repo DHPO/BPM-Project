@@ -1,16 +1,16 @@
 <template>
   <div>
-    <Questionnaire :questionnaireId="51870718"/>
+    <Video />
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
-import Questionnaire from '@/components/Questionnaire/Questionnaire.vue';
+import Video from '@/components/Interactive/Video.vue';
 
 @Component({
   components: {
-    Questionnaire,
+    Video,
   },
 })
 export default class TestView extends Vue {
