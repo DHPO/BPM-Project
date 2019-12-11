@@ -1,8 +1,12 @@
 <template>
   <div>
-    <h1>扫码签到</h1>
-    <VueQr id="qrcode" :text="url" :size="300" />
-    <p>请大家扫描二维码签到</p>
+    <div id="wrapper">
+    <div>
+      <h1>扫码签到</h1>
+      <VueQr id="qrcode" :text="url" :size="300" />
+      <p>请扫描二维码签到</p>
+    </div>
+    </div>
   </div>
 </template>
 
@@ -23,4 +27,18 @@ export default class Signin extends Vue {
 </script>
 
 <style scoped>
+#wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh !important;
+}
+
+h1 {
+    font-size: 48px;
+  }
+
+p {
+  font-size: 20px;
+}
 </style>

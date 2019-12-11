@@ -1,6 +1,6 @@
 <template>
   <el-form id="form-slide" label-position="left" label-width="100px" size="small">
-    <el-form-item label="操作">
+    <el-form-item label="页面操作">
       <el-button type="primary" @click="switchTab" :disabled="activeTabId === id">
         <i class="el-icon-s-promotion" />切换到此页面
       </el-button>

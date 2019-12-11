@@ -5,6 +5,7 @@ export enum InteractiveType {
   Score,
   Lottery,
   Signin,
+  Video,
 }
 
 export interface SigninConfig {
@@ -45,6 +46,7 @@ export enum LotteryPoolType {
 }
 export interface LotteryConfig {
   type: LotteryPoolType;
+  num: number;
   pool?: any[];
 }
 
@@ -56,7 +58,12 @@ export enum LotteryRunningState {
 
 export interface LotteryState {
   runningState: LotteryRunningState;
+  pool?: any[];
   result?: any[];
+}
+
+export interface VideoConfig {
+  url: string;
 }
 
 export interface StateRequest {

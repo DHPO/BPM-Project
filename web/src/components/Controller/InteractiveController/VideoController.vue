@@ -13,74 +13,39 @@
         <i class="el-icon-delete" />删除此页面
       </el-button>
     </el-form-item>
-    <el-form-item label="问卷星ID">{{config.id}}</el-form-item>
-    <el-form-item label="显示设置">
-      <el-checkbox label="显示二维码" v-model="currentState.showQrCode"></el-checkbox>
-      <el-checkbox label="显示结果" v-model="currentState.showResult"></el-checkbox>
-    </el-form-item>
-    <el-form-item label="自动刷新">
-      <el-checkbox label="自动刷新调查结果" v-model="currentState.reload"></el-checkbox>
-    </el-form-item>
-    <el-form-item label>
-      <el-button type="primary" @click="updateState">
-        <i class="el-icon-refresh" />更新设置
-      </el-button>
+    <el-form-item label="直播链接">
+      {{config.url}}
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { QuestionnaireState, QuestionnaireConfig } from '@/types/interactive';
 import * as interactiveAPI from '@/api/interactive';
 import { apiErrorMessage } from '@/common/apiErrorMessage';
+import { VideoConfig } from '../../../types/interactive';
 
 @Component({})
-export default class QuestionnaireController extends Vue {
+export default class SigninController extends Vue {
   @Prop({ required: true })
   private id!: string;
-
-  @Prop({ required: true })
-  private config!: QuestionnaireConfig;
 
   @Prop({ required: true })
   private bus!: Vue;
 
   @Prop({ required: true })
+  private config!: VideoConfig;
+
+  @Prop({ required: true })
   private activeTabId!: string;
 
+  @Prop({ required: true })
+  private activityId!: number;
+
+  @Prop({ required: name })
+  private name!: string;
+
   private loading = false;
-
-  private currentState: QuestionnaireState = {
-    showQrCode: true,
-    showResult: false,
-    reload: true,
-  };
-
-  private lastSendState: QuestionnaireState = {
-    showQrCode: true,
-    showResult: false,
-    reload: true,
-  };
-
-  get dirty() {
-    for (const k in this.currentState) {
-      if ((this.currentState as any)[k] !== (this.lastSendState as any)[k]) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private updateState() {
-    this.lastSendState = { ...this.currentState };
-    this.bus.$emit('updateState', {
-      id: this.id,
-      state: {
-        ...this.currentState,
-      },
-    });
-  }
 
   private switchTab() {
     this.$emit('switchTab', this.id);

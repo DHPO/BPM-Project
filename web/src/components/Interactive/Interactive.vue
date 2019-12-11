@@ -2,13 +2,17 @@
   <div style="position: absolute;">
     <barrage id="barrage" v-show="enableBarrage" :bus="bus" />
     <div id="main">
+    <el-collapse-transition
+      v-for="config in tabs"
+      :key="config.id"
+      name="el-zoom-in-top">
       <InteractiveWrapper
-        v-for="config in tabs"
-        :key="config.id"
         v-show="config.id===activeTabId"
         :bus="bus"
         :interactiveConfig="config"
+        :activeTabId="activeTabId"
       />
+    </el-collapse-transition>
     </div>
   </div>
 </template>

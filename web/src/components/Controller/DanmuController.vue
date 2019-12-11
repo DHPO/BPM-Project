@@ -1,6 +1,10 @@
 <template>
   <div>
     <el-form id="form" label-position="left" label-width="100px" size="small">
+      <el-form-item label="连接状态">
+        <el-tag v-if="connectStatus" type="success">已连接</el-tag>
+        <el-tag v-else type="danger">连接中断</el-tag>
+      </el-form-item>
       <el-form-item label="显示方式">
         <el-radio-group v-model="danmuMode">
           <el-radio-button label="off">关闭</el-radio-button>
@@ -22,6 +26,8 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import { BarrageDanmuConfig, DanmuMode } from '@/types/danmu';
+// @ts-ignore
+import socketio from 'socket.io-client';
 
 const defaultBarrageDanmuConfig: BarrageDanmuConfig = {
   speed: 5,
@@ -36,6 +42,11 @@ export default class DanmuController extends Vue {
   private danmuMode: DanmuMode = 'barrage';
   private danmuSpeed: number = 5;
 
+  private socketioHandler: any;
+  private activityId = 1575898405622;
+
+  private connectStatus = false;
+
   @Watch('danmuMode')
   private handleDanmuModeChange(newVal: DanmuMode) {
     this.bus.$emit('setDanmuMode', newVal);
@@ -48,6 +59,23 @@ export default class DanmuController extends Vue {
   @Watch('danmuSpeed')
   private handleDanmuSpeedChange(val: number) {
     this.bus.$emit('setDanmuConfig', { speed: val });
+  }
+
+  private mounted() {
+    this.socketioHandler = socketio('http://10.0.0.86:9099');
+    this.socketioHandler.on('connect', () => {
+      this.connectStatus = true;
+      this.socketioHandler.emit('comment_start', this.activityId);
+    });
+    this.socketioHandler.on('comment', (comment: any) => {
+      this.bus.$emit('addDanmu', `${comment.username}: ${comment.content}`);
+    });
+    this.socketioHandler.on('disconnect', () => {
+      this.connectStatus = false;
+    });
+    this.socketioHandler.on('reconnect', () => {
+      this.connectStatus = true;
+    });
   }
 }
 </script>

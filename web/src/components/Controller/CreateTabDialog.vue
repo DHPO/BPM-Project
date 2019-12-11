@@ -20,6 +20,12 @@
           <el-input v-model="questionnaireId" placeholder="请输入问卷星ID"></el-input>
         </el-form-item>
       </template>
+      <!--直播-->
+      <template v-if="showVideo">
+        <el-form-item label="直播链接">
+          <el-input v-model="videoUrl" placeholder="请输入直播链接"></el-input>
+        </el-form-item>
+      </template>
       <el-form-item>
         <el-button type="primary" @click="submit" :disabled="!submitable" :loading="loading">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
@@ -34,6 +40,9 @@ import {
   InteractiveType,
   QuestionnaireConfig,
   InteractiveConfig,
+  VideoConfig,
+  LotteryConfig,
+  LotteryPoolType,
 } from '@/types/interactive';
 import * as interactiveAPI from '@/api/interactive';
 import { ResultStatus } from '../../api/user';
@@ -47,6 +56,14 @@ const options = [
   {
     value: InteractiveType.Slide,
     label: '答题闯关',
+  },
+  {
+    value: InteractiveType.Video,
+    label: '直播',
+  },
+  {
+    value: InteractiveType.Lottery,
+    label: '抽奖',
   },
 ];
 
@@ -62,6 +79,7 @@ export default class CreateTabDialog extends Vue {
   private type: InteractiveType = InteractiveType.Questionnaire;
   private name: string = '';
   private questionnaireId: string = '';
+  private videoUrl = 'http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8';
 
   private loading = false;
 
@@ -92,6 +110,10 @@ export default class CreateTabDialog extends Vue {
     return this.type === InteractiveType.Questionnaire;
   }
 
+  get showVideo() {
+    return this.type === InteractiveType.Video;
+  }
+
   public submit() {
     let config;
     switch (this.type) {
@@ -112,6 +134,27 @@ export default class CreateTabDialog extends Vue {
           config: {
             questions: [],
           },
+        };
+        break;
+      }
+      case InteractiveType.Video: {
+        config = {
+          type: this.type,
+          name: this.name,
+          config: {
+            url: this.videoUrl,
+          },
+        };
+        break;
+      }
+      case InteractiveType.Lottery: {
+        config = {
+          type: this.type,
+          name: this.name,
+          config: {
+            num: 1,
+            type: LotteryPoolType.SignedUser,
+          } as LotteryConfig,
         };
         break;
       }

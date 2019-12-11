@@ -49,6 +49,30 @@
           @switchTab="switchTab"
           @deleteTab="deleteTab"
         />
+        <LotteryController
+          v-if="isLottery(tab.type)"
+          :id="tab.id"
+          :bus="bus"
+          :name="tab.name"
+          :config="tab.config"
+          :activeTabId="activeTabId"
+          :activityId="activityId"
+          @updateConfig="updateConfig"
+          @switchTab="switchTab"
+          @deleteTab="deleteTab"
+        />
+        <VideoController
+          v-if="isVideo(tab.type)"
+          :id="tab.id"
+          :bus="bus"
+          :name="tab.name"
+          :config="tab.config"
+          :activeTabId="activeTabId"
+          :activityId="activityId"
+          @updateConfig="updateConfig"
+          @switchTab="switchTab"
+          @deleteTab="deleteTab"
+        />
       </el-tab-pane>
     </el-tabs>
     <CreateTabDialog :activityId="activityId" ref="createTabDialog" @submit="createNewTab" />
@@ -62,6 +86,8 @@ import CreateTabDialog from './CreateTabDialog.vue';
 import QuestionnaireController from './InteractiveController/QuestionnaireController.vue';
 import SigninController from './InteractiveController/SigninController.vue';
 import SliderController from './InteractiveController/SlideController/SlideController.vue';
+import LotteryController from './InteractiveController/LotteryController/LotteryController.vue';
+import VideoController from './InteractiveController/VideoController.vue';
 import * as interactiveAPI from '@/api/interactive';
 import { ResultStatus } from '../../api/user';
 import { apiErrorMessage } from '../../common/apiErrorMessage';
@@ -72,6 +98,8 @@ import { apiErrorMessage } from '../../common/apiErrorMessage';
     QuestionnaireController,
     SigninController,
     SliderController,
+    LotteryController,
+    VideoController,
   },
 })
 export default class TabController extends Vue {
@@ -84,7 +112,7 @@ export default class TabController extends Vue {
   private activeTab: string = 'signin';
   private activeTabId: string = 'signin';
 
-  private activityId = 1575898405622;
+  private activityId = 1575898405621;
 
   private get tabs() {
     return [
@@ -139,6 +167,14 @@ export default class TabController extends Vue {
     return type === InteractiveType.Slide;
   }
 
+  private isLottery(type: InteractiveType) {
+    return type === InteractiveType.Lottery;
+  }
+
+  private isVideo(type: InteractiveType) {
+    return type === InteractiveType.Video;
+  }
+
   private switchTab(id: string) {
     this.activeTabId = id;
   }
@@ -157,11 +193,13 @@ export default class TabController extends Vue {
       .getInteractive(this.activityId)
       .then((interactives) => {
         this.interactives = interactives;
-        this.syncTab();
         this.$message.success('加载成功');
       })
       .catch((err: ResultStatus) => {
         apiErrorMessage(this, err);
+      })
+      .finally(() => {
+        this.syncTab();
       });
   }
 

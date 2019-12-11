@@ -1,9 +1,11 @@
 <template>
   <el-row type="flex" justify="center">
-    <el-col v-if="state.showQrCode" :span="6">
-      <div id="qrcode-padding"></div>
-      <VueQr id="qrcode" :text="questionnareUrl" :size="300"/>
-      <p>请扫描二维码参与调查</p>
+    <el-col v-if="state.showQrCode" class="wrapper" :span="6">
+      <div>
+        <h1>问卷调查</h1>
+        <VueQr id="qrcode" :text="questionnareUrl" :size="300"/>
+        <p>请扫描二维码参与调查</p>
+      </div>
     </el-col>
     <el-col v-if="state.showResult" :span="18" id="result-wrapper">
       <QuestionnaireResult id="Questionaire" :url="questionnareResultUrl" :enableReload="state.reload"/>
@@ -74,5 +76,17 @@ export default class Questionnare extends Vue {
 
   p {
     text-align: center;
+    font-size: 20px;
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  h1 {
+    font-size: 48px;
   }
 </style>

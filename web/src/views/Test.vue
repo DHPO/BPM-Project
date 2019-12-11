@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Video />
+    <Video url="http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8"/>
   </div>
 </template>
 
@@ -17,3 +17,9 @@ export default class TestView extends Vue {
 
 }
 </script>
+
+<style scoped>
+div {
+  overflow: auto;
+}
+</style>
