@@ -121,7 +121,7 @@ export default class TabController extends Vue {
         name: '签到',
         type: InteractiveType.Signin,
         config: {
-          url: 'http://www.baidu.com',
+          id: this.activityId,
         },
       },
       ...this.interactives,

@@ -3,7 +3,7 @@
     <div id="wrapper">
     <div>
       <h1>扫码签到</h1>
-      <VueQr id="qrcode" :text="url" :size="300" />
+      <VueQr id="qrcode" :text="qrcodeText" :size="300" />
       <p>请扫描二维码签到</p>
     </div>
     </div>
@@ -21,8 +21,15 @@ import VueQr from 'vue-qr';
   },
 })
 export default class Signin extends Vue {
-  @Prop(String)
-  private url!: string;
+  @Prop({required: true})
+  private activityId!: number;
+
+  get qrcodeText() {
+    return JSON.stringify({
+      type: 'checkin',
+      activityId: this.activityId,
+    });
+  }
 }
 </script>
 

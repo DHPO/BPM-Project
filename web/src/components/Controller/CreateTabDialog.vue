@@ -51,7 +51,7 @@ import { apiErrorMessage } from '@/common/apiErrorMessage';
 const options = [
   {
     value: InteractiveType.Questionnaire,
-    label: '问卷',
+    label: '投票',
   },
   {
     value: InteractiveType.Slide,

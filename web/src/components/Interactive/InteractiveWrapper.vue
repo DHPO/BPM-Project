@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Signin v-if="showSignin" :bus="bus" :id="id" :url="interactiveConfig.config.url" />
+    <Signin v-if="showSignin" :bus="bus" :id="id" :activityId="interactiveConfig.config.id" />
     <Questionnaire
       v-if="showQuestionnaire"
       :bus="bus"

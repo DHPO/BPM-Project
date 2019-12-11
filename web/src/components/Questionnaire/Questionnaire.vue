@@ -2,9 +2,9 @@
   <el-row type="flex" justify="center">
     <el-col v-if="state.showQrCode" class="wrapper" :span="6">
       <div>
-        <h1>问卷调查</h1>
-        <VueQr id="qrcode" :text="questionnareUrl" :size="300"/>
-        <p>请扫描二维码参与调查</p>
+        <h1>投票</h1>
+        <VueQr id="qrcode" :text="qrcodeText" :size="300"/>
+        <p>请扫描二维码参与投票</p>
       </div>
     </el-col>
     <el-col v-if="state.showResult" :span="18" id="result-wrapper">
@@ -48,6 +48,13 @@ export default class Questionnare extends Vue {
 
   get questionnareResultUrl() {
     return `https://www.wjx.cn/report/${this.questionnaireId}.aspx`;
+  }
+
+  get qrcodeText() {
+    return JSON.stringify({
+      type: 'vote',
+      url: this.questionnareUrl,
+    });
   }
 
   private updateState(state: StateRequest) {
