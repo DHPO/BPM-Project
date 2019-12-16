@@ -16,6 +16,8 @@ import cn.edu.sjtu.bpmproject.server.enums.ActivityStatus;
 import cn.edu.sjtu.bpmproject.server.enums.RegisteractivityStatus;
 import cn.edu.sjtu.bpmproject.server.exception.NotAllowedException;
 import cn.edu.sjtu.bpmproject.server.service.ActivityService;
+import cn.edu.sjtu.bpmproject.server.service.FriendshipService;
+import cn.edu.sjtu.bpmproject.server.util.CalculateUtil;
 import cn.edu.sjtu.bpmproject.server.util.TimeUtil;
 import cn.edu.sjtu.bpmproject.server.util.UserUtil;
 import cn.edu.sjtu.bpmproject.server.vo.ActivityAddVO;
@@ -26,7 +28,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -53,12 +58,27 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private FriendshipService friendshipService;
+
     @Override
     public Activity addActivity(ActivityAddVO activityAddVO, File photoFile, File contentFile) throws IOException {
         //上传照片和富文本内容
         String photoUrl=photoDao.addPhoto(photoFile);
         String contentUrl=contentDao.addContent(contentFile);
         Activity activity=createActivity(activityAddVO,photoUrl,contentUrl);
+        Activity activity1=activityDao.addActivity(activity);
+        long activityId=activity1.getId();
+
+        //保存活动标签和位置
+        positionDao.addPosition(createPosition(activityAddVO.getLocation(),activityId));
+        tagDao.addTags(activityAddVO.getTags(),activityId);
+        return activity1;
+    }
+
+    @Override
+    public Activity addActivity(ActivityAddVO activityAddVO) {
+        Activity activity=createActivity(activityAddVO,activityAddVO.getPhotoUrl(),activityAddVO.getDescription());
         Activity activity1=activityDao.addActivity(activity);
         long activityId=activity1.getId();
 
@@ -105,7 +125,17 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<Activity> getHotActivities() {
-        return null;
+        List<Activity> activityList=activityDao.getActivitiesByStatus(ActivityStatus.PASSED.ordinal());
+        //热门活动 将活动报名人数/最大报名人数进行排序，比例越大说明越热门
+        activityList.sort((activity1,activity2)->{
+            double rate1 = CalculateUtil.divide(activity1.getRegisternum(),activity1.getPeoplenum());
+            double rate2 = CalculateUtil.divide(activity2.getRegisternum(),activity2.getPeoplenum());
+            //从大到小排序
+            if(rate1>rate2) return -1;
+            else if(rate1<rate2) return 1;
+            return 0;
+        });
+        return activityList;
     }
 
     @Override
@@ -115,7 +145,16 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<Activity> getFriendsActivities() {
-        return null;
+        long userId=UserUtil.getUserId();
+        List<User> userList=friendshipService.getFriends(userId);
+        List<Activity> activityList=new ArrayList<>();
+        for (User user:userList) {
+            List<Registeractivity> registeractivityList=registeractivityDao.getActivitiesByStatus(user.getId(),RegisteractivityStatus.REGISTERED.ordinal());
+            registeractivityList.forEach(registeractivity -> {
+                activityList.add(activityDao.getActivityById(registeractivity.getActivityid()));
+            });
+        }
+        return activityList;
     }
 
     @Override

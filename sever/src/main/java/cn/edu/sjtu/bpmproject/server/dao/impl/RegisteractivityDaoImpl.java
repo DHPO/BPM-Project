@@ -3,10 +3,13 @@ package cn.edu.sjtu.bpmproject.server.dao.impl;
 import cn.edu.sjtu.bpmproject.server.controller.LoginController;
 import cn.edu.sjtu.bpmproject.server.dao.RegisteractivityDao;
 import cn.edu.sjtu.bpmproject.server.entity.Activity;
+import cn.edu.sjtu.bpmproject.server.entity.Friendship;
 import cn.edu.sjtu.bpmproject.server.entity.Registeractivity;
 import cn.edu.sjtu.bpmproject.server.entity.User;
 import cn.edu.sjtu.bpmproject.server.enums.RegisteractivityStatus;
 import cn.edu.sjtu.bpmproject.server.util.ResourceAPI;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -18,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 @Component
 public class RegisteractivityDaoImpl implements RegisteractivityDao{
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(RegisteractivityDaoImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -68,7 +71,7 @@ public class RegisteractivityDaoImpl implements RegisteractivityDao{
             return null;
         }
         registerActivityInfo = jsonObject.getString("Registeractivity");
-        return JSONArray.toList(JSONArray.fromObject(registerActivityInfo), Registeractivity.class);
+        return new Gson().fromJson(registerActivityInfo, new TypeToken<List<Registeractivity>>(){}.getType());
 
     }
 }

@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel(description = "聊天内容")
 public class ChatVO {
-    @ApiModelProperty(value = "用户id")
-    private long userId;
     @ApiModelProperty(value = "好友id")
     private long friendId;
     @ApiModelProperty(value = "好友关系id")

@@ -22,6 +22,12 @@ public class ActivityAddVO {
     @ApiModelProperty(value = "活动标签")
     private List<String> tags;
 
+    @ApiModelProperty(value = "描述")
+    private String description;
+
+    @ApiModelProperty(value = "图片url")
+    private String photoUrl;
+
     @ApiModelProperty(value = "报名开始时间")
     private long registerstarttime;
     @ApiModelProperty(value = "报名结束时间")

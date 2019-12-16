@@ -6,6 +6,9 @@ import cn.edu.sjtu.bpmproject.server.entity.Interaction;
 import cn.edu.sjtu.bpmproject.server.entity.User;
 import cn.edu.sjtu.bpmproject.server.util.ResourceAPI;
 import cn.edu.sjtu.bpmproject.server.vo.InteractionVO;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -19,7 +22,7 @@ import java.util.List;
 @Component
 public class InteractionDaoImpl implements InteractionDao{
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(InteractionDaoImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -43,8 +46,11 @@ public class InteractionDaoImpl implements InteractionDao{
         if(!jsonObject.has("Interaction")){
             return null;
         }
-        interactions = jsonObject.getString("Interaction");
-        return (List<Interaction>) JSONArray.toList(JSONArray.fromObject(interactions), Interaction.class);
+        interactions=interactions.substring(0,interactions.length()-1);
+        interactions =interactions.replace("{\"Interaction\":","");
+        LOGGER.info("interactions："+interactions);
+        Gson gson=new Gson();
+        return gson.fromJson(interactions, new TypeToken<List<Interaction>>(){}.getType());
     }
 
     @Override
@@ -57,5 +63,11 @@ public class InteractionDaoImpl implements InteractionDao{
     public Interaction getInteractionById(long interactionId) {
         String url=ResourceAPI.RMP_URL+INTERACTION+interactionId;
         return restTemplate.getForObject(url,Interaction.class);
+    }
+
+    @Override
+    public void delelteInteraction(long interactionId) {
+        String url= ResourceAPI.RMP_URL+INTERACTION+interactionId;
+        restTemplate.delete(url);
     }
 }

@@ -17,6 +17,7 @@ import java.util.List;
 
 public interface ActivityService {
     public Activity addActivity(ActivityAddVO activityAddVO, File photoFile, File contentFile) throws IOException;
+    public Activity addActivity(ActivityAddVO activityAddVO);
 
     public void deleteActivity(long activityId);
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api")
 public class StatisticController {
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(StatisticController.class);
 
     @ApiOperation(value = "管理员获取活动粒度的统计分析", notes = "管理员获取活动粒度的统计分析")
     @RequestMapping(value = "/statistic/activities", method = RequestMethod.GET)

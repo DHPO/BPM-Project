@@ -22,7 +22,7 @@ import java.io.IOException;
 
 @Component
 public class ContentDaoImpl implements ContentDao{
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ContentDaoImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;

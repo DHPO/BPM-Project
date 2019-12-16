@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api")
 public class RegisterActivityController {
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(RegisterActivityController.class);
 
     @Autowired
     private ActivityService activityService;

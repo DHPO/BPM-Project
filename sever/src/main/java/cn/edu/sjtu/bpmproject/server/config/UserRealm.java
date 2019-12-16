@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 @Component
 public class UserRealm extends AuthorizingRealm {
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class) ;
+    private static Logger LOGGER = LoggerFactory.getLogger(UserRealm.class) ;
 
     @Autowired
     private UserService userService;

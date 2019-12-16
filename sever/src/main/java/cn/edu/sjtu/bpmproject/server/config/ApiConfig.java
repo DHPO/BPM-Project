@@ -37,7 +37,7 @@ import java.security.cert.X509Certificate;
 
 @Configuration
 public class ApiConfig {
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ApiConfig.class);
 
     @Bean
     public RestTemplate restTemplate(ClientHttpRequestFactory factory) {

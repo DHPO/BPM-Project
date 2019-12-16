@@ -36,7 +36,7 @@ import java.util.List;
 @RequestMapping(value = "/api")
 public class ActivityController {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ActivityController.class);
 
     @Autowired
     private ActivityService activityService;
@@ -120,6 +120,17 @@ public class ActivityController {
         return new ResultVO<>(ResultStatus.SUCCESS.ordinal(), activity);
     }
 
+
+    @ApiOperation(value = "添加活动(缩减版接口)", notes = "添加活动")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "返回活动信息")
+    })
+    @RequestMapping(value = "/activity/add", method = RequestMethod.POST)
+    public ResultVO<Activity> addActivity(@RequestBody ActivityAddVO activityAddVO) throws IOException {
+        Activity activity = activityService.addActivity(activityAddVO);
+        return new ResultVO<>(ResultStatus.SUCCESS.ordinal(), activity);
+    }
+
     @ApiOperation(value = "修改活动信息", notes = "修改活动信息")
     @ApiImplicitParam(name = "activity", value = "活动信息")
     @RequestMapping(value = "/activity/update", method = RequestMethod.POST)
@@ -145,8 +156,8 @@ public class ActivityController {
     @ApiOperation(value = "获取热门活动", notes = "获取热门活动")
     @RequestMapping(value = "/activity/hot", method = RequestMethod.GET)
     public ResultVO<List<Activity>> getHotActivities() {
-        // TODO
-        return null;
+        List<Activity> activityList=activityService.getHotActivities();
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
     @ApiOperation(value = "获取附近的活动", notes = "获取附近的活动")
@@ -159,8 +170,8 @@ public class ActivityController {
     @ApiOperation(value = "获取好友报名的活动", notes = "获取好友报名的活动")
     @RequestMapping(value = "/activity/friends", method = RequestMethod.GET)
     public ResultVO<List<Activity>> getFriendsActivities() {
-        // TODO
-        return null;
+        List<Activity> activityList=activityService.getFriendsActivities();
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
     @ApiOperation(value = "获取综合推荐的活动", notes = "获取综合推荐的活动")

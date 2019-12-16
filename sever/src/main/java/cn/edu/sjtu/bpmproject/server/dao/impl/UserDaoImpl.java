@@ -2,8 +2,11 @@ package cn.edu.sjtu.bpmproject.server.dao.impl;
 
 import cn.edu.sjtu.bpmproject.server.controller.LoginController;
 import cn.edu.sjtu.bpmproject.server.dao.UserDao;
+import cn.edu.sjtu.bpmproject.server.entity.Tag;
 import cn.edu.sjtu.bpmproject.server.entity.User;
 import cn.edu.sjtu.bpmproject.server.util.ResourceAPI;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.sf.json.JSONArray;
@@ -22,7 +25,7 @@ import java.util.Map;
 
 @Component
 public class UserDaoImpl implements UserDao {
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -52,8 +55,8 @@ public class UserDaoImpl implements UserDao {
             return null;
         }
         userInfo = jsonObject.getString("User");
-        User user=((List<User>) JSONArray.toList(JSONArray.fromObject(userInfo), User.class)).get(0);
-        return user;
+        List<User> userList=new Gson().fromJson(userInfo, new TypeToken<List<User>>(){}.getType());
+        return  userList.get(0);
     }
 
     @Override

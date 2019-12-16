@@ -29,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api")
 public class FriendshipController {
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(FriendshipController.class);
 
     @Autowired
     private FriendshipService friendshipService;
@@ -71,5 +71,13 @@ public class FriendshipController {
         friendshipService.deleteFriend(friendId);
         return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
     }
+
+    @ApiOperation(value = "用户获得好友关系", notes = "用户获得好友列表")
+    @RequestMapping(value = "/friendship", method = RequestMethod.GET)
+    public ResultVO<Friendship> getFriendship(@RequestParam(value = "friendId") long friendId) {
+        Friendship friendship=friendshipService.getFriendship(friendId);
+        return new ResultVO<>(ResultStatus.SUCCESS.ordinal(),friendship);
+    }
+
 
 }
