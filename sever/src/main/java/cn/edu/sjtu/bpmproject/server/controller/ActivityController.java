@@ -156,8 +156,8 @@ public class ActivityController {
     @ApiOperation(value = "获取热门活动", notes = "获取热门活动")
     @RequestMapping(value = "/activity/hot", method = RequestMethod.GET)
     public ResultVO<List<Activity>> getHotActivities() {
-        // TODO
-        return null;
+        List<Activity> activityList=activityService.getHotActivities();
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
     @ApiOperation(value = "获取附近的活动", notes = "获取附近的活动")
@@ -170,8 +170,8 @@ public class ActivityController {
     @ApiOperation(value = "获取好友报名的活动", notes = "获取好友报名的活动")
     @RequestMapping(value = "/activity/friends", method = RequestMethod.GET)
     public ResultVO<List<Activity>> getFriendsActivities() {
-        // TODO
-        return null;
+        List<Activity> activityList=activityService.getFriendsActivities();
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
     @ApiOperation(value = "获取综合推荐的活动", notes = "获取综合推荐的活动")

@@ -14,4 +14,6 @@ public class Comment {
     private long commenttime;
     private long activityid;
     private long userid;
+    private double positive_prob;
+    private double negative_prob;
 }

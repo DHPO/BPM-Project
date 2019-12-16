@@ -31,7 +31,7 @@ public class FileController {
 
     @ApiOperation(value = "上传图片", notes = "上传图片")
     @RequestMapping(value = "/photo", method = RequestMethod.POST)
-    public ResultVO<String> uploadPhoto(@RequestPart(value = "photo") MultipartFile photo) throws IOException {
+    public ResultVO<String> uploadPhoto(@RequestPart(value = "img") MultipartFile photo) throws IOException {
         String url= photoDao.addPhoto(FileUtil.transferFile(photo));
         return new ResultVO<>(ResultStatus.SUCCESS,url);
     }

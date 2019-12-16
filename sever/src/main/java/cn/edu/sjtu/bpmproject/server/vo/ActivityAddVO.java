@@ -22,8 +22,8 @@ public class ActivityAddVO {
     @ApiModelProperty(value = "活动标签")
     private List<String> tags;
 
-    @ApiModelProperty(value = "描述url")
-    private String descriptionUrl;
+    @ApiModelProperty(value = "描述")
+    private String description;
 
     @ApiModelProperty(value = "图片url")
     private String photoUrl;
