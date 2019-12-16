@@ -43,7 +43,13 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { apiErrorMessage } from '@/common/apiErrorMessage';
 import * as interactiveAPI from '@/api/interactive';
-import { InteractiveType, LotteryConfig, LotteryState, LotteryRunningState, LotteryPoolType } from '@/types/interactive';
+import {
+  InteractiveType,
+  LotteryConfig,
+  LotteryState,
+  LotteryRunningState,
+  LotteryPoolType,
+} from '@/types/interactive';
 import { ResultStatus } from '@/api/user';
 import * as activityAPI from '@/api/activity';
 import { User } from '../../../../types/user';

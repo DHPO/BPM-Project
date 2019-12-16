@@ -1,16 +1,16 @@
 <template>
   <div>
-    <Video url="http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8"/>
+    <Editor/>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
-import Video from '@/components/Interactive/Video.vue';
+import Editor from '@/components/ActivityEditor/editor.vue';
 
 @Component({
   components: {
-    Video,
+    Editor,
   },
 })
 export default class TestView extends Vue {

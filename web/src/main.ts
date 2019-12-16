@@ -12,6 +12,15 @@ Vue.use(ElementUI);
 import barrage from 'vue2-barrage';
 Vue.use(barrage);
 
+// @ts-ignore
+import VueAMap from 'vue-amap';
+Vue.use(VueAMap);
+VueAMap.initAMapApiLoader({
+  key: '00085a636239c8938dbef932ffe5c78d',
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.Autocomplete', 'Amap.PlaceSearch'],
+  v: '1.4.15',
+});
+
 new Vue({
   router,
   store,
