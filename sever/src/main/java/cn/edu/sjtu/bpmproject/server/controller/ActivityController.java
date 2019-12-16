@@ -36,7 +36,7 @@ import java.util.List;
 @RequestMapping(value = "/api")
 public class ActivityController {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ActivityController.class);
 
     @Autowired
     private ActivityService activityService;
@@ -117,6 +117,17 @@ public class ActivityController {
         ActivityAddVO activityAddVO = (ActivityAddVO) JSONObject.toBean(jsonObject, ActivityAddVO.class);
         LOGGER.info("activityAddVO:" + activityAddVO);
         Activity activity = activityService.addActivity(activityAddVO, FileUtil.transferFile(photo), FileUtil.transferFile(description));
+        return new ResultVO<>(ResultStatus.SUCCESS.ordinal(), activity);
+    }
+
+
+    @ApiOperation(value = "添加活动(缩减版接口)", notes = "添加活动")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "返回活动信息")
+    })
+    @RequestMapping(value = "/activity/add", method = RequestMethod.POST)
+    public ResultVO<Activity> addActivity(@RequestBody ActivityAddVO activityAddVO) throws IOException {
+        Activity activity = activityService.addActivity(activityAddVO);
         return new ResultVO<>(ResultStatus.SUCCESS.ordinal(), activity);
     }
 

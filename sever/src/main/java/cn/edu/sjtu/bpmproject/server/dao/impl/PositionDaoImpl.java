@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class PositionDaoImpl implements PositionDao{
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(PositionDaoImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;

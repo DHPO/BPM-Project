@@ -13,4 +13,7 @@ public interface InteractionDao {
     public void updateInteraction(Interaction interaction);
 
     public Interaction getInteractionById(long interactionId);
+
+    public void delelteInteraction(long interactionId);
+
 }

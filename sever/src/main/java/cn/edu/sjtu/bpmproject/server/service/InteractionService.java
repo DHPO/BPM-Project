@@ -15,6 +15,8 @@ public interface InteractionService {
 
     public void updateInteraction(Interaction interaction);
 
+    public void delelteInteraction(long interactionId);
+
     public void startInteraction(long interactionId);
 
     public void endInteraction(long interactionId) ;

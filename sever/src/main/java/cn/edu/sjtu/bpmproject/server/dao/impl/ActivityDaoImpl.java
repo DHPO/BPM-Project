@@ -7,6 +7,8 @@ import cn.edu.sjtu.bpmproject.server.entity.Friendship;
 import cn.edu.sjtu.bpmproject.server.enums.FriendshipStatus;
 import cn.edu.sjtu.bpmproject.server.util.ResourceAPI;
 import cn.edu.sjtu.bpmproject.server.util.TimeUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -19,7 +21,7 @@ import java.util.List;
 
 @Component
 public class ActivityDaoImpl  implements ActivityDao{
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ActivityDaoImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -91,6 +93,6 @@ public class ActivityDaoImpl  implements ActivityDao{
             return null;
         }
         activities = jsonObject.getString("Activity");
-        return JSONArray.toList(JSONArray.fromObject(activities), Activity.class);
+        return new Gson().fromJson(activities, new TypeToken<List<Activity>>(){}.getType());
     }
 }

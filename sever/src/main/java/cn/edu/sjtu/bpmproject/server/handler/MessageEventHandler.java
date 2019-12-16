@@ -3,7 +3,10 @@ package cn.edu.sjtu.bpmproject.server.handler;
 import java.util.UUID;
 
 import cn.edu.sjtu.bpmproject.server.controller.LoginController;
+import cn.edu.sjtu.bpmproject.server.entity.Chat;
 import cn.edu.sjtu.bpmproject.server.entity.PushMessage;
+import cn.edu.sjtu.bpmproject.server.util.UserUtil;
+import cn.edu.sjtu.bpmproject.server.vo.ChatVO;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.annotation.OnDisconnect;
@@ -47,7 +50,7 @@ public class MessageEventHandler{
 
     }
 
-    //注册房间
+    //弹幕活动注册房间
     @OnEvent("comment_start")
     public void commentStart(SocketIOClient client, AckRequest request, String activityId) {
         UUID socketSessionId = client.getSessionId();
@@ -56,8 +59,19 @@ public class MessageEventHandler{
         LOGGER.info("client comment start, room:{}, socketSessionId:{}, ip:{}", activityId, socketSessionId, ip);
 
         // 客户端一订阅，就马上push一次
-        pushMessageToAll(new PushMessage(0,"系统","请发弹幕",Long.valueOf(activityId)));
+//        pushMessageToAll(new PushMessage(0,"系统","请发弹幕",Long.valueOf(activityId)));
     }
+
+
+    //聊天注册房间
+    @OnEvent("chat_start")
+    public void chatStart(SocketIOClient client, AckRequest request, String friendshipId) {
+        UUID socketSessionId = client.getSessionId();
+        String ip = client.getRemoteAddress().toString();
+        client.joinRoom(friendshipId);
+        LOGGER.info("client comment start, room:{}, socketSessionId:{}, ip:{}", friendshipId, socketSessionId, ip);
+    }
+
 
 
     //服务器向所有客户端发弹幕
@@ -65,5 +79,12 @@ public class MessageEventHandler{
         String activityId=String.valueOf(pushMessage.getActivityId());
         socketIOServer.getRoomOperations(activityId).sendEvent("comment", pushMessage);
         LOGGER.info(pushMessage.getUserId()+" : pushMsg success!");
+    }
+
+    //向好友发消息
+    public static void sendChatMsg(Chat chat) {
+        String friendshipId=String.valueOf(chat.getFriendshipid());
+        socketIOServer.getRoomOperations(friendshipId).sendEvent("chat", chat);
+        LOGGER.info("{} send {} success! friendship id: {}",chat.getUserid(),chat.getContent(),chat.getFriendshipid());
     }
 }

@@ -56,4 +56,10 @@ public class FriendshipServiceImpl implements FriendshipService {
             friendship=friendshipDao.hasFriend(friendId,userId);
         friendshipDao.deleteFriend(friendship.getId());
     }
+
+    @Override
+    public Friendship getFriendship(long friendId) {
+        long userId= UserUtil.getUserId();
+        return friendshipDao.hasFriend(userId,friendId);
+    }
 }

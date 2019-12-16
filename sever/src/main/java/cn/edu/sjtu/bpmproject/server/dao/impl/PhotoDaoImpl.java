@@ -23,7 +23,7 @@ import java.io.IOException;
 @Component
 public class PhotoDaoImpl implements PhotoDao {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(PhotoDaoImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;

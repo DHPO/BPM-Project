@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping(value = "/api")
 public class UserController {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;

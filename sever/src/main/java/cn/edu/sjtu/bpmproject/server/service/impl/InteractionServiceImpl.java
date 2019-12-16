@@ -40,6 +40,11 @@ public class InteractionServiceImpl implements InteractionService{
     }
 
     @Override
+    public void delelteInteraction(long interactionId) {
+        interactionDao.delelteInteraction(interactionId);
+    }
+
+    @Override
     public void startInteraction(long interactionId) {
         Interaction interaction=interactionDao.getInteractionById(interactionId);
         interaction.setStarttime(TimeUtil.getTime());

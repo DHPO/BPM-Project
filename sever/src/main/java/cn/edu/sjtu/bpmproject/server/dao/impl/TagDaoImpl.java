@@ -3,8 +3,11 @@ package cn.edu.sjtu.bpmproject.server.dao.impl;
 import cn.edu.sjtu.bpmproject.server.controller.LoginController;
 import cn.edu.sjtu.bpmproject.server.dao.TagDao;
 import cn.edu.sjtu.bpmproject.server.entity.Activity;
+import cn.edu.sjtu.bpmproject.server.entity.Interaction;
 import cn.edu.sjtu.bpmproject.server.entity.Tag;
 import cn.edu.sjtu.bpmproject.server.util.ResourceAPI;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -17,7 +20,7 @@ import java.util.List;
 
 @Component
 public class TagDaoImpl implements TagDao{
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(TagDaoImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -42,6 +45,6 @@ public class TagDaoImpl implements TagDao{
             return null;
         }
         tags = jsonObject.getString("Tag");
-        return JSONArray.toList(JSONArray.fromObject(tags), Tag.class);
+        return new Gson().fromJson(tags, new TypeToken<List<Tag>>(){}.getType());
     }
 }

@@ -69,6 +69,18 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public Activity addActivity(ActivityAddVO activityAddVO) {
+        Activity activity=createActivity(activityAddVO,activityAddVO.getPhotoUrl(),activityAddVO.getDescriptionUrl());
+        Activity activity1=activityDao.addActivity(activity);
+        long activityId=activity1.getId();
+
+        //保存活动标签和位置
+        positionDao.addPosition(createPosition(activityAddVO.getLocation(),activityId));
+        tagDao.addTags(activityAddVO.getTags(),activityId);
+        return activity1;
+    }
+
+    @Override
     public void deleteActivity(long activityId) {
         activityDao.deleteActivity(activityId);
     }

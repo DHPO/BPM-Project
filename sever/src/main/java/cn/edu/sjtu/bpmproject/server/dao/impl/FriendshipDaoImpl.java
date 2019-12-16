@@ -3,10 +3,13 @@ package cn.edu.sjtu.bpmproject.server.dao.impl;
 import cn.edu.sjtu.bpmproject.server.controller.LoginController;
 import cn.edu.sjtu.bpmproject.server.dao.FriendshipDao;
 import cn.edu.sjtu.bpmproject.server.entity.Friendship;
+import cn.edu.sjtu.bpmproject.server.entity.Interaction;
 import cn.edu.sjtu.bpmproject.server.entity.User;
 import cn.edu.sjtu.bpmproject.server.enums.FriendshipStatus;
 import cn.edu.sjtu.bpmproject.server.util.ResourceAPI;
 import cn.edu.sjtu.bpmproject.server.util.TimeUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -20,7 +23,7 @@ import java.util.List;
 
 @Component
 public class FriendshipDaoImpl implements FriendshipDao {
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(FriendshipDaoImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -45,7 +48,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
         }
         friendshipInfo = jsonObject.getString("Friendship");
         LOGGER.info("getSubFriendships: "+friendshipInfo);
-        return JSONArray.toList(JSONArray.fromObject(friendshipInfo), Friendship.class);
+        return new Gson().fromJson(friendshipInfo, new TypeToken<List<Friendship>>(){}.getType());
     }
 
     @Override
@@ -68,7 +71,8 @@ public class FriendshipDaoImpl implements FriendshipDao {
             return null;
         }
         friendshipInfo = jsonObject.getString("Friendship");
-        Friendship friendship=((List<Friendship>) JSONArray.toList(JSONArray.fromObject(friendshipInfo), Friendship.class)).get(0);
+        List<Friendship> friendshipList=new Gson().fromJson(friendshipInfo, new TypeToken<List<Friendship>>(){}.getType());
+        Friendship friendship=friendshipList.get(0);
         LOGGER.info("has friendshipInfo ："+friendship);
         return friendship;
     }

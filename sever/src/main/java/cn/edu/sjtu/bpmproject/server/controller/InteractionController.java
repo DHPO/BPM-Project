@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api")
 public class InteractionController {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(InteractionController.class);
 
     @Autowired
     private InteractionService interactionService;
@@ -31,6 +31,8 @@ public class InteractionController {
         InteractionVO interactionVO1=interactionService.addInteractions(interactionVO);
         return new ResultVO<>(ResultStatus.SUCCESS,interactionVO1);
     }
+
+
 
     @ApiOperation(value = "获取互动信息", notes = "获取互动信息")
     @RequestMapping(value = "/interaction", method = RequestMethod.GET)
@@ -43,6 +45,13 @@ public class InteractionController {
     @RequestMapping(value = "/interaction/update", method = RequestMethod.POST)
     public ResultVO<String> updateInteraction( @RequestBody Interaction interaction) {
         interactionService.updateInteraction(interaction);
+        return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
+    }
+
+    @ApiOperation(value = "删除互动信息", notes = "删除互动信息")
+    @RequestMapping(value = "/interaction/{interactionId}", method = RequestMethod.DELETE)
+    public ResultVO<String> deleteInteraction(@PathVariable("interactionId") long interactionId) {
+        interactionService.delelteInteraction(interactionId);
         return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
     }
 

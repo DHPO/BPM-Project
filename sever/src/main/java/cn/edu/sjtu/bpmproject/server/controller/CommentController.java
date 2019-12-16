@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api")
 public class CommentController {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
 
 
     @ApiOperation(value = "用户发弹幕", notes = "用户发弹幕")
