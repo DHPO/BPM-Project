@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <el-card id="card">
     <Editor/>
-  </div>
+  </el-card>
 </template>
 
 <script lang="ts">
@@ -21,5 +21,10 @@ export default class TestView extends Vue {
 <style scoped>
 div {
   overflow: auto;
+}
+#card {
+  width: 60vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

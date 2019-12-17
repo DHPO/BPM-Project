@@ -1,25 +1,29 @@
 <template>
-  <div id="wrapper">
-    <el-input :value="address" @focus="show"></el-input>
+  <div>
+    <el-input :value="address" @focus="show" placeholder="请输入定位地址"></el-input>
     <el-dialog ref="dialog" id="dialog" :visible.sync="visible">
-      <el-form label-width="100px">
-        <el-form-item class="clear" label="地址">
-          <div class="el-input el-input--medium">
-            <input class="el-input__inner" id="tipinput" placeholder="请输入地址"/>
-          </div>
-        </el-form-item>
-        <el-form-item class="clear" label="地图" style="height: 300px">
-          <div id="map">
-            <el-amap
-              ref="map"
-              :amap-manager="amapManager"/>
-          </div>
-        </el-form-item>
-        <el-form-item label="">
-          <el-button size="small" type="primary" :disabled="!submitable" @click="submit">确定</el-button>
-          <el-button size="small" @click="visible=false">取消</el-button>
-        </el-form-item>
-      </el-form>
+      <el-row>
+        <el-col :span="24">
+          <el-form label-width="100px">
+            <el-form-item class="clear" label="地址">
+              <div class="el-input el-input--medium">
+                <input class="el-input__inner" id="tipinput" placeholder="请输入地址"/>
+              </div>
+            </el-form-item>
+            <el-form-item class="clear" label="地图" style="height: 300px">
+              <div id="map">
+                <el-amap
+                  ref="map"
+                  :amap-manager="amapManager"/>
+              </div>
+            </el-form-item>
+            <el-form-item label="">
+              <el-button size="small" type="primary" :disabled="!submitable" @click="submit">确定</el-button>
+              <el-button size="small" @click="visible=false">取消</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
     </el-dialog>
   </div>
 </template>
@@ -110,6 +114,7 @@ export default class GeoInput extends Vue {
 .clear {
   clear: both;
   width: 80%;
+  margin-bottom: 20px !important;
 }
 
 input#tipinput {
@@ -122,7 +127,7 @@ input#tipinput {
   z-index: 3000!important;
 }
 
-#dialog .el-dialog__body {
-  height: 60vh;
+#dialog {
+  z-index: 2500;
 }
 </style>
