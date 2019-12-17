@@ -1,6 +1,6 @@
 package cn.edu.sjtu.bpmproject.server.util;
 
-public class BaiduAPIUtil {
+public class NlpAPIUtil {
 
     public static final String APP_ID = "18037529";
     public static final String API_KEY = "ZVjyoPq9nIBFnTVTTluiOSvI";

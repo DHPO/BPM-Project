@@ -12,4 +12,5 @@ public interface RegisteractivityDao {
     public void register( Registeractivity registeractivity);
     public List<Registeractivity> getActivitiesByStatus(long userId, int registerActivityStatus);
     public List<Registeractivity> getCheckedinUsers(long activityId,int registerActivityStatus);
+    public List<Registeractivity> getActivitiesByUser(long userId);
 }

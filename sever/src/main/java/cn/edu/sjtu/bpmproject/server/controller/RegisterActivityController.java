@@ -37,6 +37,13 @@ public class RegisterActivityController {
         return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
     }
 
+    @ApiOperation(value = "活动是否已经签到", notes = "活动是否已经签到")
+    @RequestMapping(value = "/activity/isCheckedin", method = RequestMethod.POST)
+    public ResultVO<Boolean> isCheckedin(@RequestParam("activityId") long activityId) {
+        boolean check=activityService.isCheckedin(activityId);
+        return new ResultVO<>(ResultStatus.SUCCESS,check);
+    }
+
     @ApiOperation(value = "活动报名", notes = "活动报名")
     @RequestMapping(value = "/activity/register", method = RequestMethod.POST)
     public ResultVO<String> register(@RequestParam("activityId") long activityId) {
@@ -70,7 +77,7 @@ public class RegisterActivityController {
         return new ResultVO<>(ResultStatus.SUCCESS,checkResult);
     }
 
-    @ApiOperation(value = "用户根据状态(已报名/已签到)获取活动", notes = "用户根据状态(已报名/已签到)获取活动")
+    @ApiOperation(value = "用户根据状态(已报名 0 /已签到 2 )获取活动", notes = "用户根据状态(已报名/已签到)获取活动")
     @RequestMapping(value = "/activity/userstatus", method = RequestMethod.GET)
     public ResultVO<List<Activity>> getActivitiesByRegisterActivityStatus(@RequestParam("status") int status) {
         List<Activity> activityList=activityService.getActivitiesByUserStatus(status);

@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.shiro.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class ActivityDaoImpl  implements ActivityDao{
     @Override
     public Activity addActivity(Activity activity) {
         String url= ResourceAPI.RMP_URL+ACTIVITY;
+        LOGGER.info("add activity ："+activity);
         Activity activity1=restTemplate.postForObject(url,activity,Activity.class);
         LOGGER.info("add activity result："+activity1);
         return activity1;
@@ -60,7 +62,10 @@ public class ActivityDaoImpl  implements ActivityDao{
 
     @Override
     public List<Activity> queryActivityByKeywords(String keyword) {
-        String url= ResourceAPI.RMP_URL+ACTIVITY+"?Activity.name=(like)"+keyword;
+        String url=ResourceAPI.RMP_URL+ACTIVITY;
+        if(org.apache.commons.lang.StringUtils.isNotBlank(keyword)) {
+            url+="?Activity.name=(like)"+keyword;
+        }
         return getActivities(url);
     }
 

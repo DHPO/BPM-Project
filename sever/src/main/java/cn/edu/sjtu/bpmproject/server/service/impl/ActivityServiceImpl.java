@@ -17,10 +17,13 @@ import cn.edu.sjtu.bpmproject.server.enums.RegisteractivityStatus;
 import cn.edu.sjtu.bpmproject.server.exception.NotAllowedException;
 import cn.edu.sjtu.bpmproject.server.service.ActivityService;
 import cn.edu.sjtu.bpmproject.server.service.FriendshipService;
+import cn.edu.sjtu.bpmproject.server.util.CFUtil;
 import cn.edu.sjtu.bpmproject.server.util.CalculateUtil;
+import cn.edu.sjtu.bpmproject.server.util.LocationUtil;
 import cn.edu.sjtu.bpmproject.server.util.TimeUtil;
 import cn.edu.sjtu.bpmproject.server.util.UserUtil;
 import cn.edu.sjtu.bpmproject.server.vo.ActivityAddVO;
+import cn.edu.sjtu.bpmproject.server.vo.ActivityDetailVO;
 import cn.edu.sjtu.bpmproject.server.vo.PositionVO;
 import cn.edu.sjtu.bpmproject.server.vo.RecommendConditionVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +64,9 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private FriendshipService friendshipService;
 
+    @Autowired
+    private CFUtil cfUtil;
+
     @Override
     public Activity addActivity(ActivityAddVO activityAddVO, File photoFile, File contentFile) throws IOException {
         //上传照片和富文本内容
@@ -78,7 +84,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public Activity addActivity(ActivityAddVO activityAddVO) {
-        Activity activity=createActivity(activityAddVO,activityAddVO.getPhotoUrl(),activityAddVO.getDescription());
+        Activity activity=createActivity(activityAddVO,activityAddVO.getPhotourl(),activityAddVO.getDescriptionurl());
         Activity activity1=activityDao.addActivity(activity);
         long activityId=activity1.getId();
 
@@ -109,13 +115,28 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public Activity updateActivity(Activity activity) {
-        return activityDao.updateActivity(activity);
+    public void updateActivity(long activityId,ActivityAddVO activityAddVO) {
+        Activity activity=activityDao.getActivityById(activityId);
+        activity=activityAddVO.transferToActivity(activity);
+        activityDao.updateActivity(activity);
     }
 
     @Override
     public Activity getActivityById(long activityId) {
         return activityDao.getActivityById(activityId);
+    }
+
+    @Override
+    public ActivityDetailVO getActivityDetailInfoById(long activityId) {
+        Activity activity=activityDao.getActivityById(activityId);
+        Position position=positionDao.getPositionByActivityId(activityId);
+        PositionVO positionVO=new PositionVO(position.getLocation(),position.getLongtitude(),position.getLatitude());
+        List<Tag> tagList=tagDao.getTagsByActivityId(activityId);
+        List<String> tags=new ArrayList<>();
+        for (Tag tag:tagList) {
+            tags.add(tag.getName());
+        }
+        return new ActivityDetailVO(activity,positionVO,tags);
     }
 
     @Override
@@ -126,6 +147,9 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<Activity> getHotActivities() {
         List<Activity> activityList=activityDao.getActivitiesByStatus(ActivityStatus.PASSED.ordinal());
+        if(activityList==null){
+            return null;
+        }
         //热门活动 将活动报名人数/最大报名人数进行排序，比例越大说明越热门
         activityList.sort((activity1,activity2)->{
             double rate1 = CalculateUtil.divide(activity1.getRegisternum(),activity1.getPeoplenum());
@@ -139,8 +163,23 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<Activity> getNearbyActivities(PositionVO positionVO) {
-        return null;
+    public List<Activity> getNearbyActivities(PositionVO userPos) {
+        List<Activity> activityList=activityDao.getActivitiesByStatus(ActivityStatus.PASSED.ordinal());
+        if(activityList==null){
+            return null;
+        }
+        //将距离从近到远进行排序
+        activityList.sort((activity1,activity2)->{
+            Position position1=positionDao.getPositionByActivityId(activity1.getId());
+            Position position2=positionDao.getPositionByActivityId(activity2.getId());
+            double distance1 = LocationUtil.getDistance(position1.getLatitude(),position1.getLongtitude(),userPos.getLatitude(),userPos.getLongtitude());
+            double distance2 = LocationUtil.getDistance(position2.getLatitude(),position2.getLongtitude(),userPos.getLatitude(),userPos.getLongtitude());
+            //从小到大排序
+            if(distance1>distance2) return 1;
+            else if(distance1<distance2) return -1;
+            return 0;
+        });
+        return activityList;
     }
 
     @Override
@@ -150,6 +189,7 @@ public class ActivityServiceImpl implements ActivityService {
         List<Activity> activityList=new ArrayList<>();
         for (User user:userList) {
             List<Registeractivity> registeractivityList=registeractivityDao.getActivitiesByStatus(user.getId(),RegisteractivityStatus.REGISTERED.ordinal());
+            if (registeractivityList==null) continue;
             registeractivityList.forEach(registeractivity -> {
                 activityList.add(activityDao.getActivityById(registeractivity.getActivityid()));
             });
@@ -159,7 +199,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<Activity> getRecommendActivities(RecommendConditionVO recommendConditionVO) {
-        return null;
+        return cfUtil.recommend(recommendConditionVO);
     }
 
     @Override
@@ -182,7 +222,7 @@ public class ActivityServiceImpl implements ActivityService {
         Activity activity=getActivityById( activityId);
         activity.setAttendnum(activity.getAttendnum()+1);
         activity.setUpdatetime(TimeUtil.getTime());
-        updateActivity(activity);
+        activityDao.updateActivity(activity);
 
         //更新用户签到状态
         Registeractivity registeractivity= registeractivityDao.getRegisteractivity(userId,activityId);
@@ -194,9 +234,25 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public boolean isCheckedin(long activityId) {
+        long userId=UserUtil.getUserId();
+        //判断用户签到状态
+        Registeractivity registeractivity= registeractivityDao.getRegisteractivity(userId,activityId);
+        if (registeractivity==null){
+            throw new NotAllowedException("未报名用户不能签到！");
+        }
+
+        if(registeractivity.getStatus()==RegisteractivityStatus.CHECKED_IN.ordinal()){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void register(Activity activity, Registeractivity registeractivity) {
         activityDao.updateActivity(activity);
         registeractivityDao.register(registeractivity);
+        cfUtil.updateUserTags(activity.getId());
     }
 
 
