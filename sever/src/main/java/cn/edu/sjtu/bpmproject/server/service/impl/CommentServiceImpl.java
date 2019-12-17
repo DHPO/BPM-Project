@@ -4,7 +4,7 @@ import cn.edu.sjtu.bpmproject.server.dao.CommentDao;
 import cn.edu.sjtu.bpmproject.server.entity.Comment;
 import cn.edu.sjtu.bpmproject.server.entity.PushMessage;
 import cn.edu.sjtu.bpmproject.server.service.CommentService;
-import cn.edu.sjtu.bpmproject.server.util.BaiduAPIUtil;
+import cn.edu.sjtu.bpmproject.server.util.NlpAPIUtil;
 import cn.edu.sjtu.bpmproject.server.util.TimeUtil;
 import com.baidu.aip.nlp.AipNlp;
 import org.json.JSONObject;
@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 public class CommentServiceImpl implements CommentService{
 
-    private AipNlp client = new AipNlp(BaiduAPIUtil.APP_ID, BaiduAPIUtil.API_KEY, BaiduAPIUtil.SECRET_KEY);
+    private AipNlp client = new AipNlp(NlpAPIUtil.APP_ID, NlpAPIUtil.API_KEY, NlpAPIUtil.SECRET_KEY);
 
     @Autowired
     private CommentDao commentDao;

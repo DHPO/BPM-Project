@@ -8,4 +8,6 @@ public interface TagDao {
     public void addTags(List<String> tagList, long activityId);
 
     public List<Tag> getTagsByName(String name);
+    public List<Tag> getTagsByActivityId( long activityId);
+    public List<Tag> getTags();
 }

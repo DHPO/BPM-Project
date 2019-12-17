@@ -62,6 +62,12 @@ public class RegisteractivityDaoImpl implements RegisteractivityDao{
         return getRegisteractivity(url);
     }
 
+    @Override
+    public List<Registeractivity> getActivitiesByUser(long userId) {
+        String url= ResourceAPI.RMP_URL+REGISTERACTIVITY+"?Registeractivity.userid="+userId;
+        return getRegisteractivity(url);
+    }
+
 
     private List<Registeractivity> getRegisteractivity(String url){
         String registerActivityInfo=restTemplate.getForObject(url,String.class);

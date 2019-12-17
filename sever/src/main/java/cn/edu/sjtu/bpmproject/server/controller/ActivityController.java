@@ -2,11 +2,13 @@ package cn.edu.sjtu.bpmproject.server.controller;
 
 
 import cn.edu.sjtu.bpmproject.server.entity.Activity;
+import cn.edu.sjtu.bpmproject.server.entity.Position;
 import cn.edu.sjtu.bpmproject.server.enums.ActivityStatus;
 import cn.edu.sjtu.bpmproject.server.enums.ResultStatus;
 import cn.edu.sjtu.bpmproject.server.service.ActivityService;
 import cn.edu.sjtu.bpmproject.server.util.FileUtil;
 import cn.edu.sjtu.bpmproject.server.vo.ActivityAddVO;
+import cn.edu.sjtu.bpmproject.server.vo.ActivityDetailVO;
 import cn.edu.sjtu.bpmproject.server.vo.PositionVO;
 import cn.edu.sjtu.bpmproject.server.vo.RecommendConditionVO;
 import cn.edu.sjtu.bpmproject.server.vo.ResultVO;
@@ -82,7 +84,7 @@ public class ActivityController {
     @ApiOperation(value = "根据关键词查询活动，如果关键词为空，则返回所有的活动", notes = "查询活动")
     @ApiImplicitParam(name = "keyword", value = "查询关键词")
     @RequestMapping(value = "/activity", method = RequestMethod.GET)
-    public ResultVO<List<Activity>> queryActivityByKeywords(@RequestParam(value = "keyword") String keyword) {
+    public ResultVO<List<Activity>> queryActivityByKeywords(@RequestParam(value = "keyword",required = false) String keyword) {
         List<Activity> activityList=activityService.queryActivityByKeywords(keyword);
         return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
@@ -132,18 +134,18 @@ public class ActivityController {
     }
 
     @ApiOperation(value = "修改活动信息", notes = "修改活动信息")
-    @ApiImplicitParam(name = "activity", value = "活动信息")
-    @RequestMapping(value = "/activity/update", method = RequestMethod.POST)
-    public ResultVO<Activity> updateActivity(@RequestBody Activity activity){
-        Activity activity1=activityService.updateActivity(activity);
-        return new ResultVO<>(ResultStatus.SUCCESS,activity1);
+    @RequestMapping(value = "/activity/{activityId}", method = RequestMethod.POST)
+    public ResultVO<String> updateActivity(@PathVariable(value = "activityId") long activityId,@RequestBody ActivityAddVO activityAddVO){
+        activityService.updateActivity(activityId,activityAddVO);
+        return new ResultVO<>(ResultStatus.SUCCESS,ResultStatus.getStatus(ResultStatus.SUCCESS));
     }
 
     @ApiOperation(value = "根据活动ID获取活动信息", notes = "根据活动ID获取活动信息")
     @RequestMapping(value = "/activity/{activityId}", method = RequestMethod.GET)
-    public ResultVO<Activity> getActivityById(@PathVariable(value = "activityId") long activityId) {
-        Activity activity=activityService.getActivityById(activityId);
-        return new ResultVO<>(ResultStatus.SUCCESS,activity);
+    public ResultVO<ActivityDetailVO> getActivityById(@PathVariable(value = "activityId") long activityId) {
+        ActivityDetailVO activityDetailVO=activityService.getActivityDetailInfoById(activityId);
+        LOGGER.info("getActivityById: "+activityDetailVO);
+        return new ResultVO<>(ResultStatus.SUCCESS,activityDetailVO);
     }
 
     @ApiOperation(value = "获取活动组织者的所有活动", notes = "获取活动组织者的所有活动")
@@ -163,8 +165,8 @@ public class ActivityController {
     @ApiOperation(value = "获取附近的活动", notes = "获取附近的活动")
     @RequestMapping(value = "/activity/nearby", method = RequestMethod.GET)
     public ResultVO<List<Activity>> getNearbyActivities(@RequestBody PositionVO positionVO) {
-        // TODO
-        return null;
+        List<Activity> activityList=activityService.getNearbyActivities(positionVO);
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
     @ApiOperation(value = "获取好友报名的活动", notes = "获取好友报名的活动")
@@ -174,11 +176,11 @@ public class ActivityController {
         return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
-    @ApiOperation(value = "获取综合推荐的活动", notes = "获取综合推荐的活动")
+    @ApiOperation(value = "获取综合推荐的活动(最多推荐10个活动)", notes = "获取综合推荐的活动")
     @RequestMapping(value = "/activity/recommend", method = RequestMethod.GET)
     public ResultVO<List<Activity>> getRecommendActivities(@RequestBody RecommendConditionVO recommendConditionVO) {
-        // TODO
-        return null;
+        List<Activity> activityList=activityService.getRecommendActivities(recommendConditionVO);
+        return new ResultVO<>(ResultStatus.SUCCESS,activityList);
     }
 
     @ApiOperation(value = "根据标签获取活动", notes = "根据标签获取活动")

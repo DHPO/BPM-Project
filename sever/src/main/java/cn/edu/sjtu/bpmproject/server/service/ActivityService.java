@@ -4,6 +4,7 @@ import cn.edu.sjtu.bpmproject.server.entity.Activity;
 import cn.edu.sjtu.bpmproject.server.entity.Registeractivity;
 import cn.edu.sjtu.bpmproject.server.entity.User;
 import cn.edu.sjtu.bpmproject.server.vo.ActivityAddVO;
+import cn.edu.sjtu.bpmproject.server.vo.ActivityDetailVO;
 import cn.edu.sjtu.bpmproject.server.vo.PositionVO;
 import cn.edu.sjtu.bpmproject.server.vo.RecommendConditionVO;
 import cn.edu.sjtu.bpmproject.server.vo.ResultVO;
@@ -27,9 +28,11 @@ public interface ActivityService {
 
     public List<Activity> queryActivityByKeywords( String keyword);
 
-    public Activity updateActivity( Activity activity);
+    public void updateActivity( long activityId,ActivityAddVO activityAddVO);
 
     public Activity getActivityById( long activityId);
+
+    public ActivityDetailVO getActivityDetailInfoById(long activityId);
 
     public List<Activity> getActivitiesByOrganizerId(long organizerId);
 
@@ -45,11 +48,14 @@ public interface ActivityService {
 
 
     public void checkin( long activityId);
+    public boolean isCheckedin( long activityId);
     public void register(Activity activity, Registeractivity registeractivity);
     public List<Activity> getActivitiesByUserStatus( int registerActivityStatus);
 
     public List<User> getCheckedInUsers(long activityId);
 
     public boolean registercheck(long activityId);
+
+
 
 }

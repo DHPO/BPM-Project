@@ -39,6 +39,22 @@ public class TagDaoImpl implements TagDao{
     @Override
     public List<Tag> getTagsByName(String name) {
         String url=ResourceAPI.RMP_URL+TAG+"?Tag.name="+name;
+        return getTags(url);
+    }
+
+    @Override
+    public List<Tag> getTagsByActivityId(long activityId) {
+        String url=ResourceAPI.RMP_URL+TAG+"?Tag.activityid="+activityId;
+        return getTags(url);
+    }
+
+    @Override
+    public List<Tag> getTags() {
+        String url=ResourceAPI.RMP_URL+TAG;
+        return getTags(url);
+    }
+
+    private List<Tag> getTags(String url){
         String tags=restTemplate.getForObject(url,String.class);
         JSONObject jsonObject = JSONObject.fromObject(tags);
         if(!jsonObject.has("Tag")){
