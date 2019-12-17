@@ -93,7 +93,7 @@ import tag from './tag.vue';
 import RichEditor from './richEditor.vue';
 import { ActivityAddVO, ActivityVO } from '../../types/activity';
 import { addActivity } from '@/api/activity';
-import { uploadRichText } from '@/api/file';
+import { uploadRichText, fetchRichText } from '@/api/file';
 import { apiErrorMessage } from '../../common/apiErrorMessage';
 
 @Component({
@@ -116,6 +116,8 @@ export default class ActivityEditor extends Vue {
 
   private registerTime: [Date?, Date?] = [];
   private activityTime: [Date?, Date?] = [];
+
+  private backupActivity: any;
 
   private handleGeoSubmit(location: any) {
     this.gpsLocation = location.location;
@@ -198,8 +200,15 @@ export default class ActivityEditor extends Vue {
       });
   }
 
-  private load(activityVO: ActivityVO) {
-
+  private async load(activityVO: ActivityVO) {
+    this.backupActivity = activityVO;
+    this.name = activityVO.name;
+    this.activityTime = [new Date(activityVO.starttime), new Date(activityVO.endtime)];
+    this.registerTime = [new Date(activityVO.registerstarttime), new Date(activityVO.registerendtime)];
+    [this.gpsLocation, this.detailLocation] = activityVO.location.split(',')
+    this.photoUrl = activityVO.photourl;
+    this.description = await fetchRichText(activityVO.descriptionurl);
+    this.peoplenum = activityVO.peoplenum;
   }
 
 }

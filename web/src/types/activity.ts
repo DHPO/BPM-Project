@@ -28,10 +28,6 @@ export interface ActivityVO {
   registerstarttime: number;
   registerendtime: number;
   photourl: string;
-  location: {
-    location: string;
-    longitude: number;
-    latitude: number;
-  };
+  location: string;
   tags: string[];
 }

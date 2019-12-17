@@ -68,6 +68,11 @@ export default class GeoInput extends Vue {
     this.visible = false;
   }
 
+  public getGps(gpsLocation: string) {
+    const placeSearch = new AMap.PlaceSearch()
+    placeSearch.search(gpsLocation)
+  }
+
   private mounted() {
     this.dialog.open = () => {
       lazyAMapApiLoaderInstance.load().then(() => {

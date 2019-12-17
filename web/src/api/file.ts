@@ -29,3 +29,8 @@ export async function uploadRichText(content: string) {
     throw err.response.data.status;
   });
 }
+
+export async function fetchRichText(url: string) {
+  return axios.get(url)
+    .then((res) => res.data)
+}
