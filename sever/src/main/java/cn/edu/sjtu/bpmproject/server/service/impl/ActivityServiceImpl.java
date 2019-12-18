@@ -96,7 +96,14 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public void deleteActivity(long activityId) {
+
         activityDao.deleteActivity(activityId);
+        List<Tag>tags=tagDao.getTagsByActivityId(activityId);
+        for (Tag tag:tags){
+            tagDao.deleteTags(tag.getId());
+        }
+        Position position=positionDao.getPositionByActivityId(activityId);
+        positionDao.deletePosition(position.getId());
     }
 
     @Override
@@ -130,11 +137,16 @@ public class ActivityServiceImpl implements ActivityService {
     public ActivityDetailVO getActivityDetailInfoById(long activityId) {
         Activity activity=activityDao.getActivityById(activityId);
         Position position=positionDao.getPositionByActivityId(activityId);
-        PositionVO positionVO=new PositionVO(position.getLocation(),position.getLongtitude(),position.getLatitude());
+        PositionVO positionVO=new PositionVO();
+        if(position!=null){
+            positionVO=new PositionVO(position.getLocation(),position.getLongitude(),position.getLatitude());
+        }
         List<Tag> tagList=tagDao.getTagsByActivityId(activityId);
         List<String> tags=new ArrayList<>();
-        for (Tag tag:tagList) {
-            tags.add(tag.getName());
+        if(tagList!=null){
+            for (Tag tag:tagList) {
+                tags.add(tag.getName());
+            }
         }
         return new ActivityDetailVO(activity,positionVO,tags);
     }
@@ -172,8 +184,8 @@ public class ActivityServiceImpl implements ActivityService {
         activityList.sort((activity1,activity2)->{
             Position position1=positionDao.getPositionByActivityId(activity1.getId());
             Position position2=positionDao.getPositionByActivityId(activity2.getId());
-            double distance1 = LocationUtil.getDistance(position1.getLatitude(),position1.getLongtitude(),userPos.getLatitude(),userPos.getLongtitude());
-            double distance2 = LocationUtil.getDistance(position2.getLatitude(),position2.getLongtitude(),userPos.getLatitude(),userPos.getLongtitude());
+            double distance1 = LocationUtil.getDistance(position1.getLatitude(),position1.getLongitude(),userPos.getLatitude(),userPos.getLongitude());
+            double distance2 = LocationUtil.getDistance(position2.getLatitude(),position2.getLongitude(),userPos.getLatitude(),userPos.getLongitude());
             //从小到大排序
             if(distance1>distance2) return 1;
             else if(distance1<distance2) return -1;
@@ -310,7 +322,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     private Position createPosition(PositionVO positionVO,long activityId){
-        Position position=new Position(0,positionVO.getLocation(),positionVO.getLongtitude(),positionVO.getLatitude(),activityId);
+        Position position=new Position(0,positionVO.getLocation(),positionVO.getLongitude(),positionVO.getLatitude(),activityId);
         return position;
     }
 }

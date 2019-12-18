@@ -12,7 +12,7 @@ public class PositionVO {
     @ApiModelProperty(value = "具体地点")
     private String location;
     @ApiModelProperty(value = "经度")
-    private double longtitude;
+    private double longitude;
     @ApiModelProperty(value = "纬度")
     private double latitude;
 }

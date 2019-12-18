@@ -10,4 +10,6 @@ public interface ContentDao {
     public Content saveContent(long activityId);
 
     public String addContent( File contentFile) throws IOException;
+
+    public String getContent(String url) throws IOException;
 }

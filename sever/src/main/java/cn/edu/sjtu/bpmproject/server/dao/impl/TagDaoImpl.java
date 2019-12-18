@@ -54,6 +54,12 @@ public class TagDaoImpl implements TagDao{
         return getTags(url);
     }
 
+    @Override
+    public void deleteTags(long tagId) {
+        String url= ResourceAPI.RMP_URL+TAG+tagId;
+        restTemplate.delete(url);
+    }
+
     private List<Tag> getTags(String url){
         String tags=restTemplate.getForObject(url,String.class);
         JSONObject jsonObject = JSONObject.fromObject(tags);

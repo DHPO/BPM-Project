@@ -2,9 +2,7 @@ package cn.edu.sjtu.bpmproject.server.dao.impl;
 
 import cn.edu.sjtu.bpmproject.server.controller.LoginController;
 import cn.edu.sjtu.bpmproject.server.dao.PositionDao;
-import cn.edu.sjtu.bpmproject.server.entity.Activity;
 import cn.edu.sjtu.bpmproject.server.entity.Position;
-import cn.edu.sjtu.bpmproject.server.entity.Tag;
 import cn.edu.sjtu.bpmproject.server.util.ResourceAPI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -50,6 +48,12 @@ public class PositionDaoImpl implements PositionDao{
         return null;
     }
 
+    @Override
+    public void deletePosition(long id) {
+        String url= ResourceAPI.RMP_URL+POSITION+id;
+        restTemplate.delete(url);
+    }
+
     private List<Position> getPositions(String url){
         String positions=restTemplate.getForObject(url,String.class);
         JSONObject jsonObject = JSONObject.fromObject(positions);
@@ -57,7 +61,7 @@ public class PositionDaoImpl implements PositionDao{
             return null;
         }
         positions = jsonObject.getString("Position");
-        return new Gson().fromJson(positions, new TypeToken<List<Tag>>(){}.getType());
+        return new Gson().fromJson(positions, new TypeToken<List<Position>>(){}.getType());
     }
 
 }

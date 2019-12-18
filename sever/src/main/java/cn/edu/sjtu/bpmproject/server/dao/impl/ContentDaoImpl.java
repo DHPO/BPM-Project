@@ -5,6 +5,7 @@ import cn.edu.sjtu.bpmproject.server.dao.ContentDao;
 import cn.edu.sjtu.bpmproject.server.entity.Content;
 import cn.edu.sjtu.bpmproject.server.entity.Photo;
 import cn.edu.sjtu.bpmproject.server.util.ResourceAPI;
+import cn.edu.sjtu.bpmproject.server.util.RestTemplateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,12 @@ public class ContentDaoImpl implements ContentDao{
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
         LOGGER.info("ContentDaoImpl addContent responseEntity: "+responseEntity.getBody());
         return url.replace("Entity","file");
+    }
+
+    public String getContent(String url) throws IOException{
+        RestTemplate restTemplate= RestTemplateUtil.getInstance("utf-8");
+        String content= restTemplate.getForObject(url,String.class);
+        LOGGER.info("content: "+content);
+        return content;
     }
 }
