@@ -1,10 +1,13 @@
 <template>
-  <div>
+  <div v-if="loadDone">
     <h1>活动编辑</h1>
     <el-divider class="divider" content-position="left">基本信息</el-divider>
       <el-row>
         <el-col :span="12">
           <el-form label-width="100px" size="small">
+            <el-form-item v-show="id" label="活动ID">
+              {{id}}
+            </el-form-item>
             <el-form-item class="clear" label="活动名称">
               <el-input
                 v-model="name"
@@ -75,7 +78,7 @@
     <el-divider class="divider" content-position="left">活动详情</el-divider>
     <div id="description-wrapper">
       <rich-editor
-        :content="description"
+        :defaultContent="description"
         @submit="handleDescriptionSubmit"
       />
     </div>
@@ -86,13 +89,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import ImageUploader from './uploader.vue';
 import geoInput from './geoInput.vue';
 import tag from './tag.vue';
 import RichEditor from './richEditor.vue';
-import { ActivityAddVO, ActivityVO } from '../../types/activity';
-import { addActivity } from '@/api/activity';
+import { ActivityAddVO, ActivityVO, ActivityDetailVO } from '../../types/activity';
+import { addActivity, updateActivity } from '@/api/activity';
 import { uploadRichText, fetchRichText } from '@/api/file';
 import { apiErrorMessage } from '../../common/apiErrorMessage';
 
@@ -105,6 +108,18 @@ import { apiErrorMessage } from '../../common/apiErrorMessage';
   },
 })
 export default class ActivityEditor extends Vue {
+  @Prop({default: undefined})
+  private activityVO: ActivityDetailVO | undefined;
+
+  get id() {
+    if (this.activityVO) {
+      return this.activityVO.activity.id;
+    }
+    return undefined;
+  }
+
+  private loadDone = false;
+
   private name = '';
   private description = '';
   private gps: any;
@@ -190,27 +205,43 @@ export default class ActivityEditor extends Vue {
             ...this.gps,
           },
         };
-        return addActivity(activityVO);
+        if (!this.id) {
+          return addActivity(activityVO);
+        } else {
+          return updateActivity(this.id, activityVO);
+        }
       })
       .then(() => {
           this.$message.success('提交成功');
         })
-      .catch((err) => {
+      .catch((err: any) => {
         apiErrorMessage(this, err);
       });
   }
 
-  private async load(activityVO: ActivityVO) {
+  private async load(activityVO: ActivityDetailVO) {
     this.backupActivity = activityVO;
-    this.name = activityVO.name;
-    this.activityTime = [new Date(activityVO.starttime), new Date(activityVO.endtime)];
-    this.registerTime = [new Date(activityVO.registerstarttime), new Date(activityVO.registerendtime)];
-    [this.gpsLocation, this.detailLocation] = activityVO.location.split(',')
-    this.photoUrl = activityVO.photourl;
-    this.description = await fetchRichText(activityVO.descriptionurl);
-    this.peoplenum = activityVO.peoplenum;
+    this.name = activityVO.activity.name;
+    this.activityTime = [new Date(activityVO.activity.starttime), new Date(activityVO.activity.endtime)];
+    this.registerTime = [new Date(activityVO.activity.registerstarttime), new Date(activityVO.activity.registerendtime)];
+    [this.gpsLocation, this.detailLocation] = activityVO.position.location.split(',');
+    this.gps = {
+      longitude: activityVO.position.longitude,
+      latitude: activityVO.position.latitude,
+    };
+    this.photoUrl = activityVO.activity.photourl;
+    this.peoplenum = activityVO.activity.peoplenum;
+    this.tags = activityVO.tags;
+    this.description = await fetchRichText(activityVO.activity.descriptionurl);
   }
 
+  private created() {
+    if (this.activityVO) {
+      this.load(this.activityVO)
+      .then(() => this.loadDone = true);
+    }
+    this.loadDone = true;
+  }
 }
 </script>
 

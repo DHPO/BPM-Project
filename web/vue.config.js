@@ -4,12 +4,13 @@ module.exports = {
   devServer: {
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Method': 'POST,GET'
+      'Access-Control-Allow-Method': 'POST,GET',
+      "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
     },
     proxy: {
       '/api': {
-        target: 'http://10.0.0.92:8080',
-        // target: 'http://10.162.72.24:8080'
+        // target: 'http://10.0.0.92:8080',
+        target: 'http://10.162.72.24:8080'
       }
     }
   },

@@ -31,7 +31,7 @@
 <script lang="ts">
 // @ts-ignore
 import { AMapManager, lazyAMapApiLoaderInstance } from 'vue-amap';
-import { Component, Vue, Ref } from 'vue-property-decorator';
+import { Component, Vue, Ref, Prop } from 'vue-property-decorator';
 
 const amapManager = new AMapManager();
 
@@ -41,6 +41,9 @@ declare const AMap: any;
 export default class GeoInput extends Vue {
   @Ref('dialog')
   private dialog!: any;
+
+  @Prop()
+  private locationStr!: string;
 
   private amapManager = amapManager;
 
@@ -69,8 +72,12 @@ export default class GeoInput extends Vue {
   }
 
   public getGps(gpsLocation: string) {
-    const placeSearch = new AMap.PlaceSearch()
-    placeSearch.search(gpsLocation)
+    const placeSearch = new AMap.PlaceSearch();
+    placeSearch.search(gpsLocation);
+  }
+
+  private created() {
+    this.address = this.locationStr;
   }
 
   private mounted() {

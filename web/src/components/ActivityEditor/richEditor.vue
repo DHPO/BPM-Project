@@ -18,7 +18,7 @@ import { quillEditor, Quill } from 'vue-quill-editor';
 import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module';
 // @ts-ignore
 import ImageResize from 'quill-image-resize-module';
-import { Component, Vue, Ref, Watch } from 'vue-property-decorator';
+import { Component, Vue, Ref, Watch, Prop } from 'vue-property-decorator';
 
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
@@ -37,6 +37,9 @@ import { uploadRichText } from '@/api/file';
 export default class Editor extends Vue {
   @Ref('quill')
   private quill: any;
+
+  @Prop({default: ''})
+  private defaultContent!: string;
 
   private updateUrl = '/api/photo';
 
@@ -72,6 +75,14 @@ export default class Editor extends Vue {
   @Watch('content')
   private onContentChange(newVal: string) {
     this.$emit('submit', newVal);
+  }
+  @Watch('defaultContent')
+  private onDefaultContentChange(content: string) {
+    this.content = this.defaultContent;
+  }
+
+  private created() {
+    this.content = this.defaultContent;
   }
 }
 </script>

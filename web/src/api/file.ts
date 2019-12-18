@@ -31,6 +31,8 @@ export async function uploadRichText(content: string) {
 }
 
 export async function fetchRichText(url: string) {
-  return axios.get(url)
-    .then((res) => res.data)
+  return axios.get(`/api/content?url=${url}`)
+    .then((res) => {
+      return res.data.data;
+    });
 }

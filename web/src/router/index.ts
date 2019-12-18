@@ -5,6 +5,7 @@ import Login from '../views/Login.vue';
 import Test from '../views/Test.vue';
 import Controller from '../components/Controller/Controller.vue';
 import Interactive from '../components/Interactive/Interactive.vue';
+import ActivityEditView from '../views/ActivityEditView.vue';
 
 Vue.use(VueRouter);
 
@@ -13,7 +14,20 @@ const routes = [
     path: '/',
     name: 'main',
     component: Main,
-    children: [],
+    children: [
+      {
+        path: 'activity/edit/:id',
+        component: ActivityEditView,
+        props: true,
+      },
+      {
+        path: 'activity/edit',
+        component: ActivityEditView,
+        props: {
+          id: null,
+        },
+      },
+    ],
   },
   {
     path: '/login',

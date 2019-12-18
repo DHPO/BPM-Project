@@ -1,4 +1,4 @@
-import { ActivityAddVO } from './../types/activity';
+import { ActivityAddVO, ActivityDetailVO, ActivityVO } from './../types/activity';
 import axios from 'axios';
 import { ResultStatus } from './user';
 
@@ -24,7 +24,7 @@ export async function getCheckinUsers(activityId: number) {
   });
 }
 
-export async function addActivity(activity: ActivityAddVO) {
+export async function addActivity(activity: ActivityAddVO): Promise<ActivityVO> {
   const url = '/api/activity/add';
   return axios.post(url, activity)
   .then((res) => {
@@ -40,4 +40,40 @@ export async function addActivity(activity: ActivityAddVO) {
     }
     throw err.response.data.status;
   });
+}
+
+export async function updateActivity(id: number, activity: ActivityAddVO): Promise<ActivityVO> {
+  const url = `/api/activity/${id}`;
+  return axios.post(url, activity)
+  .then((res) => {
+    if (res.data.status === ResultStatus.Success) {
+      return res.data.data;
+    } else {
+      throw res.data.status as ResultStatus;
+    }
+  })
+  .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
+    throw err.response.data.status;
+  });
+}
+
+export async function getActivity(activityId: number): Promise<ActivityDetailVO> {
+  const url = `/api/activity/${activityId}`;
+  return axios.get(url)
+    .then((res) => {
+      if (res.data.status === ResultStatus.Success) {
+        return res.data.data;
+      } else {
+        throw res.data.status as ResultStatus;
+      }
+    })
+    .catch((err) => {
+      if (err.status === 500) {
+        throw ResultStatus.SystemError;
+      }
+      throw err.response.data.status;
+    });
 }

@@ -7,7 +7,9 @@
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload"
   >
-    <el-image id="image" v-if="imageUrl" :src="imageUrl" fit="contain" class="avatar" />
+    <el-image id="image" v-if="url" :src="url" fit="contain" class="avatar">
+      <div slot="placeholder">加载中</div>
+    </el-image>
     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
   </el-upload>
 </template>
@@ -51,23 +53,18 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({})
 export default class ImageUploader extends Vue {
   @Prop({default: ''})
-  private imageUrl = '';
+  private imageUrl!: string;
+
+  get url() {
+    return this.imageUrl;
+  }
 
   private handleAvatarSuccess(res: {data: string}) {
     this.$emit('submit', res.data);
   }
 
   private beforeAvatarUpload(file: any) {
-    const isJPG = file.type === 'image/jpeg';
-    const isLt2M = file.size / 1024 / 1024 < 2;
-
-    if (!isJPG) {
-      this.$message.error('上传头像图片只能是 JPG 格式!');
-    }
-    if (!isLt2M) {
-      this.$message.error('上传头像图片大小不能超过 2MB!');
-    }
-    return isJPG && isLt2M;
+    return true;
   }
 }
 </script>

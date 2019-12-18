@@ -51,13 +51,16 @@
 </style>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({})
 export default class Tags extends Vue {
   private dynamicTags: string[] = [];
   private inputVisible = false;
   private inputValue = '';
+
+  @Prop({default: []})
+  private tags!: string[];
 
   public handleClose(tag: string) {
     this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
@@ -78,6 +81,10 @@ export default class Tags extends Vue {
     }
     this.inputVisible = false;
     this.inputValue = '';
+  }
+
+  private created() {
+    this.dynamicTags = this.tags;
   }
 }
 </script>

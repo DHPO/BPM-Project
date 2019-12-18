@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-menu default-active="1" class="el-menu-demo" mode="horizontal">
+  <el-menu id="menu" default-active="1" class="el-menu-demo" mode="horizontal">
     <li class="el-menu-item title">去玩吧</li>
     <el-menu-item index="1">处理中心</el-menu-item>
     <el-submenu index="2">
@@ -17,10 +17,10 @@
     </el-submenu>
     <el-menu-item index="3" disabled>消息中心</el-menu-item>
     <li class="el-menu-item right">
-      <el-avatar icon="el-icon-user-solid"></el-avatar>
+      <el-link>登录</el-link>
     </li>
   </el-menu>
-  <router-view></router-view>
+  <router-view id="view"></router-view>
 </div>
 </template>
 
@@ -34,4 +34,11 @@
     float: right !important;
     margin-right: 50px !important;
   }
+
+  /* #menu {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    margin-top: 0px !important;
+  } */
 </style>
