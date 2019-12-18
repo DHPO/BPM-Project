@@ -13,7 +13,7 @@ public class Position {
     private long id;
     private String location;
 
-    private double longtitude;
+    private double longitude;
     private double latitude;
 
     private long activityid;

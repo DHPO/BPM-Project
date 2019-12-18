@@ -1,8 +1,10 @@
 package cn.edu.sjtu.bpmproject.server.controller;
 
 
+import cn.edu.sjtu.bpmproject.server.dao.TagDao;
 import cn.edu.sjtu.bpmproject.server.entity.Activity;
 import cn.edu.sjtu.bpmproject.server.entity.Position;
+import cn.edu.sjtu.bpmproject.server.entity.Tag;
 import cn.edu.sjtu.bpmproject.server.enums.ActivityStatus;
 import cn.edu.sjtu.bpmproject.server.enums.ResultStatus;
 import cn.edu.sjtu.bpmproject.server.service.ActivityService;
@@ -188,6 +190,16 @@ public class ActivityController {
     public ResultVO<List<Activity>> getActivitiesByTag(@RequestParam("tag") String tag) {
         List<Activity> activityList=activityService.getActivitiesByTag(tag);
         return new ResultVO<>(ResultStatus.SUCCESS,activityList);
+    }
+
+    @ApiOperation(value = "删除所有活动", notes = "删除所有活动")
+    @RequestMapping(value = "/activity", method = RequestMethod.DELETE)
+    public ResultVO<String> deleteAllActivities() {
+        List<Activity> activityList=activityService.queryActivityByKeywords("");
+        for (Activity activity:activityList){
+            activityService.deleteActivity(activity.getId());
+        }
+        return new ResultVO<>(ResultStatus.SUCCESS,"删除完成");
     }
 
 

@@ -9,4 +9,6 @@ public interface PositionDao {
     public Position getPositionById(long positionId);
 
     public Position getPositionByActivityId(long activityId);
+
+    public void deletePosition(long id);
 }

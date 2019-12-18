@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,5 +42,12 @@ public class FileController {
     public ResultVO<String> uploadFile(@RequestPart(value = "content") MultipartFile content) throws IOException {
         String url= contentDao.addContent(FileUtil.transferFile(content));
         return new ResultVO<>(ResultStatus.SUCCESS,url);
+    }
+
+    @ApiOperation(value = "获取内容", notes = "上传内容")
+    @RequestMapping(value = "/content", method = RequestMethod.GET)
+    public ResultVO<String> getFileContent(@RequestParam(value = "url") String url) throws IOException {
+        String content= contentDao.getContent(url);
+        return new ResultVO<>(ResultStatus.SUCCESS,content);
     }
 }

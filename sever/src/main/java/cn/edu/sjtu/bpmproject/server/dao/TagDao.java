@@ -10,4 +10,5 @@ public interface TagDao {
     public List<Tag> getTagsByName(String name);
     public List<Tag> getTagsByActivityId( long activityId);
     public List<Tag> getTags();
+    public void deleteTags(long tagId);
 }
