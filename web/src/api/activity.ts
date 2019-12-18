@@ -1,4 +1,4 @@
-import { ActivityAddVO, ActivityDetailVO, ActivityVO } from './../types/activity';
+import { ActivityAddVO, ActivityDetailVO, ActivityVO, ActivityStatus } from './../types/activity';
 import axios from 'axios';
 import { ResultStatus } from './user';
 
@@ -65,7 +65,7 @@ export async function getActivity(activityId: number): Promise<ActivityDetailVO>
   return axios.get(url)
     .then((res) => {
       if (res.data.status === ResultStatus.Success) {
-        return res.data.data;
+        return res.data.data as ActivityDetailVO;
       } else {
         throw res.data.status as ResultStatus;
       }
@@ -76,4 +76,87 @@ export async function getActivity(activityId: number): Promise<ActivityDetailVO>
       }
       throw err.response.data.status;
     });
+}
+
+export async function approveActivity(activityId: number, approve: boolean) {
+  const url = `/api/activity/check/${activityId}`;
+  return axios.post(url, {}, {
+    params: {
+      activityStatus: approve ? ActivityStatus.Passed : ActivityStatus.Unpassed,
+    },
+  }).then((res) => {
+    if (res.data.status === ResultStatus.Success) {
+      return res.data.data;
+    } else {
+      throw res.data.status as ResultStatus;
+    }
+  })
+  .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
+    throw err.response.data.status;
+  });
+}
+
+export async function getCheckList() {
+  const url = '/api/activity/check';
+  return axios.get(url)
+  .then((res) => {
+    if (res.data.status === ResultStatus.Success) {
+      return res.data.data as ActivityVO[];
+    } else {
+      throw res.data.status as ResultStatus;
+    }
+  })
+  .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
+    throw err.response.data.status;
+  });
+}
+
+export async function getActivityByKeyword(keyword: string) {
+  const url = '/api/activity';
+  return axios.get(url, {
+    params: {
+      keyword,
+    },
+  })
+  .then((res) => {
+    if (res.data.status === ResultStatus.Success) {
+      return res.data.data as ActivityVO[];
+    } else {
+      throw res.data.status as ResultStatus;
+    }
+  })
+  .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
+    throw err.response.data.status;
+  });
+}
+
+export async function getActivityByTag(tag: string) {
+  const url = '/api/activity/tag';
+  return axios.get(url, {
+    params: {
+      tag,
+    },
+  })
+  .then((res) => {
+    if (res.data.status === ResultStatus.Success) {
+      return res.data.data as ActivityVO[];
+    } else {
+      throw res.data.status as ResultStatus;
+    }
+  })
+  .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
+    throw err.response.data.status;
+  });
 }

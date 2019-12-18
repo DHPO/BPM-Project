@@ -2,15 +2,17 @@
   <div>
     <el-divider class="divider" content-position="left">基本信息</el-divider>
       <el-row>
-        <el-col :span="12">
+        <el-col :span="14">
           <el-form label-width="100px" size="small">
             <el-form-item class="clear" label="活动名称">
               {{name}}
             </el-form-item>
+            <el-form-item class="clear" label="活动状态">
+              <status-tag :status="status" />
+            </el-form-item>
             <el-form-item class="clear" label="活动标签">
               <tag
               :tags="tags"
-              @submit="handleTagsSubmit"
               class="full-width"/>
             </el-form-item>
             <el-form-item class="clear" label="活动地点">
@@ -20,14 +22,14 @@
               {{peoplenum}}
             </el-form-item>
             <el-form-item class="clear" label="报名起止时间">
-              {{new Date(registerStartTime)}} - {{new Date(registerEndTime)}}
+              {{new Date(registerStartTime).toLocaleString()}} - {{new Date(registerEndTime).toLocaleString()}}
             </el-form-item>
             <el-form-item class="clear" label="活动起止时间">
-              {{new Date(activityStartTime)}} - {{new Date(activityEndTime)}}
+              {{new Date(activityStartTime).toLocaleString()}} - {{new Date(activityEndTime).toLocaleString()}}
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="10">
           <el-form label-position="top" label-width="100px">
             <el-form-item label="活动海报" style="text-align: left">
               <el-image :src="photoUrl"></el-image>
@@ -44,13 +46,20 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue, Ref} from 'vue-property-decorator';
+import {Component, Vue, Ref, Prop} from 'vue-property-decorator';
 import { ActivityDetailVO } from '../../types/activity';
 import { fetchRichText } from '../../api/file';
+import tag from './tag.vue';
+import StatusTag from './activityStatusTag.vue';
 
-@Component({})
+@Component({
+  components: {
+    tag,
+    StatusTag,
+  },
+})
 export default class ActivityViewer extends Vue {
-  @Ref()
+  @Prop()
   private activity!: ActivityDetailVO;
 
   private descriptionContent = '';
@@ -91,9 +100,32 @@ export default class ActivityViewer extends Vue {
     return this.activity.activity.photourl;
   }
 
+  get status() {
+    return this.activity.activity.status;
+  }
+
   private created() {
     fetchRichText(this.activity.activity.descriptionurl)
       .then((content) => this.descriptionContent = content);
   }
 }
 </script>
+
+<style scoped>
+.clear {
+  clear: both;
+  width: 80%;
+  height: max-content;
+}
+
+.full-width {
+  width: 90% !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#description-wrapper {
+  margin: 0px 40px;
+  text-align: left;
+}
+</style>

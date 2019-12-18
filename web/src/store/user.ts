@@ -2,6 +2,7 @@ import { UserAuth, UserStatus, UserRole } from './../types/user';
 import {Module, VuexModule, Action, Mutation} from 'vuex-module-decorators';
 import * as userapi from '@/api/user';
 import { User } from '@/types/user';
+import router from '../router';
 
 
 @Module({
@@ -11,6 +12,10 @@ import { User } from '@/types/user';
 export default class UserStore extends VuexModule {
 
   public user?: User;
+
+  get User() {
+    return this.user;
+  }
 
   get auth() {
     if (!this.user) {
@@ -32,6 +37,11 @@ export default class UserStore extends VuexModule {
     const {username, password} = payload;
     return userapi.login(username, password)
       .then((user) => {
+        if (window.history.length <= 1) {
+          router.push({ path: '/' });
+        } else {
+          router.go(-1);
+        }
         return user;
       })
       .catch((err) => {
@@ -49,5 +59,11 @@ export default class UserStore extends VuexModule {
       .catch((err) => {
         throw err;
       });
+  }
+
+  @Action({commit: 'setUser', rawError: true})
+  public async logout() {
+    await userapi.logout();
+    return;
   }
 }

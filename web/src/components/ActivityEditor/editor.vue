@@ -18,6 +18,7 @@
             <el-form-item class="clear" label="活动标签">
               <tag
               :tags="tags"
+              :editable="true"
               @submit="handleTagsSubmit"
               class="full-width"/>
             </el-form-item>
@@ -223,8 +224,9 @@ export default class ActivityEditor extends Vue {
     this.backupActivity = activityVO;
     this.name = activityVO.activity.name;
     this.activityTime = [new Date(activityVO.activity.starttime), new Date(activityVO.activity.endtime)];
-    this.registerTime = [new Date(activityVO.activity.registerstarttime), new Date(activityVO.activity.registerendtime)];
-    [this.gpsLocation, this.detailLocation] = activityVO.position.location.split(',');
+    this.registerTime = [new Date(activityVO.activity.registerstarttime)
+      , new Date(activityVO.activity.registerendtime)];
+    [this.gpsLocation, this.detailLocation] = activityVO.activity.location.split(',');
     this.gps = {
       longitude: activityVO.position.longitude,
       latitude: activityVO.position.latitude,

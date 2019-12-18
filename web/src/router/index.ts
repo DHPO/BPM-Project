@@ -6,6 +6,8 @@ import Test from '../views/Test.vue';
 import Controller from '../components/Controller/Controller.vue';
 import Interactive from '../components/Interactive/Interactive.vue';
 import ActivityEditView from '../views/ActivityEditView.vue';
+import ActivityView from '../views/ActivityView.vue';
+import AdminManageView from '../views/AdminManage.vue';
 
 Vue.use(VueRouter);
 
@@ -15,6 +17,10 @@ const routes = [
     name: 'main',
     component: Main,
     children: [
+      {
+        path: 'admin',
+        component: AdminManageView,
+      },
       {
         path: 'activity/edit/:id',
         component: ActivityEditView,
@@ -26,6 +32,11 @@ const routes = [
         props: {
           id: null,
         },
+      },
+      {
+        path: 'activity/:id',
+        component: ActivityView,
+        props: true,
       },
     ],
   },

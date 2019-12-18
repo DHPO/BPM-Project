@@ -30,7 +30,7 @@ export interface ActivityVO {
   registernum: number;
   registerstarttime: number;
   starttime: number;
-  status: number;
+  status: ActivityStatus;
   updatetime: number;
 }
 
@@ -42,4 +42,24 @@ export interface ActivityDetailVO {
     latitude: number;
   };
   tags: string[];
+}
+
+export enum ActivityStatus {
+  Draft,
+  /**
+   * 等待审核
+   */
+  Pending,
+  Unpassed,
+  /**
+   * 等待报名
+   */
+  Passed,
+  Registering,
+  /**
+   * 等待开始
+   */
+  NotStart,
+  InProcess,
+  End,
 }

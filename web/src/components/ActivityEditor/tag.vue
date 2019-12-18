@@ -3,7 +3,7 @@
     <el-tag
       :key="tag"
       v-for="tag in dynamicTags"
-      closable
+      :closable="editable"
       :disable-transitions="false"
       @close="handleClose(tag)"
     >{{tag}}</el-tag>
@@ -17,7 +17,7 @@
       @blur="handleInputConfirm"
     ></el-input>
     <el-button
-      v-else
+      v-else-if="editable"
       v-show="dynamicTags.length < 5"
       class="button-new-tag"
       size="small"
@@ -46,7 +46,7 @@
 
 <style scoped>
 #wrapper {
-  text-align: left;
+  /*text-align: left;*/
 }
 </style>
 
@@ -58,6 +58,9 @@ export default class Tags extends Vue {
   private dynamicTags: string[] = [];
   private inputVisible = false;
   private inputValue = '';
+
+  @Prop({default: false})
+  private editable!: boolean;
 
   @Prop({default: []})
   private tags!: string[];

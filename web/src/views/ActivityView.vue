@@ -1,12 +1,12 @@
 <template>
 <el-card id="card" v-loading="!loadDone">
-  <activity-editor v-if="loadDone" :activityVO="activityVO" />
+  <activity-editor v-if="loadDone" :activity="activityVO" />
 </el-card>
 </template>
 
 <script lang="ts">
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator';
-import ActivityEditor from '@/components/ActivityEditor/editor.vue';
+import ActivityEditor from '@/components/ActivityEditor/activityViewer.vue';
 import { ActivityDetailVO } from '../types/activity';
 import { getActivity } from '@/api/activity';
 import { apiErrorMessage } from '../common/apiErrorMessage';
