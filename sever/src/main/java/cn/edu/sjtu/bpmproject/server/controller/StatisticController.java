@@ -27,14 +27,14 @@ public class StatisticController {
     StatisticService statisticService;
 
     @ApiOperation(value = "管理员获取活动粒度的统计分析", notes = "管理员获取活动粒度的统计分析")
-    @RequestMapping(value = "/statistic/activities", method = RequestMethod.GET)
+    @RequestMapping(value = "/statistic/activities", method = RequestMethod.POST)
     public ResultVO<List<ActivityStatisticVO>> getActivityStatistics(@RequestBody StatisticQueryVO statisticQueryVO) {
         List<ActivityStatisticVO> activityStatisticVOS=statisticService.getActivityStatistics(statisticQueryVO);
         return new ResultVO<>(ResultStatus.SUCCESS,activityStatisticVOS);
     }
 
     @ApiOperation(value = "管理员获取用户粒度的统计分析", notes = "管理员获取用户粒度的统计分析")
-    @RequestMapping(value = "/statistic/users", method = RequestMethod.GET)
+    @RequestMapping(value = "/statistic/users", method = RequestMethod.POST)
     public ResultVO<List<UserStatisticVO>> getUserStatistics(@RequestBody StatisticQueryVO statisticQueryVO) {
         List<UserStatisticVO> userStatistics=statisticService.getUserStatistics(statisticQueryVO);
         return new ResultVO<>(ResultStatus.SUCCESS,userStatistics);
