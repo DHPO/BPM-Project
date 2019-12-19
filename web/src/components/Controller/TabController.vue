@@ -112,7 +112,8 @@ export default class TabController extends Vue {
   private activeTab: string = 'signin';
   private activeTabId: string = 'signin';
 
-  private activityId = 1575898405621;
+  @Prop()
+  private activityId!: number;
 
   private get tabs() {
     return [

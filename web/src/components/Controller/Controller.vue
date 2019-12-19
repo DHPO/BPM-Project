@@ -5,15 +5,15 @@
       <h1>屏幕控制面板</h1>
       <div style="height:30px;"></div>
       <el-divider class="divider" content-position="left">弹幕设置</el-divider>
-      <DanmuController class="controller-item" :bus="bus" />
+      <DanmuController class="controller-item" :bus="bus" :activityId="activityId" />
       <el-divider class="divider" content-position="left">页面设置</el-divider>
-      <TabController class="controller-item" :bus="bus" />
+      <TabController class="controller-item" :bus="bus" :activityId="activityId" />
     </el-card>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import DanmuController from './DanmuController.vue';
 import TabController from './TabController.vue';
 import { EventType } from '@/types/event';
@@ -28,6 +28,8 @@ export default class Controller extends Vue {
   private count: number = 0;
   private enableDanmu: boolean = true;
   private bus: Vue = new Vue();
+  @Prop()
+  private activityId!: number;
 
   private sendCount() {
     this.sendEvent({

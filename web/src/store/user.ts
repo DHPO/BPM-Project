@@ -38,7 +38,7 @@ export default class UserStore extends VuexModule {
     return userapi.login(username, password)
       .then((user) => {
         if (window.history.length <= 1) {
-          router.push({ path: '/' });
+          router.push({ path: '/manage' });
         } else {
           router.go(-1);
         }
@@ -63,7 +63,7 @@ export default class UserStore extends VuexModule {
 
   @Action({commit: 'setUser', rawError: true})
   public async logout() {
-    await userapi.logout();
+    userapi.logout();
     return;
   }
 }

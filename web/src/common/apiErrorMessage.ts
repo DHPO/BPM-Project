@@ -1,5 +1,6 @@
 import { ResultStatus } from './../api/user';
 import { Vue } from 'vue-property-decorator';
+import router from '../router';
 
 export function apiErrorMessage(vue: Vue, err: ResultStatus) {
   let message = '';
@@ -10,6 +11,9 @@ export function apiErrorMessage(vue: Vue, err: ResultStatus) {
     }
     case ResultStatus.NotLogin: {
       message = '用户未登录';
+      router.push({
+        path: '/login',
+      });
       break;
     }
     case ResultStatus.SystemError: {

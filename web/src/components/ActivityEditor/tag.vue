@@ -44,12 +44,6 @@
 }
 </style>
 
-<style scoped>
-#wrapper {
-  /*text-align: left;*/
-}
-</style>
-
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 

@@ -6,7 +6,7 @@
     <el-submenu index="2">
       <template slot="title">活动</template>
       <el-menu-item index="/activity/edit">新建活动</el-menu-item>
-      <el-menu-item index="/activity/edit/1576647229601">编辑活动</el-menu-item>
+      <el-menu-item index="/manage">活动管理</el-menu-item>
     </el-submenu>
     <el-menu-item index="/admin" v-if="isAdmin">管理</el-menu-item>
     <li class="el-menu-item right">
@@ -50,6 +50,17 @@ export default class MainView extends Vue {
 
   private logout() {
     this.userStore.logout();
+    this.$router.push({
+      path: '/login',
+    });
+  }
+
+  private created() {
+    if (!this.hasLogin) {
+      this.$router.push({
+        path: '/login',
+      });
+    }
   }
 
 }
