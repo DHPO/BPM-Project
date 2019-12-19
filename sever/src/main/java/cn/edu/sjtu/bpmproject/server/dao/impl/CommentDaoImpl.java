@@ -39,6 +39,12 @@ public class CommentDaoImpl implements CommentDao {
         return comments;
     }
 
+    @Override
+    public List<Comment> getCommentsByTime(long startTime, long endTime) {
+        String url= ResourceAPI.RMP_URL+COMMENT+"?Comment.commenttime=(gte)"+startTime+"&Comment.commenttime=(lt)"+endTime;
+        return getComments(url);
+    }
+
     private List<Comment> getComments(String url){
         String comments=restTemplate.getForObject(url,String.class);
         JSONObject jsonObject = JSONObject.fromObject(comments);

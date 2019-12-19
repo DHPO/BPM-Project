@@ -8,4 +8,5 @@ public interface CommentDao {
 
     public Comment addComment(Comment comment);
     public List<Comment> getComments(long activityId);
+    public List<Comment> getCommentsByTime(long startTime, long endTime);
 }

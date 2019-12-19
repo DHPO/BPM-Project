@@ -48,6 +48,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getUserByUsername(String username) {
         String url= ResourceAPI.RMP_URL+USER+"?User.username="+username;
+        List<User> userList=getUsers(url);
+        if(userList!=null) return  userList.get(0);
+        return null;
+    }
+
+    private List<User> getUsers(String url){
         String userInfo=restTemplate.getForObject(url,String.class);
         LOGGER.info("login user result："+userInfo);
         JSONObject jsonObject = JSONObject.fromObject(userInfo);
@@ -55,8 +61,7 @@ public class UserDaoImpl implements UserDao {
             return null;
         }
         userInfo = jsonObject.getString("User");
-        List<User> userList=new Gson().fromJson(userInfo, new TypeToken<List<User>>(){}.getType());
-        return  userList.get(0);
+        return new Gson().fromJson(userInfo, new TypeToken<List<User>>(){}.getType());
     }
 
     @Override
@@ -84,5 +89,11 @@ public class UserDaoImpl implements UserDao {
     public String findUserByName(String username) {
         String url= ResourceAPI.RMP_URL+USER+"?User.username=(like)"+username;
         return restTemplate.getForObject(url,String.class);
+    }
+
+    @Override
+    public List<User> getUserByTime(long startTime, long endTime) {
+        String url= ResourceAPI.RMP_URL+USER+"?User.addtime=(gte)"+startTime+"&User.addtime=(lt)"+endTime;
+        return getUsers(url);
     }
 }

@@ -1,6 +1,7 @@
 package cn.edu.sjtu.bpmproject.server.dao;
 
 import cn.edu.sjtu.bpmproject.server.entity.Activity;
+import cn.edu.sjtu.bpmproject.server.entity.User;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public interface ActivityDao {
     public Activity getActivityById( long activityId);
 
     public List<Activity> getActivitiesByOrganizerId(long organizerId);
+
+    public List<Activity> getActivityByTime(long startTime, long endTime);
 
 }
 
