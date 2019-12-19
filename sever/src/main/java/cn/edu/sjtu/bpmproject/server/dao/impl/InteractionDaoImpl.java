@@ -40,6 +40,10 @@ public class InteractionDaoImpl implements InteractionDao{
     @Override
     public List<Interaction> getInteractions(long activityId) {
         String url= ResourceAPI.RMP_URL+INTERACTION+"?Interaction.activityid="+activityId;
+        return getInteractions(url);
+    }
+
+    private List<Interaction> getInteractions(String url){
         String interactions=restTemplate.getForObject(url,String.class);
         LOGGER.info("getInteractions result："+interactions);
         JSONObject jsonObject = JSONObject.fromObject(interactions);
@@ -51,6 +55,7 @@ public class InteractionDaoImpl implements InteractionDao{
         LOGGER.info("interactions："+interactions);
         Gson gson=new Gson();
         return gson.fromJson(interactions, new TypeToken<List<Interaction>>(){}.getType());
+
     }
 
     @Override
@@ -69,5 +74,11 @@ public class InteractionDaoImpl implements InteractionDao{
     public void delelteInteraction(long interactionId) {
         String url= ResourceAPI.RMP_URL+INTERACTION+interactionId;
         restTemplate.delete(url);
+    }
+
+    @Override
+    public List<Interaction> getInteractionsByTimeandType(int type, long startTime, long endTime) {
+        String url= ResourceAPI.RMP_URL+INTERACTION+"?Interaction.interactiontype="+type+"?Interaction.starttime=(gte)"+startTime+"&Interaction.endtime=(lt)"+endTime;;
+        return getInteractions(url);
     }
 }

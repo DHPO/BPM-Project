@@ -13,4 +13,5 @@ public interface UserDao {
     public void deleteUser(long userId);
     public void changeUserStatus(long userId,int userStatus);
     public String findUserByName(String username);
+    public List<User> getUserByTime(long startTime,long endTime);
 }

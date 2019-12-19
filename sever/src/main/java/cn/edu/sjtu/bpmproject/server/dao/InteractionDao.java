@@ -16,4 +16,6 @@ public interface InteractionDao {
 
     public void delelteInteraction(long interactionId);
 
+    public  List<Interaction> getInteractionsByTimeandType(int type,long startTime, long endTime) ;
+
 }
