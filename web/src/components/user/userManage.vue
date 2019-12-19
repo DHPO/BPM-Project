@@ -10,6 +10,7 @@
 
     <div style="height: 30px" />
     <el-table :data="users" v-loading="loading">
+      <el-table-column label="ID" prop="id"></el-table-column>
       <el-table-column label="用户名" prop="username"></el-table-column>
       <el-table-column label="注册时间">
         <template slot-scope="scope">{{new Date(scope.row.addtime).toLocaleString()}}</template>

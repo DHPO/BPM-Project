@@ -8,6 +8,9 @@ import Interactive from '../components/Interactive/Interactive.vue';
 import ActivityEditView from '../views/ActivityEditView.vue';
 import ActivityView from '../views/ActivityView.vue';
 import AdminManageView from '../views/AdminManage.vue';
+import OrganizerManageView from '../views/OrganizerManage.vue';
+import ControllerView from '../views/Controller.vue';
+import ScreenView from '../views/Screen.vue';
 
 Vue.use(VueRouter);
 
@@ -20,6 +23,10 @@ const routes = [
       {
         path: 'admin',
         component: AdminManageView,
+      },
+      {
+        path: 'manage',
+        component: OrganizerManageView,
       },
       {
         path: 'activity/edit/:id',
@@ -51,14 +58,15 @@ const routes = [
     component: Test,
   },
   {
-    path: '/send',
-    name: 'send',
-    component: Controller,
+    path: '/controller/:id',
+    name: 'controller',
+    props: true,
+    component: ControllerView,
   },
   {
-    path: '/receive',
-    name: 'receive',
-    component: Interactive,
+    path: '/screen',
+    name: 'screen',
+    component: ScreenView,
   },
 ];
 

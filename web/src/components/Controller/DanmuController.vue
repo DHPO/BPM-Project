@@ -18,6 +18,9 @@
         <el-button type="primary" @click="sendTestDanmu">
           <i class="el-icon-chat-dot-square" />发送测试弹幕
         </el-button>
+        <el-button @click="openScreen">
+          <i class="el-icon-data-board" />打开大屏幕
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -43,7 +46,8 @@ export default class DanmuController extends Vue {
   private danmuSpeed: number = 5;
 
   private socketioHandler: any;
-  private activityId = 1575898405622;
+  @Prop()
+  private activityId!: number;
 
   private connectStatus = false;
 
@@ -61,8 +65,15 @@ export default class DanmuController extends Vue {
     this.bus.$emit('setDanmuConfig', { speed: val });
   }
 
+  private openScreen() {
+    const url = this.$router.resolve({
+      path: `/screen`,
+    });
+    window.open(url.href, '_blank');
+  }
+
   private mounted() {
-    this.socketioHandler = socketio('http://10.0.0.86:9099');
+    this.socketioHandler = socketio('http://10.0.0.8:9099');
     this.socketioHandler.on('connect', () => {
       this.connectStatus = true;
       this.socketioHandler.emit('comment_start', this.activityId);

@@ -2,6 +2,21 @@ import { ActivityAddVO, ActivityDetailVO, ActivityVO, ActivityStatus } from './.
 import axios from 'axios';
 import { ResultStatus } from './user';
 
+function acitivityStatusMap(activity: ActivityVO) {
+  if (activity.status === ActivityStatus.Passed) {
+    if (activity.endtime < Date.now()) {
+      activity.status = ActivityStatus.End;
+    } else if (activity.starttime < Date.now()) {
+      activity.status = ActivityStatus.InProcess;
+    } else if (activity.registerendtime < Date.now()) {
+      activity.status = ActivityStatus.NotStart;
+    } else if (activity.registerstarttime < Date.now()) {
+      activity.status = ActivityStatus.Registering;
+    }
+  }
+  return activity;
+}
+
 export async function getCheckinUsers(activityId: number) {
   const url = '/api/activity/checkin/users';
   return axios.get(url, {
@@ -104,7 +119,7 @@ export async function getCheckList() {
   return axios.get(url)
   .then((res) => {
     if (res.data.status === ResultStatus.Success) {
-      return res.data.data as ActivityVO[];
+      return (res.data.data || []).map(acitivityStatusMap) as ActivityVO[];
     } else {
       throw res.data.status as ResultStatus;
     }
@@ -126,7 +141,7 @@ export async function getActivityByKeyword(keyword: string) {
   })
   .then((res) => {
     if (res.data.status === ResultStatus.Success) {
-      return res.data.data as ActivityVO[];
+      return (res.data.data || []).map(acitivityStatusMap) as ActivityVO[];
     } else {
       throw res.data.status as ResultStatus;
     }
@@ -148,7 +163,30 @@ export async function getActivityByTag(tag: string) {
   })
   .then((res) => {
     if (res.data.status === ResultStatus.Success) {
-      return res.data.data as ActivityVO[];
+      return (res.data.data || []).map(acitivityStatusMap) as ActivityVO[];
+    } else {
+      throw res.data.status as ResultStatus;
+    }
+  })
+  .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
+    throw err.response.data.status;
+  });
+}
+
+export async function getActivityOfUser(userId: string) {
+  const url = '/api/activities';
+
+  return axios.get(url, {
+    params: {
+      organizerId: userId,
+    },
+  })
+  .then((res) => {
+    if (res.data.status === ResultStatus.Success) {
+      return (res.data.data || []).map(acitivityStatusMap) as ActivityVO[];
     } else {
       throw res.data.status as ResultStatus;
     }
