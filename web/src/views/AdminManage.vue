@@ -17,10 +17,14 @@
         </el-card>
       </el-tab-pane>
       <el-tab-pane label="活动统计报表">
-        <el-card class="card"></el-card>
+        <el-card class="card">
+          <AdminActivity />
+        </el-card>
       </el-tab-pane>
       <el-tab-pane label="用户统计报表">
-        <el-card class="card"></el-card>
+        <el-card class="card">
+          <AdminUser />
+        </el-card>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -31,12 +35,16 @@ import {Component, Vue} from 'vue-property-decorator';
 import Approval from '@/components/ActivityEditor/approval.vue';
 import ActivityManage from '@/components/ActivityEditor/activityManage.vue';
 import UserManage from '@/components/user/userManage.vue';
+import AdminUser from '@/components/statistics/AdminUserStatistics.vue';
+import AdminActivity from '@/components/statistics/AdminActivity.vue';
 
 @Component({
   components: {
     Approval,
     ActivityManage,
     UserManage,
+    AdminUser,
+    AdminActivity,
   },
 })
 export default class AdminManageView extends Vue {

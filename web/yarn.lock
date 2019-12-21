@@ -3248,6 +3248,13 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
+echarts@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npm.taobao.org/echarts/download/echarts-4.5.0.tgz#2111960645a345eb819ddac4792a2c065bdff162"
+  integrity sha1-IRGWBkWjReuBndrEeSosBlvf8WI=
+  dependencies:
+    zrender "4.1.2"
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/ee-first/download/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
@@ -7366,6 +7373,11 @@ requires-port@^1.0.0:
   resolved "https://registry.npm.taobao.org/requires-port/download/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
+resize-detector@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.npm.taobao.org/resize-detector/download/resize-detector-0.1.10.tgz#1da3f961aa5f914ccbcfd3752d52fd45beeb692c"
+  integrity sha1-HaP5YapfkUzLz9N1LVL9Rb7raSw=
+
 resize-observer-polyfill@^1.5.0:
   version "1.5.1"
   resolved "https://registry.npm.taobao.org/resize-observer-polyfill/download/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
@@ -8776,6 +8788,14 @@ vue-class-component@^7.0.2, vue-class-component@^7.1.0:
   resolved "https://registry.npm.taobao.org/vue-class-component/download/vue-class-component-7.1.0.tgz#b33efcb10e17236d684f70b1e96f1946ec793e87"
   integrity sha1-sz78sQ4XI21oT3Cx6W8ZRux5Poc=
 
+vue-echarts@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.npm.taobao.org/vue-echarts/download/vue-echarts-4.1.0.tgz#ff4828aaa599e7aaaac95e35297d964192a3af0d"
+  integrity sha1-/0goqqWZ56qqyV41KX2WQZKjrw0=
+  dependencies:
+    lodash "^4.17.15"
+    resize-detector "^0.1.10"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-hot-reload-api%2Fdownload%2Fvue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
@@ -9336,3 +9356,8 @@ yorkie@^2.0.0:
     is-ci "^1.0.10"
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
+
+zrender@4.1.2:
+  version "4.1.2"
+  resolved "https://registry.npm.taobao.org/zrender/download/zrender-4.1.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fzrender%2Fdownload%2Fzrender-4.1.2.tgz#8368deff24c7e237cbcbd3a2ff93017905ae43f7"
+  integrity sha1-g2je/yTH4jfLy9Oi/5MBeQWuQ/c=

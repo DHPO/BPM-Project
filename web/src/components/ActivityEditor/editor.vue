@@ -214,6 +214,9 @@ export default class ActivityEditor extends Vue {
       })
       .then(() => {
           this.$message.success('提交成功');
+          this.$router.push({
+            path: '/manage',
+          });
         })
       .catch((err: any) => {
         apiErrorMessage(this, err);

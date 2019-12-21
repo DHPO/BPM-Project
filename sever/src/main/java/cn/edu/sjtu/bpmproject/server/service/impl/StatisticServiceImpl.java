@@ -4,6 +4,7 @@ import cn.edu.sjtu.bpmproject.server.dao.ActivityDao;
 import cn.edu.sjtu.bpmproject.server.dao.CommentDao;
 import cn.edu.sjtu.bpmproject.server.dao.InteractionDao;
 import cn.edu.sjtu.bpmproject.server.dao.UserDao;
+import cn.edu.sjtu.bpmproject.server.dao.impl.InteractionDaoImpl;
 import cn.edu.sjtu.bpmproject.server.entity.Activity;
 import cn.edu.sjtu.bpmproject.server.entity.Comment;
 import cn.edu.sjtu.bpmproject.server.entity.Interaction;
@@ -18,6 +19,8 @@ import cn.edu.sjtu.bpmproject.server.vo.InteractionStatisticVO;
 import cn.edu.sjtu.bpmproject.server.vo.SpActivityStatisticVO;
 import cn.edu.sjtu.bpmproject.server.vo.StatisticQueryVO;
 import cn.edu.sjtu.bpmproject.server.vo.UserStatisticVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +31,9 @@ import java.util.Map;
 
 @Component
 public class StatisticServiceImpl implements StatisticService {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(StatisticServiceImpl.class);
+
     @Autowired
     private ActivityService activityService;
 
@@ -85,7 +91,10 @@ public class StatisticServiceImpl implements StatisticService {
         long endTime = statisticQueryVO.getEndtime();
         long splitTime = statisticQueryVO.getSplittime();
         List<UserStatisticVO> userStatisticVOS = new ArrayList<>();
-        long userNum = 0;
+
+        List<User> users = userDao.getUserByTime(0, startTime);
+        long userNum = (users == null ? 0 : users.size());
+
         for (long sliceBeginTime = startTime; sliceBeginTime < endTime; sliceBeginTime += splitTime) {
             UserStatisticVO userStatisticVO = new UserStatisticVO();
             long sliceEndTime = sliceBeginTime + splitTime;

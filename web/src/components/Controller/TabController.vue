@@ -177,6 +177,12 @@ export default class TabController extends Vue {
   }
 
   private switchTab(id: string) {
+    if (this.activeTabId !== 'signin') {
+      interactiveAPI.endInteractive(this.activeTabId);
+    }
+    if (id !== 'signin') {
+      interactiveAPI.startInteractive(id);
+    }
     this.activeTabId = id;
   }
 

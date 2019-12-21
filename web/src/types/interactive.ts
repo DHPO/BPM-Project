@@ -4,8 +4,8 @@ export enum InteractiveType {
   Slide,
   Score,
   Lottery,
-  Signin,
   Video,
+  Signin,
 }
 
 export interface SigninConfig {

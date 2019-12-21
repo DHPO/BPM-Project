@@ -29,10 +29,12 @@ import { UserAuth, UserRole } from '../types/user';
 
 @Component({})
 export default class MainView extends Vue {
-  private userStore = getModule(UserStore, this.$store);
+  get userStore() {
+    return getModule(UserStore, this.$store);
+  }
 
   get hasLogin() {
-    return this.userStore.auth !== UserAuth.NotLogin;
+    return this.userStore.User;
   }
 
   get user() {
@@ -55,8 +57,8 @@ export default class MainView extends Vue {
     });
   }
 
-  private created() {
-    if (!this.hasLogin) {
+  private mounted() {
+    if (!this.userStore.User) {
       this.$router.push({
         path: '/login',
       });

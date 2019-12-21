@@ -11,6 +11,7 @@ import AdminManageView from '../views/AdminManage.vue';
 import OrganizerManageView from '../views/OrganizerManage.vue';
 import ControllerView from '../views/Controller.vue';
 import ScreenView from '../views/Screen.vue';
+import EmotionView from '../views/Emotion.vue';
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,10 @@ const routes = [
     name: 'main',
     component: Main,
     children: [
+      {
+        path: '',
+        redirect: 'manage',
+      },
       {
         path: 'admin',
         component: AdminManageView,
@@ -43,6 +48,11 @@ const routes = [
       {
         path: 'activity/:id',
         component: ActivityView,
+        props: true,
+      },
+      {
+        path: 'statistics/:id',
+        component: EmotionView,
         props: true,
       },
     ],

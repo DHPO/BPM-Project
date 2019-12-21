@@ -69,7 +69,7 @@ const options = [
 
 @Component({})
 export default class CreateTabDialog extends Vue {
-  @Prop({ required: true, type: Number })
+  @Prop({ required: true})
   private activityId!: number;
 
   private dialogVisible: boolean = false;

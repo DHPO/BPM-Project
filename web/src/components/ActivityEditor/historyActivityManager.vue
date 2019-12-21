@@ -54,8 +54,8 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
-        <template>
-          <el-button size="mini" type="primary"><i class="el-icon-pie-chart"/>查看活动报表</el-button>
+        <template slot-scope="scope">
+          <el-button size="mini" type="primary" @click="openStatisticLink(scope.row.id)"><i class="el-icon-pie-chart"/>查看活动报表</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -79,6 +79,13 @@ export default class ActiveActivityManager extends Vue {
   private openDetailLink(activityId: number) {
     const url = this.$router.resolve({
       path: `/activity/${activityId}`,
+    });
+    window.open(url.href, '_blank');
+  }
+
+  private openStatisticLink(activityId: number) {
+    const url = this.$router.resolve({
+      path: `/statistics/${activityId}`,
     });
     window.open(url.href, '_blank');
   }

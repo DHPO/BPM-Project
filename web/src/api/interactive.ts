@@ -110,3 +110,41 @@ export async function deleteInteractive<T>(id: string) {
     throw err.response.data.status;
   });
 }
+
+export async function startInteractive<T>(id: string) {
+  const url = `/api/interaction/${id}/start`;
+
+  return axios.post(url)
+  .then((res) => {
+    if (res.data.status === ResultStatus.Success) {
+      return;
+    } else {
+      throw res.data.status as ResultStatus;
+    }
+  })
+  .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
+    throw err.response.data.status;
+  });
+}
+
+export async function endInteractive<T>(id: string) {
+  const url = `/api/interaction/${id}/end`;
+
+  return axios.post(url)
+  .then((res) => {
+    if (res.data.status === ResultStatus.Success) {
+      return;
+    } else {
+      throw res.data.status as ResultStatus;
+    }
+  })
+  .catch((err) => {
+    if (err.status === 500) {
+      throw ResultStatus.SystemError;
+    }
+    throw err.response.data.status;
+  });
+}

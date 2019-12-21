@@ -21,6 +21,26 @@ VueAMap.initAMapApiLoader({
   v: '1.4.15',
 });
 
+// @ts-ignore
+import ECharts from 'vue-echarts'; // refers to components/ECharts.vue in webpack
+
+import 'echarts/lib/chart/bar';
+import 'echarts/lib/chart/line';
+import 'echarts/lib/chart/pie';
+import 'echarts/lib/chart/map';
+import 'echarts/lib/chart/radar';
+import 'echarts/lib/chart/scatter';
+import 'echarts/lib/chart/effectScatter';
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/polar';
+import 'echarts/lib/component/geo';
+import 'echarts/lib/component/legend';
+import 'echarts/lib/component/title';
+import 'echarts/lib/component/visualMap';
+import 'echarts/lib/component/markPoint';
+// register component to use
+Vue.component('v-chart', ECharts);
+
 new Vue({
   router,
   store,

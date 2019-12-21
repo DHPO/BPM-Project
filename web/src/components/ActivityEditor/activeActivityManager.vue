@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>活跃活动管理</h1>
+    <h1>活动管理</h1>
 
     <el-table :data="activities">
       <el-table-column type="expand">

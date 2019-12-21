@@ -11,7 +11,7 @@ module.exports = {
       '/api': {
         // target: 'http://10.0.0.92:8080',
         // target: 'http://10.162.72.24:8080'
-        target: 'http://localhost:8081'
+        target: 'http://localhost:8080'
       }
     }
   },
@@ -31,5 +31,9 @@ module.exports = {
         'window.Quill': 'quill'
       })
     ]
-  }
+  },
+  transpileDependencies: [
+    'vue-echarts',
+    'resize-detector'
+  ]
 }
