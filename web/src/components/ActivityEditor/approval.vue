@@ -110,6 +110,10 @@ export default class Approval extends Vue {
   margin-right: auto;
 }
 
+i::after {
+  content: '';
+}
+
 #description-wrapper {
   margin: 0px 40px;
   text-align: left;
