@@ -37,7 +37,7 @@ export default class StatisticShortcut extends Vue {
 
 <style scoped>
 #wrap {
-  width: 350px;
+  width: fit-content;
   float: left;
   margin: 10px;
 }
@@ -45,7 +45,7 @@ export default class StatisticShortcut extends Vue {
   color: #606266;
 }
 #data {
-  font-size: 40px;
+  font-size: 32px;
 }
 .success {
   color: #67C23A;

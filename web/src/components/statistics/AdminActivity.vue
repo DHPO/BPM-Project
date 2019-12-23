@@ -14,7 +14,7 @@
         <el-button type="primary" @click="loadData" size="small"><i class="el-icon-refresh" />加载数据</el-button>
       </el-form-item>
     </el-form>
-    <div style="height: 70px" />
+    <div style="height: 100px" />
     <el-divider class="divider" content-position="left">查询结果</el-divider>
     <div id="shortcut-wrapper" class="center-align">
       <ShortCut title="活动总量" :value="activityRate" @mousedown.native="chartChoice='activity'" />
@@ -178,6 +178,7 @@ export default class TestView extends Vue {
       {
         name: '出勤率',
         type: 'line',
+        smooth: true,
         data: checkin,
         yAxisIndex: 1,
       },
@@ -365,13 +366,13 @@ export default class TestView extends Vue {
 <style scoped>
 #card {
   overflow-x: hidden;
-  width: 80%;
+  width: 85%;
   margin-left: auto;
   margin-right: auto;
 }
 #shortcut-wrapper {
-  width: 55vw;
-  margin-left: auto;
+  width: 65vw;
+  margin-left: -50px;
   margin-right: auto;
 }
 .center-align {

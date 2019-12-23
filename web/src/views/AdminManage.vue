@@ -54,7 +54,7 @@ export default class AdminManageView extends Vue {
 
 <style scoped>
 #tab {
-  width: 80% !important;
+  width: 85% !important;
   margin-left: auto;
   margin-right: auto;
   margin-top: 30px;

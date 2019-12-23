@@ -33,7 +33,7 @@ export default class StatisticShortcut extends Vue {
   color: #606266;
 }
 #data {
-  font-size: 42px;
+  font-size: 32px;
 }
 .primary {
   color: #409EFF;

@@ -14,7 +14,7 @@
         <el-button type="primary" size="small" @click="loadData"><i class="el-icon-refresh" />加载数据</el-button>
       </el-form-item>
     </el-form>
-    <div style="height: 70px" />
+    <div style="height: 100px" />
     <el-divider class="divider" content-position="left">查询结果</el-divider>
     <div id="shortcut-wrapper" class="center-align">
       <ShortCut title="用户总量" :value="userRate" />
@@ -185,12 +185,14 @@ export default class TestView extends Vue {
         {
           name: '参与率',
           type: 'line',
+          smooth: true,
           data: attendRate,
           yAxisIndex: 1,
         },
         {
           name: '出勤率',
           type: 'line',
+          smooth: true,
           data: checkinRate,
           yAxisIndex: 2,
         },
@@ -204,12 +206,12 @@ export default class TestView extends Vue {
 <style scoped>
 #card {
   overflow-x: hidden;
-  width: 80%;
+  width: 85%;
   margin-left: auto;
   margin-right: auto;
 }
 #shortcut-wrapper {
-  width: 50vw;
+  width: 65vw;
   margin-left: auto;
   margin-right: auto;
 }
