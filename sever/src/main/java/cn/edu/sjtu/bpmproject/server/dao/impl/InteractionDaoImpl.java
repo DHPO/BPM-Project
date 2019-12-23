@@ -79,7 +79,7 @@ public class InteractionDaoImpl implements InteractionDao{
     @Override
     public List<Interaction> getInteractionsByTimeandType(int type, long startTime, long endTime) {
 
-        String url= ResourceAPI.RMP_URL+INTERACTION+"?Interaction.interactiontype="+type+"&Interaction.starttime=(gte)"+startTime+"&Interaction.endtime=(lt)"+endTime;
+        String url= ResourceAPI.RMP_URL+INTERACTION+"?Interaction.interactiontype="+type+"&Interaction.starttime=(gte)"+startTime+"&Interaction.starttime=(lt)"+endTime;
 //        LOGGER.info("query interaction url:{}",url);
         return getInteractions(url);
     }

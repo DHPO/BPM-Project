@@ -25,6 +25,7 @@ public class ChatDaoImpl implements ChatDao {
 
     @Override
     public Chat addChat(Chat chat) {
+        LOGGER.info("add chat ："+chat);
         String url= ResourceAPI.RMP_URL+CHAT;
         Chat chat1=restTemplate.postForObject(url,chat,Chat.class);
         LOGGER.info("add chat result："+chat1);

@@ -10,6 +10,9 @@
           <el-radio-button label="日"></el-radio-button>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="操作">
+        <el-button type="primary" @click="loadData" size="small"><i class="el-icon-refresh" />加载数据</el-button>
+      </el-form-item>
     </el-form>
     <div style="height: 70px" />
     <el-divider class="divider" content-position="left">查询结果</el-divider>
@@ -37,6 +40,7 @@ import {
   AdminUserStatistics,
   AdminActivityStatistics,
 } from '../../types/statistics';
+import { apiErrorMessage } from '../../common/apiErrorMessage';
 
 @Component({
   components: {
@@ -66,7 +70,7 @@ export default class TestView extends Vue {
       this.splittime,
     ).then((data) => {
       this.rawData = data;
-    });
+    }).catch((err: any) => apiErrorMessage(this, err));
   }
 
   private periodOption = '日';
@@ -334,10 +338,6 @@ export default class TestView extends Vue {
     return [];
   }
 
-  private created() {
-    this.loadData();
-  }
-
   private mounted() {
     const myChart = this.chart.chart;
     myChart.on('updateAxisPointer', (event: any) => {
@@ -370,7 +370,7 @@ export default class TestView extends Vue {
   margin-right: auto;
 }
 #shortcut-wrapper {
-  width: 50vw;
+  width: 55vw;
   margin-left: auto;
   margin-right: auto;
 }

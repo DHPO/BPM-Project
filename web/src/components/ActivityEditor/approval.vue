@@ -1,6 +1,9 @@
 <template>
   <div>
     <h1>活动审批</h1>
+    <el-button size="small" type="primary" @click="loadActivities">
+      <i class="el-icon-refresh" />
+    加载数据</el-button>
     <el-table :data="activities" v-loading="loading">
       <el-table-column type="expand">
         <template slot-scope="scope">
@@ -74,10 +77,6 @@ export default class Approval extends Vue {
       .finally(() => this.loading = false);
   }
 
-  private created() {
-    this.loadActivities();
-  }
-
   private openDetailLink(activityId: number) {
     const url = this.$router.resolve({
       path: `/activity/${activityId}`,
@@ -89,7 +88,7 @@ export default class Approval extends Vue {
     return approveActivity(activityId, approve)
       .then(() => {
         this.$message.success('提交成功');
-        this.loadActivities();
+        // this.loadActivities();
       })
       .catch((err: any) => {
         apiErrorMessage(this, err);

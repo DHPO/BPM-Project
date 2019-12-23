@@ -10,6 +10,9 @@
           <el-radio-button label="日"></el-radio-button>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="操作">
+        <el-button type="primary" size="small" @click="loadData"><i class="el-icon-refresh" />加载数据</el-button>
+      </el-form-item>
     </el-form>
     <div style="height: 70px" />
     <el-divider class="divider" content-position="left">查询结果</el-divider>
@@ -31,6 +34,7 @@ import { Component, Vue, Ref, Watch } from 'vue-property-decorator';
 import ShortCut from '@/components/statistics/shortcut.vue';
 import { getAdminUserStatistic } from '../../api/statistic';
 import { AdminUserStatistics } from '../../types/statistics';
+import { apiErrorMessage } from '@/common/apiErrorMessage';
 
 @Component({
   components: {
@@ -44,7 +48,8 @@ export default class TestView extends Vue {
     getAdminUserStatistic(Date.now() - 10 * this.splittime, Date.now(), this.splittime)
       .then((data) => {
         this.rawData = data;
-      });
+      })
+      .catch((err: any) => apiErrorMessage(this, err));
   }
 
   private periodOption = '日';
@@ -192,10 +197,6 @@ export default class TestView extends Vue {
       ];
     }
     return [];
-  }
-
-  private created() {
-    this.loadData();
   }
 }
 </script>

@@ -158,7 +158,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<Activity> getHotActivities() {
-        List<Activity> activityList=activityDao.getActivitiesByStatus(ActivityStatus.PASSED.ordinal());
+        List<Activity> activityList=activityDao.getActivityByStartTime(TimeUtil.getTime());
         if(activityList==null){
             return null;
         }
@@ -176,7 +176,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<Activity> getNearbyActivities(PositionVO userPos) {
-        List<Activity> activityList=activityDao.getActivitiesByStatus(ActivityStatus.PASSED.ordinal());
+        List<Activity> activityList=activityDao.getActivityByStartTime(TimeUtil.getTime());
         if(activityList==null){
             return null;
         }

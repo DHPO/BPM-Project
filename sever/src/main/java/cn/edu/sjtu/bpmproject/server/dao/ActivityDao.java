@@ -25,6 +25,7 @@ public interface ActivityDao {
 
     public List<Activity> getActivityByTime(long startTime, long endTime);
 
+    public List<Activity> getActivityByStartTime(long time);
 }
 
 

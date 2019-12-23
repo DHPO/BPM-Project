@@ -47,19 +47,28 @@ public class ChatController {
 
     @ApiOperation(value = "用户给好友发文字消息", notes = "用户给好友发文字消息")
     @RequestMapping(value = "/chat/text", method = RequestMethod.POST)
-    public ResultVO<String> addTextChat(@RequestBody ChatVO chatVO) {
+    public ResultVO<String> addTextC  hat(@RequestBody ChatVO chatVO) {
         Chat chat= chatService.addChatContent(chatVO);
         MessageEventHandler.sendChatMsg(chat);
 
         return new ResultVO<>(ResultStatus.SUCCESS,"发消息成功");
     }
 
+//    @ApiOperation(value = "用户给好友发图片消息", notes = "用户给好友发图片消息")
+//    @RequestMapping(value = "/chat/photo", method = RequestMethod.POST)
+//    public ResultVO<String> addTextChat(@RequestPart("chatVO") String chatVO, @RequestPart(value = "photoFile") MultipartFile photo) throws IOException {
+//        JSONObject jsonObject = JSONObject.fromObject(chatVO);
+//        ChatVO chatVO1 = (ChatVO) JSONObject.toBean(jsonObject, ChatVO.class);
+//        Chat chat=chatService.addPhotoShare(chatVO1, FileUtil.transferFile(photo));
+//        MessageEventHandler.sendChatMsg(chat);
+//        return new ResultVO<>(ResultStatus.SUCCESS,"发图片成功");
+//    }
+
     @ApiOperation(value = "用户给好友发图片消息", notes = "用户给好友发图片消息")
     @RequestMapping(value = "/chat/photo", method = RequestMethod.POST)
-    public ResultVO<String> addTextChat(@RequestPart("chatVO") String chatVO, @RequestPart(value = "photoFile") MultipartFile photo) throws IOException {
-        JSONObject jsonObject = JSONObject.fromObject(chatVO);
-        ChatVO chatVO1 = (ChatVO) JSONObject.toBean(jsonObject, ChatVO.class);
-        Chat chat=chatService.addPhotoShare(chatVO1, FileUtil.transferFile(photo));
+    public ResultVO<String> addPhotoChat(@RequestBody ChatVO chatVO) {
+        LOGGER.info("chatvo: "+chatVO);
+        Chat chat=chatService.addChatContent(chatVO);
         MessageEventHandler.sendChatMsg(chat);
         return new ResultVO<>(ResultStatus.SUCCESS,"发图片成功");
     }

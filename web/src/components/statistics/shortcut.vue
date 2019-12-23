@@ -3,13 +3,13 @@
     <div id="title">
       {{title}}
     </div>
-    <div v-if="isPositive" id="data" class="success">
+    <div v-if="isPositive" id="data" class="danger">
       <i class="el-icon-caret-top"/>
-      {{100 * absValue.toFixed(3)}} %
+      {{(100 * absValue).toFixed(1)}} %
     </div>
-    <div v-else id="data" class="danger">
+    <div v-else id="data" class="success">
       <i class="el-icon-caret-bottom"/>
-      {{100 * absValue.toFixed(3)}} %
+      {{(100 * absValue).toFixed(1)}} %
     </div>
   </el-card>
 </template>
@@ -37,7 +37,7 @@ export default class StatisticShortcut extends Vue {
 
 <style scoped>
 #wrap {
-  width: fit-content;
+  width: 350px;
   float: left;
   margin: 10px;
 }
@@ -45,7 +45,7 @@ export default class StatisticShortcut extends Vue {
   color: #606266;
 }
 #data {
-  font-size: 42px;
+  font-size: 40px;
 }
 .success {
   color: #67C23A;

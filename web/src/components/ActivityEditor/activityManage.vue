@@ -30,8 +30,8 @@
                 <el-form-item class="clear" label="活动地点">
                   {{scope.row.location}}
                 </el-form-item>
-                <el-form-item class="clear" label="最大报名人数">
-                  {{scope.row.peoplenum}}
+                <el-form-item class="clear" label="报名人数">
+                  {{scope.row.registernum}} / {{scope.row.peoplenum}}
                 </el-form-item>
                 <el-form-item class="clear" label="报名起止时间">
                   {{new Date(scope.row.registerstarttime).toLocaleString()}} - {{new Date(scope.row.registerendtime).toLocaleString()}}

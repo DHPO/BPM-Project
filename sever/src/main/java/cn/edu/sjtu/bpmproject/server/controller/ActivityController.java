@@ -165,7 +165,7 @@ public class ActivityController {
     }
 
     @ApiOperation(value = "获取附近的活动", notes = "获取附近的活动")
-    @RequestMapping(value = "/activity/nearby", method = RequestMethod.GET)
+    @RequestMapping(value = "/activity/nearby", method = RequestMethod.POST)
     public ResultVO<List<Activity>> getNearbyActivities(@RequestBody PositionVO positionVO) {
         List<Activity> activityList=activityService.getNearbyActivities(positionVO);
         return new ResultVO<>(ResultStatus.SUCCESS,activityList);
@@ -179,7 +179,7 @@ public class ActivityController {
     }
 
     @ApiOperation(value = "获取综合推荐的活动(最多推荐10个活动)", notes = "获取综合推荐的活动")
-    @RequestMapping(value = "/activity/recommend", method = RequestMethod.GET)
+    @RequestMapping(value = "/activity/recommend", method = RequestMethod.POST)
     public ResultVO<List<Activity>> getRecommendActivities(@RequestBody RecommendConditionVO recommendConditionVO) {
         List<Activity> activityList=activityService.getRecommendActivities(recommendConditionVO);
         return new ResultVO<>(ResultStatus.SUCCESS,activityList);

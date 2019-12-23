@@ -61,7 +61,7 @@ public class CFUtil {
     public List<Activity> recommend(RecommendConditionVO recommendConditionVO) {
         long userId=UserUtil.getUserId();
         Map<Activity,Double> recommendList=new HashMap<>();
-        List<Activity> activityList=activityDao.getActivitiesByStatus(ActivityStatus.PASSED.ordinal());
+        List<Activity> activityList=activityDao.getActivityByStartTime(TimeUtil.getTime());
         List<Long> userRegisterActivityIdList=getUserRegisterActivityId(userId);
         Map<String,Long> userTagsMap=calUserTagsNumber(userId);
         Map<String,Integer> tagsUserLength=calTagsUserLength();
@@ -116,6 +116,7 @@ public class CFUtil {
     private Map<String,Long> calUserTagsNumber(long userId){
         Map<String,Long> userTagsNumber=new HashMap<>();
         List<UserTags> userTagsList=userTagsDao.getUserTagsByUserId(userId);
+        if(userTagsList==null) return userTagsNumber;
         for (UserTags userTag:userTagsList) {
             userTagsNumber.put(userTag.getTagname(),userTag.getNumber());
         }

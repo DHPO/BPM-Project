@@ -44,7 +44,7 @@ public class FileController {
         return new ResultVO<>(ResultStatus.SUCCESS,url);
     }
 
-    @ApiOperation(value = "获取内容", notes = "上传内容")
+    @ApiOperation(value = "获取内容", notes = "获取内容")
     @RequestMapping(value = "/content", method = RequestMethod.GET)
     public ResultVO<String> getFileContent(@RequestParam(value = "url") String url) throws IOException {
         String content= contentDao.getContent(url);

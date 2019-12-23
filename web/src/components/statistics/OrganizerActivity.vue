@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>活动分析报表</h1>
+    <el-button type="primary" @click="loadData" size="small"><i class="el-icon-refresh" />加载数据</el-button>
     <div id="shortcut-wrapper" class="center-align">
       <short-cut title="报名率" :value="registerRate" />
       <short-cut title="出勤率" :value="checkinRate" />
@@ -17,7 +18,8 @@ import { ActivityVO, ActivityDetailVO } from '../../types/activity';
 import { getActivityStatistic } from '../../api/statistic';
 import { getActivity } from '../../api/activity';
 import ShortCut from './valueShortCut.vue';
-import { commentDataSeriesConvert } from './comment';
+import { commentDataSeriesConvert, generateFakeData } from './comment';
+import { apiErrorMessage } from '@/common/apiErrorMessage';
 
 @Component({
   components: {
@@ -28,7 +30,7 @@ export default class OrganizerActivity extends Vue {
   @Prop()
   private activityId!: number;
 
-  private splitMinute = 20;
+  private splitMinute = 2;
 
   private rawStatistic: OrganizerActivityStatistics | null = null;
   private activity: ActivityDetailVO | null = null;
@@ -195,19 +197,29 @@ export default class OrganizerActivity extends Vue {
   }
 
   private loadData() {
+    return this.loadFakeData();
+  }
+
+  private async loadRealData() {
     return Promise.all([
-      getActivityStatistic(this.activityId).then(
+      getActivityStatistic(this.activityId)
+      .then(
         (data) => (this.rawStatistic = data),
-      ),
-      getActivity(this.activityId).then((data) => (this.activity = data)),
+      ).catch((err: any) => apiErrorMessage(this, err)),
+      getActivity(this.activityId)
+      .then((data) => (this.activity = data))
+      .catch((err: any) => apiErrorMessage(this, err)),
     ]).then(() => {
       this.$forceUpdate();
     });
   }
 
-  private created() {
-    this.loadData();
+  private async loadFakeData() {
+    const {activity, statistic} = generateFakeData();
+    this.activity = activity;
+    this.rawStatistic = statistic;
   }
+
 }
 </script>
 

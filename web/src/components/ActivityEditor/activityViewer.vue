@@ -18,8 +18,8 @@
             <el-form-item class="clear" label="活动地点">
               {{location}}
             </el-form-item>
-            <el-form-item class="clear" label="最大报名人数">
-              {{peoplenum}}
+            <el-form-item class="clear" label="报名人数">
+              {{registernum}} / {{peoplenum}}
             </el-form-item>
             <el-form-item class="clear" label="报名起止时间">
               {{new Date(registerStartTime).toLocaleString()}} - {{new Date(registerEndTime).toLocaleString()}}
@@ -78,6 +78,10 @@ export default class ActivityViewer extends Vue {
 
   get peoplenum() {
     return this.activity.activity.peoplenum;
+  }
+
+  get registernum() {
+    return this.activity.activity.registernum;
   }
 
   get activityStartTime() {

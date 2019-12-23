@@ -91,7 +91,13 @@ public class ActivityDaoImpl  implements ActivityDao{
 
     @Override
     public List<Activity> getActivityByTime(long startTime, long endTime) {
-        String url= ResourceAPI.RMP_URL+ACTIVITY+"?Activity.starttime=(gte)"+startTime+"&Activity.endtime=(lt)"+endTime;
+        String url= ResourceAPI.RMP_URL+ACTIVITY+"?Activity.starttime=(gte)"+startTime+"&Activity.starttime=(lt)"+endTime;
+        return getActivities(url);
+    }
+
+    @Override
+    public List<Activity> getActivityByStartTime(long time) {
+        String url= ResourceAPI.RMP_URL+ACTIVITY+"?Activity.starttime=(gt)"+time;
         return getActivities(url);
     }
 
