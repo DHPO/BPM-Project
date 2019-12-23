@@ -145,6 +145,7 @@ public class CFUtil {
     private double calDistanceFactor(Position activityPos, PositionVO userPos){
         double factor=1;
         double dt=3;
+        if(activityPos==null||userPos==null) return 1;
         double distance=LocationUtil.getDistance(activityPos.getLatitude(),activityPos.getLongitude(),userPos.getLatitude(),userPos.getLongitude());
         double temp=dt/distance;
         if(temp<factor){

@@ -47,7 +47,7 @@ public class ChatController {
 
     @ApiOperation(value = "用户给好友发文字消息", notes = "用户给好友发文字消息")
     @RequestMapping(value = "/chat/text", method = RequestMethod.POST)
-    public ResultVO<String> addTextC  hat(@RequestBody ChatVO chatVO) {
+    public ResultVO<String> addTextChat(@RequestBody ChatVO chatVO) {
         Chat chat= chatService.addChatContent(chatVO);
         MessageEventHandler.sendChatMsg(chat);
 
