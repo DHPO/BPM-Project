@@ -121,14 +121,26 @@ async function addFriend(agent: any, friendId: number) {
 }
 
 async function getUserList(agent: any) {
-  const url = `http://localhost:8080/api/user/find?username=cn`
+  const url = `http://localhost:8080/api/user/find?username=`
 
   return agent.get(url)
     .then((res) => JSON.parse(res.body.data).User)
 }
 
+async function registerActivity(agent: any, activityId: number) {
+  const url = `http://localhost:8080/api/activity/register?activityId=${activityId}`
+
+  return agent.post(url)
+}
+
+async function checkin(agent: any, activityId: number) {
+  const url = `http://localhost:8080/api/activity/checkin?activityId=${activityId}`
+
+  return agent.post(url)
+}
+
 async function main() {
-  const agent = await login('rjt', '123');
+  let agent = await login('admin', 'admin');
 
   // const rawDatas = await fetch(4, 20)
 
@@ -164,14 +176,28 @@ async function main() {
   //   await sleep(5000);
   // }
 
+  // const users = await getUserList(agent);
+  // console.log(`User loaded, num: ${users.length}`)
+  // for await (const user of users) {
+  //   if (user.username[0] !== 'd') {
+  //     await addFriend(agent, user.id);
+  //     console.log('send')
+  //     await sleep(5000)
+  //   }
+  // }
+
   const users = await getUserList(agent);
   console.log(`User loaded, num: ${users.length}`)
   for await (const user of users) {
-    if (user.username[0] !== 'd') {
-      await addFriend(agent, user.id);
+    try {
+      const agent = await login(user.username, user.username);
+      await sleep(2000)
+      await registerActivity(agent, 1577080981417)
+      await sleep(2000)
+      await checkin(agent, 1577080981417)
+      await sleep(2000)
       console.log('send')
-      await sleep(5000)
-    }
+    } catch (err) {}
   }
 }
 

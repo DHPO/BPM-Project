@@ -25,7 +25,7 @@ export default class Video extends Vue {
 
 <style scoped>
 video {
-  height: 99vh;
-  width: 99vw;
+  height: 100vh;
+  width: 100vw;
 }
 </style>
